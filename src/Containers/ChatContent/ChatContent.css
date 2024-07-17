@@ -15,6 +15,32 @@
 .ChatContent__chat {
     text-align: center;
     margin: 4rem 10rem;
+    width: 80%;
+}
+
+.ChatContent__chat-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ChatContent__chat-speak {
+    margin: 2rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: var(--color-text);
+    border: none;
+    width: 50%;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.ChatContent__chat-speak:hover {
+    cursor: pointer;
+}
+
+#audio-player {
+    display: none;
 }
 
 .ChatContent__input {
