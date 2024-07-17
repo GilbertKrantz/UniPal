@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--color-bg);
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-family: JetBrains Mono;
+    font-size: 151.41px;
+    font-weight: 700;
+    background: linear-gradient(#402DD8, #FFE867);
+    height: 160px;
+    width: auto;
+    margin-top: 20px;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+h1, h2, h3, h4, h5 {
+    color: var(--color-text);
+}
+
+
+p {
+    color: var(--color-text);
+    font-size: 1.2rem;
+}
