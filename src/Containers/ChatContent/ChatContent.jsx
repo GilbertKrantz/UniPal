@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaMicrophone } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
 import qs from 'qs';
@@ -72,6 +72,8 @@ const ChatContent = () => {
 
   const startRecording = () => {
     setIsRecording(true);
+    document.getElementsByClassName('ChatContent__input-bar')[0].disabled = true
+    document.getElementsByName('message')[0].placeholder = 'Recording...';
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then((stream) => {
         const mediaRecorder = new MediaRecorder(stream);
@@ -92,6 +94,7 @@ const ChatContent = () => {
               headers: { 'Content-Type': 'multipart/form-data' },
             });
             setTranscription(response.data.transcription);
+            setMessage(response.data.transcription);
           } catch (error) {
             console.error('Error transcribing speech:', error);
           }
@@ -106,9 +109,11 @@ const ChatContent = () => {
 
   const stopRecording = () => {
     setIsRecording(false);
+    document.getElementsByClassName('ChatContent__input-bar')[0].disabled = false
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
     }
+    document.getElementsByName('message')[0].placeholder = message;
   };
 
   return (
@@ -125,17 +130,6 @@ const ChatContent = () => {
           {audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay />}
         </div>
         {/* API NYA BISA CMN, ADA AUDIO FILE JG TP GAK BISA */}
-        <div className="ChatContent__chat-item">
-          <button onClick={handleRecording}>
-            {isRecording ? 'Stop Recording' : 'Start Recording'}
-          </button>
-          {transcription && (
-            <div>
-              <h2>Transcription:</h2>
-              <p>{transcription}</p>
-            </div>
-          )}
-        </div>
       </div>
       <div className="ChatContent__input">
         <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">
@@ -150,6 +144,15 @@ const ChatContent = () => {
           <button type="submit" className="ChatContent__input-btn">
             <FaArrowRight />
           </button>
+          <button type="button" onClick={handleRecording} className="ChatContent__record-btn">
+            <FaMicrophone />
+          </button>
+          {/* {transcription && (
+            <div>
+              <h2>Transcription:</h2>
+              <p>{transcription}</p>
+            </div>
+          )} */}
         </form>
       </div>
     </div>

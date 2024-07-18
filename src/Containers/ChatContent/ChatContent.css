@@ -82,3 +82,14 @@
     font-size: 1.5rem;
     cursor: pointer;
 }
+
+.ChatContent__record-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    color: var(--color-text);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
