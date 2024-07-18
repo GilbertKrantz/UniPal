@@ -34,6 +34,10 @@ const ChatContent = () => {
       .catch((error) => {
         console.log(error);
       });
+    setMessage(null);
+    document.getElementsByClassName('ChatContent__input-bar')[0].value = '';
+    document.getElementsByName('message')[0].placeholder = 'Type a message...';
+
   };
 
   const handleGenerateSpeech = () => {
