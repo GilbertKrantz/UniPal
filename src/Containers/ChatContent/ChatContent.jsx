@@ -15,7 +15,6 @@ const ChatContent = () => {
 
   const userMessage = qs.stringify({ message: message });
 
-  // Works
   const handleSubmit = (e) => {
     e.preventDefault();
     const config = {
@@ -35,7 +34,6 @@ const ChatContent = () => {
       });
   };
 
-  // Does not work
   const handleGenerateSpeech = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/generate', {
@@ -129,7 +127,6 @@ const ChatContent = () => {
           {APIresponse && <button className="ChatContent__chat-speak" onClick={handleGenerateSpeech}>Speak</button>}
           {audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay />}
         </div>
-        {/* API NYA BISA CMN, ADA AUDIO FILE JG TP GAK BISA */}
       </div>
       <div className="ChatContent__input">
         <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">
@@ -147,6 +144,7 @@ const ChatContent = () => {
           <button type="button" onClick={handleRecording} className="ChatContent__record-btn">
             <FaMicrophone />
           </button>
+          {/* TO CHECK TRANSCRIPTION OUTPUT */}
           {/* {transcription && (
             <div>
               <h2>Transcription:</h2>
