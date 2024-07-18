@@ -10,8 +10,10 @@ const ChatContent = () => {
   const [audioUrl, setAudioUrl] = useState('');
   const [transcription, setTranscription] = useState('');
   const [isRecording, setIsRecording] = useState(false);
+  const [isTalking, setIsTalking] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+  const audioElementRef = useRef(null);
 
   const userMessage = qs.stringify({ message: message });
 
@@ -34,7 +36,17 @@ const ChatContent = () => {
       });
   };
 
-  const handleGenerateSpeech = async () => {
+  const handleGenerateSpeech = () => {
+    if (isTalking) {
+      stopSpeech();
+    } else {
+      startSpeech();
+    }
+  };
+
+  const startSpeech = async () => {
+    setIsTalking(true);
+    document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Stop';
     try {
       const response = await fetch('http://localhost:3000/api/generate', {
         method: 'POST',
@@ -52,6 +64,7 @@ const ChatContent = () => {
 
       // Automatically play the audio
       const audioElement = document.getElementById('audio-player');
+      audioElementRef.current = audioElement;
       if (audioElement) {
         audioElement.play();
       }
@@ -59,6 +72,15 @@ const ChatContent = () => {
       console.error('Error:', error);
     }
   };
+
+  const stopSpeech = () => {
+    setIsTalking(false);
+    if (audioElementRef.current) {
+      audioElementRef.current.pause();
+      audioElementRef.current.currentTime = 0;
+    }
+    document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Start';
+  }
 
   const handleRecording = () => {
     if (isRecording) {
