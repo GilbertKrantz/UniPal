@@ -9,7 +9,7 @@ class SpeechToTextService {
 
   async transcribe(audioBuffer) {
     const audio = { content: audioBuffer.toString('base64') };
-    const config = { encoding: 'LINEAR16', sampleRateHertz: 48000, languageCode: 'en-US' };
+    const config = { encoding: 'WEBM_OPUS', sampleRateHertz: 48000, languageCode: 'id-ID' };
 
     const request = { audio: audio, config: config };
 

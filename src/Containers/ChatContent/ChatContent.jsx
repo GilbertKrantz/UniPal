@@ -125,7 +125,7 @@ const ChatContent = () => {
           {audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay />}
         </div>
         {/* API NYA BISA CMN, ADA AUDIO FILE JG TP GAK BISA */}
-        {/* <div className="ChatContent__chat-item">
+        <div className="ChatContent__chat-item">
           <button onClick={handleRecording}>
             {isRecording ? 'Stop Recording' : 'Start Recording'}
           </button>
@@ -135,7 +135,7 @@ const ChatContent = () => {
               <p>{transcription}</p>
             </div>
           )}
-        </div> */}
+        </div>
       </div>
       <div className="ChatContent__input">
         <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">
