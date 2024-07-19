@@ -93,3 +93,11 @@
     font-size: 1.5rem;
     cursor: pointer;
 }
+
+.ChatContent__chat-btn-container {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+    gap: 15px;
+}

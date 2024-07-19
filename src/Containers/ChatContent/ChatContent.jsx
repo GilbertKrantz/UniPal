@@ -146,7 +146,7 @@ const ChatContent = () => {
   return (
     <div className="ChatContent">
       <div className="ChatContent__header">
-        <h1 className="ChatContent__header-title">UniPal</h1>
+        <h1 className="logo">UniPal</h1>
       </div>
       <div className="ChatContent__chat">
         <div className="ChatContent__chat-item">
@@ -160,6 +160,7 @@ const ChatContent = () => {
       <div className="ChatContent__input">
         <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">
           <input
+            autoComplete="off"
             className="ChatContent__input-bar"
             name="message"
             type="text"
@@ -167,12 +168,15 @@ const ChatContent = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <button type="submit" className="ChatContent__input-btn">
-            <FaArrowRight />
-          </button>
-          <button type="button" onClick={handleRecording} className="ChatContent__record-btn">
-            <FaMicrophone />
-          </button>
+
+          <div className="ChatContent__chat-btn-container">
+            <button type="submit" className="ChatContent__input-btn">
+              <FaArrowRight />
+            </button>
+            <button type="button" onClick={handleRecording} className="ChatContent__record-btn">
+              <FaMicrophone />
+            </button>
+          </div>
           {/* TO CHECK TRANSCRIPTION OUTPUT */}
           {/* {transcription && (
             <div>

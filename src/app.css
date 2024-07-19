@@ -20,12 +20,11 @@ div {
 
 .logo {
     font-family: JetBrains Mono;
-    font-size: 151.41px;
+    font-size: 60px;
     font-weight: 700;
     background: linear-gradient(#402DD8, #FFE867);
-    height: 160px;
+    height: 90px;
     width: auto;
-    margin-top: 20px;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
