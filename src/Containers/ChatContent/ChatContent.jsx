@@ -71,13 +71,10 @@ const ChatContent = () => {
       audioElementRef.current = audioElement;
       if (audioElement) {
         audioElement.play();
-        // Bug
-
-        // await new Promise(resolve => setTimeout(resolve, audioElement.duration * 1000));
-        // document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Start';
+        await new Promise(resolve => setTimeout(resolve, audioElement.duration * 1000));
       }
 
-      // Should change the Stop to Speak after finish talking
+      document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Start'; // Suddenly works
     } catch (error) {
       console.error('Error:', error);
     }
