@@ -101,3 +101,59 @@
     align-items: center;
     gap: 15px;
 }
+
+.ChatContent__message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.ChatContent__chat-profile {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.ChatContent__profile-picture {
+    width: 40px;
+    border-radius: 50%;
+}
+
+.ChatContent__name {
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 16px;
+    color: #E6E6E6;
+}
+
+.ChatContent__message-content {
+    font-family: Inter;
+    max-width: 600px;
+    background-color: #303030;
+    padding: 10px;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 0px 10px 10px 10px;
+    margin-left: 50px;
+}
+
+.own {
+    align-items: flex-end;
+}
+
+.own .ChatContent__chat-profile {
+    flex-direction: row-reverse;
+}
+
+.own .ChatContent__message-content {
+    border-radius: 10px 0px 10px 10px;
+}
+
+.own .ChatContent__message-content {
+    margin-left: auto;
+    margin-right: 45px;
+}

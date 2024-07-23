@@ -3,6 +3,7 @@ import { FaArrowRight, FaMicrophone } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
 import qs from 'qs';
+import UniPal from '../ImageSource/UniPal.png'
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
@@ -34,7 +35,6 @@ const ChatContent = () => {
       .catch((error) => {
         console.log(error);
       });
-    setMessage(null);
     document.getElementsByClassName('ChatContent__input-bar')[0].value = '';
     document.getElementsByName('message')[0].placeholder = 'Ketik apa yang ingin kamu tanyakan...';
 
@@ -143,6 +143,23 @@ const ChatContent = () => {
     document.getElementsByName('message')[0].placeholder = message;
   };
 
+  const addMessage = (sender) => {
+    if (sender == 'up') {
+      return (
+        <div className="ChatContent__message">
+          <p>{APIresponse}</p>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="ChatContent__message own">
+          <p>{message}</p>
+        </div>
+      );
+    }
+  }
+
   return (
     <div className="ChatContent">
       <div className="ChatContent__header">
@@ -150,7 +167,26 @@ const ChatContent = () => {
       </div>
       <div className="ChatContent__chat">
         <div className="ChatContent__chat-item">
-          {APIresponse ? <p>{APIresponse}</p> : <p>Tanya Sekarang</p>}
+          {/* {APIresponse ? <p>{APIresponse}</p> : <p>Tanya Sekarang</p>} */}
+
+          {/* CHAT DEVELOPMENT */}
+        
+          <div className="ChatContent__message own">
+            <div className="ChatContent__chat-profile">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyAxNh2rjbZUudzgaTCw01rJTrJsgsHYFgHQ&s" alt="" className="ChatContent__profile-picture"/>
+              <span className="ChatContent__name">Name</span>
+            </div>
+            <p className="ChatContent__message-content">Hello!</p>
+          </div>
+
+          <div className="ChatContent__message">
+            <div className="ChatContent__chat-profile">
+              <img src={UniPal} alt="" className="ChatContent__profile-picture"/>
+              <span className="ChatContent__name">UniPal</span>
+            </div>
+            <p className="ChatContent__message-content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet assumenda dolore, ipsa magni distinctio autem reiciendis omnis itaque ipsam. Ratione consequatur voluptatem temporibus quisquam aliquam non, voluptate sapiente tempore recusandae et obcaecati deleniti. Possimus doloremque a, quod veritatis quae id. Fugiat nam quia nisi a sed totam facilis mollitia? Quo!</p>
+          </div>
+
         </div>
         <div className="ChatContent__chat-item">
           {APIresponse && <button className="ChatContent__chat-speak" onClick={handleGenerateSpeech}>Bicara</button>}
