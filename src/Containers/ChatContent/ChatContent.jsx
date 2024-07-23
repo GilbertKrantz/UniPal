@@ -15,15 +15,17 @@ const ChatContent = () => {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const audioElementRef = useRef(null);
+  const [chats, setChats] = useState([]);
 
   const userMessage = qs.stringify({ message: message });
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  (e) => {
     e.preventDefault();
     const config = {
       method: "post",
       maxBodyLength: Infinity,
       url: "http://127.0.0.1:8000/generate/",
+      timeout: 8000,
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: userMessage,
     };
@@ -35,6 +37,9 @@ const ChatContent = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    addMessage('user', message);
+    addMessage('up', APIresponse);
     document.getElementsByClassName('ChatContent__input-bar')[0].value = '';
     document.getElementsByName('message')[0].placeholder = 'Ketik apa yang ingin kamu tanyakan...';
 
@@ -80,7 +85,7 @@ const ChatContent = () => {
     }
   };
 
-  const stopSpeech = () => {
+  const stopSpeech = async () => {
     setIsTalking(false);
     if (audioElementRef.current) {
       audioElementRef.current.pause();
@@ -136,28 +141,35 @@ const ChatContent = () => {
 
   const stopRecording = () => {
     setIsRecording(false);
-    document.getElementsByClassName('ChatContent__input-bar')[0].disabled = false
+    document.getElementsByClassName('ChatContent__input-bar')[0].disabled = false;
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
     }
     document.getElementsByName('message')[0].placeholder = message;
   };
 
-  const addMessage = (sender) => {
-    if (sender == 'up') {
-      return (
-        <div className="ChatContent__message">
-          <p>{APIresponse}</p>
-        </div>
-      );
-    }
-    else {
-      return (
-        <div className="ChatContent__message own">
-          <p>{message}</p>
-        </div>
-      );
-    }
+  const addMessage = (sender, chat) => {
+    const new_chat = {
+      sender: sender,
+      msg: chat
+    };
+    setChats(chats => [...chats, new_chat]);
+  }
+
+  const getMessage = () => {
+    return chats.length == 0 ? <p>Tanya Sekarang</p>: (
+      <div>
+        {chats.map(chat => (
+          <div className={"ChatContent__message" + (chat.sender != 'up' ? ' own' : '')}>
+            <div className="ChatContent__chat-profile">
+              <img src={chat.sender != 'up' ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyAxNh2rjbZUudzgaTCw01rJTrJsgsHYFgHQ&s": UniPal} alt="" className="ChatContent__profile-picture"/>
+              <span className="ChatContent__name">{chat.sender != 'up' ? 'Name': 'UniPal'}</span>
+            </div>
+            <p className="ChatContent__message-content">{chat.msg}</p>
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (
@@ -171,21 +183,7 @@ const ChatContent = () => {
 
           {/* CHAT DEVELOPMENT */}
         
-          <div className="ChatContent__message own">
-            <div className="ChatContent__chat-profile">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyAxNh2rjbZUudzgaTCw01rJTrJsgsHYFgHQ&s" alt="" className="ChatContent__profile-picture"/>
-              <span className="ChatContent__name">Name</span>
-            </div>
-            <p className="ChatContent__message-content">Hello!</p>
-          </div>
-
-          <div className="ChatContent__message">
-            <div className="ChatContent__chat-profile">
-              <img src={UniPal} alt="" className="ChatContent__profile-picture"/>
-              <span className="ChatContent__name">UniPal</span>
-            </div>
-            <p className="ChatContent__message-content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet assumenda dolore, ipsa magni distinctio autem reiciendis omnis itaque ipsam. Ratione consequatur voluptatem temporibus quisquam aliquam non, voluptate sapiente tempore recusandae et obcaecati deleniti. Possimus doloremque a, quod veritatis quae id. Fugiat nam quia nisi a sed totam facilis mollitia? Quo!</p>
-          </div>
+          {getMessage()}
 
         </div>
         <div className="ChatContent__chat-item">
