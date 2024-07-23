@@ -36,7 +36,7 @@ const ChatContent = () => {
       });
     setMessage(null);
     document.getElementsByClassName('ChatContent__input-bar')[0].value = '';
-    document.getElementsByName('message')[0].placeholder = 'Type a message...';
+    document.getElementsByName('message')[0].placeholder = 'Ketik apa yang ingin kamu tanyakan...';
 
   };
 
@@ -50,7 +50,7 @@ const ChatContent = () => {
 
   const startSpeech = async () => {
     setIsTalking(true);
-    document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Stop';
+    document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Berhenti';
     try {
       const response = await fetch('http://localhost:3000/api/generate', {
         method: 'POST',
@@ -74,7 +74,7 @@ const ChatContent = () => {
         await new Promise(resolve => setTimeout(resolve, audioElement.duration * 1000));
       }
 
-      document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Start'; // Suddenly works
+      document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Bicara'; // Suddenly works
     } catch (error) {
       console.error('Error:', error);
     }
@@ -86,7 +86,7 @@ const ChatContent = () => {
       audioElementRef.current.pause();
       audioElementRef.current.currentTime = 0;
     }
-    document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Start';
+    document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Bicara';
   }
 
   const handleRecording = () => {
@@ -100,7 +100,7 @@ const ChatContent = () => {
   const startRecording = () => {
     setIsRecording(true);
     document.getElementsByClassName('ChatContent__input-bar')[0].disabled = true
-    document.getElementsByName('message')[0].placeholder = 'Recording...';
+    document.getElementsByName('message')[0].placeholder = 'Sedang merekam...';
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then((stream) => {
         const mediaRecorder = new MediaRecorder(stream);
@@ -150,10 +150,10 @@ const ChatContent = () => {
       </div>
       <div className="ChatContent__chat">
         <div className="ChatContent__chat-item">
-          {APIresponse ? <p>{APIresponse}</p> : <p>Chat Now</p>}
+          {APIresponse ? <p>{APIresponse}</p> : <p>Tanya Sekarang</p>}
         </div>
         <div className="ChatContent__chat-item">
-          {APIresponse && <button className="ChatContent__chat-speak" onClick={handleGenerateSpeech}>Speak</button>}
+          {APIresponse && <button className="ChatContent__chat-speak" onClick={handleGenerateSpeech}>Bicara</button>}
           {audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay />}
         </div>
       </div>
@@ -164,7 +164,7 @@ const ChatContent = () => {
             className="ChatContent__input-bar"
             name="message"
             type="text"
-            placeholder="Type a message..."
+            placeholder="Ketik apa yang ingin kamu tanyakan..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
