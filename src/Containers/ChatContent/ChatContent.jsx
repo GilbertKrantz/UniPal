@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaArrowRight, FaMicrophone } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
@@ -19,7 +19,10 @@ const ChatContent = () => {
 
   const userMessage = qs.stringify({ message: message });
 
-  const handleSubmit =  (e) => {
+  const handleSubmit =  async (e) => {
+
+    addMessage('user', message);
+
     e.preventDefault();
     const config = {
       method: "post",
@@ -29,17 +32,19 @@ const ChatContent = () => {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       data: userMessage,
     };
-    axios(config)
-      .then((response) => {
-        console.log(JSON.stringify(response.data));
-        setAPIResponse(response.data.generated_text);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await axios(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      setAPIResponse(response.data.generated_text);
+      if (response.data.generated_text) {
+        addMessage('up', response.data.generated_text);
+      }
 
-    addMessage('user', message);
-    addMessage('up', APIresponse);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
     document.getElementsByClassName('ChatContent__input-bar')[0].value = '';
     document.getElementsByName('message')[0].placeholder = 'Ketik apa yang ingin kamu tanyakan...';
 
@@ -55,7 +60,6 @@ const ChatContent = () => {
 
   const startSpeech = async () => {
     setIsTalking(true);
-    document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Berhenti';
     try {
       const response = await fetch('http://localhost:3000/api/generate', {
         method: 'POST',
@@ -76,10 +80,10 @@ const ChatContent = () => {
       audioElementRef.current = audioElement;
       if (audioElement) {
         audioElement.play();
+        document.getElementsByClassName('ChatContent__message-content')[chats.length - 1].style.backgroundColor = '#402DD8';
         await new Promise(resolve => setTimeout(resolve, audioElement.duration * 1000));
       }
 
-      document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Bicara'; // Suddenly works
     } catch (error) {
       console.error('Error:', error);
     }
@@ -91,7 +95,7 @@ const ChatContent = () => {
       audioElementRef.current.pause();
       audioElementRef.current.currentTime = 0;
     }
-    document.getElementsByClassName('ChatContent__chat-speak')[0].innerHTML = 'Bicara';
+    document.getElementsByClassName('ChatContent__message-content')[chats.length - 1].style.backgroundColor = '#303030';
   }
 
   const handleRecording = () => {
@@ -148,10 +152,10 @@ const ChatContent = () => {
     document.getElementsByName('message')[0].placeholder = message;
   };
 
-  const addMessage = (sender, chat) => {
+  const addMessage = (sender, message) => {
     const new_chat = {
       sender: sender,
-      msg: chat
+      msg: message
     };
     setChats(chats => [...chats, new_chat]);
   }
@@ -165,7 +169,7 @@ const ChatContent = () => {
               <img src={chat.sender != 'up' ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyAxNh2rjbZUudzgaTCw01rJTrJsgsHYFgHQ&s": UniPal} alt="" className="ChatContent__profile-picture"/>
               <span className="ChatContent__name">{chat.sender != 'up' ? 'Name': 'UniPal'}</span>
             </div>
-            <p className="ChatContent__message-content">{chat.msg}</p>
+            <button className="ChatContent__message-content" onClick={chat.sender != 'up' ? '': handleGenerateSpeech}>{chat.msg}</button>
           </div>
         ))}
       </div>
@@ -179,15 +183,7 @@ const ChatContent = () => {
       </div>
       <div className="ChatContent__chat">
         <div className="ChatContent__chat-item">
-          {/* {APIresponse ? <p>{APIresponse}</p> : <p>Tanya Sekarang</p>} */}
-
-          {/* CHAT DEVELOPMENT */}
-        
           {getMessage()}
-
-        </div>
-        <div className="ChatContent__chat-item">
-          {APIresponse && <button className="ChatContent__chat-speak" onClick={handleGenerateSpeech}>Bicara</button>}
           {audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay />}
         </div>
       </div>
