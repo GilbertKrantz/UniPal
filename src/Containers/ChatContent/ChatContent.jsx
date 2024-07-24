@@ -18,10 +18,20 @@ const ChatContent = () => {
   const [chats, setChats] = useState([]);
 
   const userMessage = qs.stringify({ message: message });
+  const endRef = useRef(null);
 
-  const handleSubmit =  async (e) => {
+  const scrollToBottom = () => {
+    endRef.current?.scrollIntoView({behavior: 'smooth'});
+  }
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chats]);
+
+  const handleSubmit = async (e) => {
 
     addMessage('user', message);
+    setMessage('');
 
     e.preventDefault();
     const config = {
@@ -44,9 +54,6 @@ const ChatContent = () => {
     .catch((error) => {
       console.log(error);
     });
-
-    document.getElementsByClassName('ChatContent__input-bar')[0].value = '';
-    document.getElementsByName('message')[0].placeholder = 'Ketik apa yang ingin kamu tanyakan...';
 
   };
 
@@ -82,6 +89,7 @@ const ChatContent = () => {
         audioElement.play();
         document.getElementsByClassName('ChatContent__message-content')[chats.length - 1].style.backgroundColor = '#402DD8';
         await new Promise(resolve => setTimeout(resolve, audioElement.duration * 1000));
+        document.getElementsByClassName('ChatContent__message-content')[chats.length - 1].style.backgroundColor = '#303030';
       }
 
     } catch (error) {
@@ -149,29 +157,32 @@ const ChatContent = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
     }
-    document.getElementsByName('message')[0].placeholder = message;
+    document.getElementsByName('message')[0].placeholder = 'Ketik apa yang ingin kamu tanyakan...';
   };
 
   const addMessage = (sender, message) => {
     const new_chat = {
       sender: sender,
-      msg: message
+      msg: message,
     };
     setChats(chats => [...chats, new_chat]);
   }
 
   const getMessage = () => {
     return chats.length == 0 ? <p>Tanya Sekarang</p>: (
-      <div>
+      <div className="ChatContent__chat-item">
         {chats.map(chat => (
           <div className={"ChatContent__message" + (chat.sender != 'up' ? ' own' : '')}>
             <div className="ChatContent__chat-profile">
-              <img src={chat.sender != 'up' ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyAxNh2rjbZUudzgaTCw01rJTrJsgsHYFgHQ&s": UniPal} alt="" className="ChatContent__profile-picture"/>
+              <div className="ChatContent__profile-picture">
+                <img src={chat.sender != 'up' ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyAxNh2rjbZUudzgaTCw01rJTrJsgsHYFgHQ&s": UniPal} alt="" className="ChatContent__profile-image"/>
+              </div>
               <span className="ChatContent__name">{chat.sender != 'up' ? 'Name': 'UniPal'}</span>
             </div>
-            <button className="ChatContent__message-content" onClick={chat.sender != 'up' ? '': handleGenerateSpeech}>{chat.msg}</button>
+            <button className="ChatContent__message-content" onClick={chat.sender != 'up' ? null: handleGenerateSpeech}>{chat.msg}</button>
           </div>
         ))}
+        <div ref={endRef}></div>
       </div>
     );
   }
@@ -181,11 +192,9 @@ const ChatContent = () => {
       <div className="ChatContent__header">
         <h1 className="logo">UniPal</h1>
       </div>
-      <div className="ChatContent__chat">
-        <div className="ChatContent__chat-item">
-          {getMessage()}
-          {audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay />}
-        </div>
+      <div className={"ChatContent__chat " + (chats.length == 0 ? "ChatContent__chat--empty" : "ChatContent__chat--filled")}>
+        {getMessage()}
+        {audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay />}
       </div>
       <div className="ChatContent__input">
         <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">

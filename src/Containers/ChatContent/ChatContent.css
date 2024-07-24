@@ -4,39 +4,34 @@
     height: 100vh;
     width: 100%;
     overflow: hidden;
+    user-select: none;
+    scroll-behavior: smooth;
 }
 
 .ChatContent__header {
     align-items: center;
-    margin: 2rem;
+    margin: 1rem;
     width: 100%;
 }
 
-.ChatContent__chat {
-    text-align: center;
-    margin: 4rem 10rem;
-    width: 80%;
-}
-
-.ChatContent__chat-item {
-    display: flex;
+.ChatContent__chat--empty {
     justify-content: center;
     align-items: center;
 }
 
-.ChatContent__chat-speak {
-    margin: 2rem;
-    padding: 1rem;
-    border-radius: 1rem;
-    background-color: var(--color-text);
-    border: none;
-    width: 50%;
-    font-size: 1rem;
-    text-align: center;
+.ChatContent__chat--filled {
+    justify-content: flex-end;
 }
 
-.ChatContent__chat-speak:hover {
-    cursor: pointer;
+.ChatContent__chat {
+    display: flex;
+    text-align: left;
+    width: 95%;
+    height: 72vh;
+}
+
+.ChatContent__chat-item {
+    overflow-y: auto;
 }
 
 #audio-player {
@@ -44,7 +39,7 @@
 }
 
 .ChatContent__input {
-    margin: 2rem;
+    margin: 1vh;
     width: 100%;
 }
 
@@ -55,7 +50,7 @@
     justify-content: space-between;
     border: 2px solid var(--color-text);
     border-radius: 2rem;
-    margin: 1rem 4rem;
+    margin: 0.5rem 4rem;
     padding: 1rem 2rem;
 }
 
@@ -99,7 +94,7 @@
     flex-direction: row;
     justify-items: center;
     align-items: center;
-    gap: 15px;
+    gap: 0.5vh;
 }
 
 .ChatContent__message {
@@ -107,7 +102,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: 5px;
+    gap: 1vh;
 }
 
 .ChatContent__chat-profile {
@@ -115,34 +110,39 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 1vh;
 }
 
 .ChatContent__profile-picture {
-    width: 40px;
+    width: 4.5vh;
+}
+
+.ChatContent__profile-image {
+    width: 100%;
     border-radius: 50%;
 }
 
 .ChatContent__name {
     font-family: Inter;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 2vh;
     color: #E6E6E6;
 }
 
 .ChatContent__message-content {
     font-family: Inter;
-    max-width: 600px;
+    max-width: 50%;
     background-color: #303030;
-    padding: 10px;
+    padding: 1.5vh;
     font-weight: 400;
-    font-size: 14px; 
+    font-size: 1.5vh;
     border-radius: 0px 10px 10px 10px;
-    margin-left: 50px;
+    margin: 0 0 0.6vh 5vh;
     border-width: 0;
     color: #E6E6E6;
     transition-timing-function: ease-in-out;
     transition-duration: 0.15s;
+    text-align: left;
 }
 
 .own {
@@ -156,5 +156,5 @@
 .own .ChatContent__message-content {
     border-radius: 10px 0px 10px 10px;
     margin-left: auto;
-    margin-right: 45px;
+    margin-right: 5vh;
 }
