@@ -139,6 +139,10 @@
     font-size: 14px; 
     border-radius: 0px 10px 10px 10px;
     margin-left: 50px;
+    border-width: 0;
+    color: #E6E6E6;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.15s;
 }
 
 .own {
@@ -151,9 +155,6 @@
 
 .own .ChatContent__message-content {
     border-radius: 10px 0px 10px 10px;
-}
-
-.own .ChatContent__message-content {
     margin-left: auto;
     margin-right: 45px;
 }
