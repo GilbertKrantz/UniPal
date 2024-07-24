@@ -11,8 +11,12 @@ body {
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family);
     background-color: var(--color-bg);
+}
+
+label {
+    color: var(--color-text);
 }
 
 div {
@@ -42,4 +46,5 @@ h1, h2, h3, h4, h5 {
 p {
     color: var(--color-text);
     font-size: 1.2rem;
+    font-weight:normal;;
 }

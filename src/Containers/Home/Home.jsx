@@ -8,6 +8,11 @@ import "swiper/css/pagination";
 
 import { Pagination } from "swiper/modules";
 
+// Icons
+import { FaBookReader, FaMicrophone, FaRegSmile  } from "react-icons/fa";
+import { IoIosChatboxes } from "react-icons/io";
+
+
 const Home = () => {
   return (
     <>
@@ -68,28 +73,28 @@ const Home = () => {
                 <div className="hero_slider-item">
                   <ul>
                     <li>
-                      <h4>University Knowledge</h4>
+                      <h4><FaBookReader/> University Knowledge</h4>
                       <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Natus, quas.
                       </p>
                     </li>
                     <li>
-                      <h4>Speech Recognition</h4>
+                      <h4><FaMicrophone/> Speech Recognition</h4>
                       <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Natus, quas.
                       </p>
                     </li>
                     <li>
-                      <h4>Immediate Responses</h4>
+                      <h4><IoIosChatboxes/> Immediate Responses</h4>
                       <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Natus, quas.
                       </p>
                     </li>
                     <li>
-                      <h4>Vent with Ease</h4>
+                      <h4><FaRegSmile/> Vent with Ease</h4>
                       <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Natus, quas.

@@ -1,0 +1,57 @@
+header {
+    position: sticky;
+    height: 12vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header img {
+    height: 9vh;
+    width: auto;
+    margin: 2vh;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2vh;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin: 2vh;
+}
+
+nav a:hover {
+    font-weight: bold;
+}
+
+.sign-in-btn {
+    background-color: #6297F4;
+    color: black;
+    font-weight: bold;
+    padding: 2vh;
+    border-radius: 1rem;
+    margin: 2vh;
+    border: none;
+}
+
+.sign-in-btn:hover {
+    color: white;
+}
