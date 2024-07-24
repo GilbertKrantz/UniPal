@@ -6,19 +6,22 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
-        // Static user data
-        const user = {
-            email: 'test@example.com',
-            password: 'password123'
-        };
+        // Send a POST request to the server
+        const response = await fetch('http://localhost:3000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, password: password }),
+        });
 
-        if (email === user.email && password === user.password) {
-            setError('');
-            alert('Sign In Successful');
+        if (!response.ok) {
+            const data = await response.json();
+            setError(data.message);
+            return;
         } else {
-            setError('Invalid email or password');
+            // Redirect to the home page
+            window.location.href = '/chat';
         }
     };
 

@@ -12,10 +12,14 @@ import { Pagination } from "swiper/modules";
 import { FaBookReader, FaMicrophone, FaRegSmile  } from "react-icons/fa";
 import { IoIosChatboxes } from "react-icons/io";
 
+// Import NavBar
+import { NavBar } from "../../Components";
+
 
 const Home = () => {
   return (
     <>
+      <NavBar />
       <div className="hero">
         <div className="hero_content">
           <div className="hero_item">
