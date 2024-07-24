@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import './SignIn.css';
 
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
+
 const SignIn = () => {
+    const signIn = useSignIn();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -20,8 +23,15 @@ const SignIn = () => {
             setError(data.message);
             return;
         } else {
-            // Redirect to the home page
-            window.location.href = '/chat';
+            const data = await response.json();
+            const token = data.token;
+            signIn({
+                auth: {
+                    token: token,
+                    type: 'Bearer',
+                }
+            }
+            )
         }
     };
 
