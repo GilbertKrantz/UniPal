@@ -1,6 +1,7 @@
 import express from 'express';
 import TextToSpeechService from './API/TextToSpeech/TextToSpeechService.js';
 import SpeechToTextService from './API/SpeechToText/SpeechToTextService.js';
+import GenAIService from './API/GenAI/GenAI.js';
 import cors from 'cors';
 import multer from 'multer';
 import jwt from 'jsonwebtoken';
@@ -9,8 +10,10 @@ const SECRET_KEY = 'your_secret_key';
 
 // Hardcoded credentials
 const users = {
-  "email1@email.com": { "username": "user1", "password": "password1" },
-  "username2": { "email": "user2@example.com", "password": "password2" }
+  "felix.bungaran@binus.ac.id": {
+    "username": "Felix Bungaran",
+    "password": "password"
+  },
 };
 
 const app = express();
@@ -21,8 +24,33 @@ app.use(cors());
 
 const ttsService = new TextToSpeechService('Key/text-to-speech/unipal-text-to-speech-key.json');
 const stsService = new SpeechToTextService('Key/speech-to-text/unipal-speech-to-text-key.json');
+// const aiService = new GenAIService();
+// aiService.initialize('./Key/gemini/API_Key.txt');
 
 const upload = multer();
+
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { message } = req.body;
+    console.log('Received message:', message);
+
+    if (!message) {
+      return res.status(400).send('Message is required');
+    }
+
+    // set message as string text
+    const text = message.message;
+
+    const response = await aiService.send(text);
+    console.log('Response:', response);
+    res.send({ response });
+  } catch (error) {
+    console.error('Error sending message:', error);
+    res.status(500).send('Internal Server Error');
+  }
+
+});
+
 
 app.post('/api/generate', async (req, res) => {
   try {
