@@ -3,7 +3,7 @@ import { FaArrowRight, FaMicrophone } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
 import qs from 'qs';
-import UniPal from '../ImageSource/UniPal.png'
+import UniPal from '../../Assets/Logo/UniPal.png';
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");

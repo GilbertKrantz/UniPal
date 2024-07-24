@@ -1,0 +1,114 @@
+/* Hero Section */
+.hero {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 88vh;
+    width: 100%;
+}
+
+.hero_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    width: 40%;
+    margin:  2vh 5vh;
+}
+
+/* Hero Item */
+
+.hero_item h1 {
+    margin: 0;
+}
+
+.hero_item h2 {
+    color: white;
+    font-size: 3rem;
+    margin: 0;
+}
+
+.hero_item p {
+    color: white;
+    font-size: 1.5rem;
+    margin: 2vh 0;
+}
+
+.hero_button-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.hero_button-container span {
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0 2vh;
+}
+
+#hero_sign-up-btn {
+    border-radius: 2rem;
+    font-size: 1.1rem;
+    padding: 2vh 4vh;
+}
+
+/* Hero Slider */
+.hero_slider {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+    color: white;
+    margin: 5vh auto;
+    padding: 4vh;
+    border: 5px solid rgba(255, 255, 255, 0.588);
+    border-radius: 2rem;
+    overflow: hidden;
+  }
+  
+  .hero_slider-container h2 {
+    font-family: 'JetBrains Mono', monospace;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 2vh 0;
+    text-align: right;
+  }
+  
+  .hero_slider-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 3vh 0;
+  }
+  
+  .hero_slider-item p span {
+    font-size: 5rem;
+  }
+  
+  .hero_slider-item p {
+    color: white;
+    margin: 2vh 4vh;
+  }
+
+  .swiper {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-wrapper {
+    flex-wrap: wrap;
+  }
+
+  .swiper-pagination {
+    display: block;
+    
+  }
+  
+
+  
+  
