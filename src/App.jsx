@@ -1,12 +1,12 @@
 import React from 'react'
 import './app.css'
 
-import { ChatContent } from './Containers'
+import { ChatContent, Home } from './Containers'
 
 const App = () => {
   return (
     <div>
-        <ChatContent />
+      <Home />
     </div>
   )
 }

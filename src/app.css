@@ -4,6 +4,12 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+  position: relative;
+  height: 100%;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--color-bg);
@@ -32,7 +38,6 @@ div {
 h1, h2, h3, h4, h5 {
     color: var(--color-text);
 }
-
 
 p {
     color: var(--color-text);
