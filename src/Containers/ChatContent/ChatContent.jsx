@@ -118,6 +118,7 @@ const ChatContent = () => {
   };
 
   const startRecording = () => {
+    setMessage('');
     setIsRecording(true);
     document.getElementsByClassName('ChatContent__input-bar')[0].disabled = true
     document.getElementsByName('message')[0].placeholder = 'Sedang merekam...';
