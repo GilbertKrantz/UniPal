@@ -20,17 +20,14 @@ const ChatContent = () => {
 
   const userMessage = qs.stringify({ message: message });
   const endRef = useRef(null);
+
   const userProfile = {
     name: 'ELVINA BEN',
     profilePicture: UserProfilePicture
   };
 
-  const scrollToBottom = () => {
-    endRef.current?.scrollIntoView({behavior: 'smooth'});
-  }
-
   useEffect(() => {
-    scrollToBottom();
+    endRef.current?.scrollIntoView({behavior: 'smooth'});
   }, [chats]);
 
   const handleSubmit = async (e) => {
@@ -70,6 +67,10 @@ const ChatContent = () => {
     }
   };
 
+  const startSpeechHelper = () => {
+    document.getElementsByClassName('ChatContent__message-content')[chats.length - 1].style.backgroundColor = '#402DD8';
+  }
+
   const startSpeech = async () => {
     setIsTalking(true);
     try {
@@ -92,9 +93,6 @@ const ChatContent = () => {
       audioElementRef.current = audioElement;
       if (audioElement) {
         audioElement.play();
-        document.getElementsByClassName('ChatContent__message-content')[chats.length - 1].style.backgroundColor = '#402DD8';
-        await new Promise(resolve => setTimeout(resolve, audioElement.duration * 1000));
-        document.getElementsByClassName('ChatContent__message-content')[chats.length - 1].style.backgroundColor = '#303030';
       }
 
     } catch (error) {
@@ -205,7 +203,7 @@ const ChatContent = () => {
       </div>
       <div className={"ChatContent__chat " + (chats.length == 0 ? "ChatContent__chat--empty" : "ChatContent__chat--filled")}>
         {getMessage()}
-        {audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay />}
+        {audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay onPlay={startSpeechHelper} onEnded={stopSpeech}/>}
       </div>
       <div className="ChatContent__input">
         <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">
