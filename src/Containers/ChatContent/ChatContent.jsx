@@ -4,6 +4,7 @@ import "./ChatContent.css";
 import axios from 'axios';
 import qs from 'qs';
 import UniPal from '../../Assets/Logo/UniPal.png';
+import UserProfilePicture from '../../Assets/UserProfilePicture/Picture.png';
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
@@ -19,6 +20,10 @@ const ChatContent = () => {
 
   const userMessage = qs.stringify({ message: message });
   const endRef = useRef(null);
+  const userProfile = {
+    name: 'ELVINA BEN',
+    profilePicture: UserProfilePicture
+  };
 
   const scrollToBottom = () => {
     endRef.current?.scrollIntoView({behavior: 'smooth'});
@@ -175,9 +180,9 @@ const ChatContent = () => {
           <div className={"ChatContent__message" + (chat.sender != 'up' ? ' own' : '')}>
             <div className="ChatContent__chat-profile">
               <div className="ChatContent__profile-picture">
-                <img src={chat.sender != 'up' ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyAxNh2rjbZUudzgaTCw01rJTrJsgsHYFgHQ&s": UniPal} alt="" className="ChatContent__profile-image"/>
+                <img src={chat.sender != 'up' ? userProfile['profilePicture']: UniPal} alt="" className="ChatContent__profile-image"/>
               </div>
-              <span className="ChatContent__name">{chat.sender != 'up' ? 'Name': 'UniPal'}</span>
+              <span className="ChatContent__name">{chat.sender != 'up' ? userProfile['name']: 'UniPal'}</span>
             </div>
             <button className="ChatContent__message-content" onClick={chat.sender != 'up' ? null: handleGenerateSpeech}>{chat.msg}</button>
           </div>
@@ -190,7 +195,13 @@ const ChatContent = () => {
   return (
     <div className="ChatContent">
       <div className="ChatContent__header">
+        <div className="ChatContent__header-logo">
+          <img src={UniPal} alt="" className="ChatContent__profile-image"/>
+        </div>
         <h1 className="logo">UniPal</h1>
+        <div className="ChatContent__header-profile">
+          <img src={userProfile['profilePicture']} alt="" className="ChatContent__profile-image"/>
+        </div>
       </div>
       <div className={"ChatContent__chat " + (chats.length == 0 ? "ChatContent__chat--empty" : "ChatContent__chat--filled")}>
         {getMessage()}
