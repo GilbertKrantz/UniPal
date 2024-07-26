@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './SignIn.css';
 
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 
 const SignIn = () => {
     const signIn = useSignIn();
@@ -32,6 +33,7 @@ const SignIn = () => {
                 }
             }
             )
+            window.location.href = '/chat';
         }
     };
 
