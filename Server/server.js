@@ -5,6 +5,7 @@ import GenAIService from './API/GenAI/GenAI.js';
 import cors from 'cors';
 import multer from 'multer';
 import jwt from 'jsonwebtoken';
+import ELTextToSpeech from './API/ELTextToSpeech/ELTextToSpeech.js';
 
 const SECRET_KEY = 'your_secret_key';
 
@@ -24,6 +25,7 @@ app.use(cors());
 
 const ttsService = new TextToSpeechService('Key/text-to-speech/unipal-text-to-speech-key.json');
 const stsService = new SpeechToTextService('Key/speech-to-text/unipal-speech-to-text-key.json');
+const eltts = new ELTextToSpeech('Key/el-text-to-speech/el-text-to-speech.txt');
 // const aiService = new GenAIService();
 // aiService.initialize('./Key/gemini/API_Key.txt');
 
@@ -68,6 +70,19 @@ app.post('/api/generate', async (req, res) => {
       'Content-Disposition': 'inline; filename="output.wav"',
     });
     res.send(audioContent);
+  } catch (error) {
+    console.error('Error generating speech:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+app.post('/api/elgenerate', async (req, res) => {
+  try {
+    console.log('Generating ElevenLabs Speech...');
+    const { text } = req.body;
+    console.log(text);
+    console.log('Received Text:', text);
+    const audioContent = await eltts.generate(text);
   } catch (error) {
     console.error('Error generating speech:', error);
     res.status(500).send('Internal Server Error');
