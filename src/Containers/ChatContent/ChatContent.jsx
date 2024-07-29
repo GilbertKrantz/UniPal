@@ -8,9 +8,9 @@ import UserProfilePicture from '../../Assets/UserProfilePicture/Picture.png';
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
-  const [APIresponse, setAPIResponse] = useState("");
+  // const [APIresponse, setAPIResponse] = useState("");
   const [audioUrl, setAudioUrl] = useState('');
-  const [transcription, setTranscription] = useState('');
+  // const [transcription, setTranscription] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [isTalking, setIsTalking] = useState(false);
   const mediaRecorderRef = useRef(null);
