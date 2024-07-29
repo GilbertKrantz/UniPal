@@ -32,10 +32,15 @@ const ChatContent = () => {
 
   const handleSubmit = async (e) => {
 
+    e.preventDefault();
+
+    if (!message) {
+      return;
+    }
+    
     addMessage('user', message);
     setMessage('');
 
-    e.preventDefault();
     const config = {
       method: "post",
       maxBodyLength: Infinity,
@@ -50,6 +55,7 @@ const ChatContent = () => {
       setAPIResponse(response.data.generated_text);
       if (response.data.generated_text) {
         addMessage('up', response.data.generated_text);
+        getSpeech(response.data.generated_text);
       }
 
     })
@@ -71,8 +77,7 @@ const ChatContent = () => {
     document.getElementsByClassName('ChatContent__message-content')[chats.length - 1].style.backgroundColor = '#402DD8';
   }
 
-  const startSpeech = async () => {
-    setIsTalking(true);
+  const getSpeech = async (text) => {
     try {
 
       // GOOGLE TTS
@@ -83,41 +88,35 @@ const ChatContent = () => {
       //   body: JSON.stringify({ text: APIresponse }),
       // });
 
-      // if (!response.ok) {
-      //   throw new Error('Failed to generate speech');
-      // }
-
-      // const audioBlob = await response.blob();
-      // const audioUrl = URL.createObjectURL(audioBlob);
-      // setAudioUrl(audioUrl);
-
-      // // Automatically play the audio
-      // const audioElement = document.getElementById('audio-player');
-      // audioElementRef.current = audioElement;
-      // if (audioElement) {
-      //   audioElement.play();
-      // }
-
       // ELEVENLABS TTS
 
       const response = await fetch('http://localhost:3000/api/elgenerate', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ text: APIresponse })
+        body: JSON.stringify({ text: text })
       });
 
       if (!response.ok) {
         throw new Error('Failed to generate speech');
       }
 
-      const audioElement = document.getElementById('audio-player');
-      audioElementRef.current = audioElement;
-      if (audioElement) {
-        audioElement.play();
-      }
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      setAudioUrl(audioUrl);
 
     } catch (error) {
       console.error('Error:', error);
+    }
+  }
+
+  const startSpeech = async () => {
+    setIsTalking(true);
+
+    // Automatically play the audio
+    const audioElement = document.getElementById('audio-player');
+    audioElementRef.current = audioElement;
+    if (audioElement) {
+      audioElement.play();
     }
   };
 
@@ -185,12 +184,10 @@ const ChatContent = () => {
     document.getElementsByName('message')[0].placeholder = 'Ketik apa yang ingin kamu tanyakan...';
   };
 
-  const addMessage = (sender, message, audiourl) => {
+  const addMessage = (sender, message) => {
     const new_chat = {
-      id: chats.length + 1,
       sender: sender,
       msg: message,
-      audioUrl: audiourl
     };
     setChats(chats => [...chats, new_chat]);
   }
@@ -207,7 +204,7 @@ const ChatContent = () => {
               <span className="ChatContent__name">{chat.sender != 'up' ? userProfile['name']: 'UniPal'}</span>
             </div>
             <button className="ChatContent__message-content" onClick={chat.sender != 'up' ? null: handleGenerateSpeech}>{chat.msg}</button>
-            {chat.sender == 'up' && audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay onPlay={startSpeechHelper} onEnded={stopSpeech}/>}
+            {/* {chat.sender == 'up' && audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay onPlay={startSpeechHelper} onEnded={stopSpeech}/>} */}
           </div>
         ))}
         <div ref={endRef}></div>
@@ -228,7 +225,7 @@ const ChatContent = () => {
       </div>
       <div className={"ChatContent__chat " + (chats.length == 0 ? "ChatContent__chat--empty" : "ChatContent__chat--filled")}>
         {getMessage()}
-        {/* {audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay onPlay={startSpeechHelper} onEnded={stopSpeech}/>} */}
+        {audioUrl && <audio id="audio-player" src={audioUrl} controls onPlay={startSpeechHelper} onEnded={stopSpeech}/>}
       </div>
       <div className="ChatContent__input">
         <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">

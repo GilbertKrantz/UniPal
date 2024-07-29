@@ -1,6 +1,5 @@
 import { ElevenLabsClient, play } from 'elevenlabs';
-import { createWriteStream } from 'fs';
-import { readFileSync } from 'fs';
+import { createWriteStream, readFileSync } from 'fs';
 
 class ELTextToSpeech {
   constructor(credentialsPath){
@@ -11,19 +10,22 @@ class ELTextToSpeech {
   }
 
   async generate(text) {
-    return new Promise(async (reject) => {
-      try {
-        const audio = await this.client.generate({
-          voice: "Meraki female Indonesian voice",
-          model_id: "eleven_multilingual_v2",
-          text,
-        });
-        await play(audio);
-      } catch (error) {
-        reject(error);
-      }
+    const audio = await this.client.generate({
+      voice: "Meraki female Indonesian voice",
+      model_id: "eleven_multilingual_v2",
+      text,
     });
-  };
+
+    const audioChunks = [];
+    for await (const chunk of audio) {
+      audioChunks.push(chunk);
+    }
+
+    const audioContent = Buffer.concat(audioChunks);
+
+    return audioContent;
+
+  }
 }
 
 export default ELTextToSpeech

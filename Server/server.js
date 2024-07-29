@@ -80,9 +80,19 @@ app.post('/api/elgenerate', async (req, res) => {
   try {
     console.log('Generating ElevenLabs Speech...');
     const { text } = req.body;
-    console.log(text);
     console.log('Received Text:', text);
+
+    if (!text) {
+      return res.status(400).send('Text is required');
+    }
+
     const audioContent = await eltts.generate(text);
+    res.set({
+      'Content-Type': 'audio/wav',
+      'Content-Disposition': 'inline; filename="output.wav"'
+    })
+    res.send(audioContent);
+    console.log('Finished Generating ElevenLabs Speech...');
   } catch (error) {
     console.error('Error generating speech:', error);
     res.status(500).send('Internal Server Error');
