@@ -25,19 +25,14 @@ const Home = () => {
       <div className="hero">
         <div className="hero_content">
           <div className="hero_item">
-            <h1 className="logo">UniPal</h1>
+            <h1 className="hero_item-logo logo">UniPal</h1>
             <h2>Your Campus Assistant</h2>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit quos
-              quod quas dignissimos fugit? Ea adipisci aperiam asperiores sint!
-              Nulla nisi suscipit at! Non ducimus cumque, consectetur dicta
-              alias magnam quo nesciunt necessitatibus vero quis numquam
-              deleniti nulla ratione dolorem dolore ipsa laudantium placeat
-              facilis rem temporibus! Atque, explicabo minus.
+            Apakah Anda ingin tahu lebih banyak tentang Binus University? UniPal hadir untuk memberikan jawaban cepat dan akurat hanya untuk Anda. Temukan informasi lengkap seperti program studi, kondisi kampus, gambaran umum perkuliahan, himpunan mahasiswa, unit kegiatan mahasiswa, dan syarat kelulusan dengan mudah.
             </p>
           </div>
           <div className="hero_button-container">
-            <span>What are you waiting for?</span>
+            <h4>Apa yang kamu tunggur?</h4>
             <button id="hero_sign-up-btn" className="sign-in-btn">
               <Link to="/register">
                 Sign Up Now
@@ -48,64 +43,49 @@ const Home = () => {
         <div className="hero_slider">
           <Swiper 
           spaceBetween={50}
+          slidesPerView={'auto'}
           pagination={true} 
           autoplay={{ delay: 5000 }}
           modules={[Pagination]}>
             <SwiperSlide>
               <div className="hero_slider-container">
-                <h2>About UniPal</h2>
+                <h2>Tentang UniPal</h2>
                 <div className="hero_slider-item">
-                  <p>
-                    <span className="logo">UniPal</span> Lorem ipsum dolor sit
-                    amet consectetur adipisicing elit. Corrupti, nisi
-                    consectetur cumque culpa in maxime quos? Sequi sint vitae
-                    sunt. Quas nostrum optio, rerum eum obcaecati dolores,
-                    laborum repudiandae fugit a at praesentium? Illum quae ullam
-                    accusantium culpa minima temporibus, ducimus nesciunt
-                    molestias! Fuga mollitia repudiandae cupiditate quidem
-                    optio. Saepe voluptatem porro laudantium voluptatum, eius
-                    quo odit molestias tempora beatae perspiciatis non
-                    necessitatibus, ex a quam. Consequuntur tempora, ea quo
-                    illum dignissimos aliquam? Ducimus, doloremque temporibus
-                    hic explicabo laborum amet laudantium corrupti odit
-                    cupiditate accusamus, eaque quos saepe, non culpa ad
-                    consequuntur sapiente quia similique facilis obcaecati.
-                    Asperiores, cumque totam!
-                  </p>
+                  <h4>
+                    <span className="logo">UniPal</span> merupakan virtual assistant yang dikembangkan oleh mahasiswa dari program Data Science Binus University melalui program PKM-KC. 
+                    
+                    UniPal menyediakan informasi seputar Binus University. Anda dapat bertanya kepada UniPal menggunakan suara Anda dan UniPal akan memberikan respon kepada Anda dengan menggunakan suara pula, sehingga interaksi menjadi lebih mudah dan alami. 
+                  </h4>
                 </div>
               </div>
             </SwiperSlide>
             <SwiperSlide>
               <div className="hero_slider-container">
-                <h2>Features</h2>
+                <h2>Fitur</h2>
                 <div className="hero_slider-item">
                   <ul>
                     <li>
-                      <h4><FaBookReader/> University Knowledge</h4>
+                      <h5><FaBookReader/> Pengetahuan Terkait Universitas</h5>
                       <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Natus, quas.
+                         UniPal memiliki berbagai informasi mengenai Binus University, termasuk program studi,  fasilitas, HMJ, UKM, syarat kelulusan, gambaran jadwal perkulian. Dapatkan semua yang Anda butuhkan untuk mengetahui lebih dalam tentang Binus University.
                       </p>
                     </li>
                     <li>
-                      <h4><FaMicrophone/> Speech Recognition</h4>
+                      <h5><FaMicrophone/> Pengenalan Suara</h5>
                       <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Natus, quas.
+                        Dengan teknologi pengenalan suara canggih, Anda dapat berbicara langsung dengan UniPal untuk menanyakan berbagai informasi. UniPal akan memahami dan merespon pertanyaan Anda secara natural dan efisien.
                       </p>
                     </li>
                     <li>
-                      <h4><IoIosChatboxes/> Immediate Responses</h4>
+                      <h5><IoIosChatboxes/> Respon Instan</h5>
                       <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Natus, quas.
+                        UniPal dirancang untuk memberikan respon secepat kilat, memastikan Anda mendapatkan jawaban atas pertanyaan Anda tanpa perlu menunggu lama. Semua informasi yang Anda butuhkan tersedia hanya dalam hitungan detik.
                       </p>
                     </li>
                     <li>
-                      <h4><FaRegSmile/> Vent with Ease</h4>
+                      <h5><FaRegSmile/> Curahkan Perasaan Anda</h5>
                       <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Natus, quas.
+                        UniPal juga dilengkapi dengan fitur untuk mendengarkan dan merespon perasaan Anda. Baik Anda merasa senang, cemas, atau membutuhkan teman bicara, UniPal siap mendengarkan dan memberikan dukungan yang Anda butuhkan.
                       </p>
                     </li>
                   </ul>

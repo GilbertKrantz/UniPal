@@ -10,10 +10,11 @@
 .hero_content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     text-align: left;
-    width: 40%;
-    margin:  2vh 5vh;
+    width: 35%;
+    margin:  2vh 0;
+    padding: 0 7vh;
 }
 
 /* Hero Item */
@@ -22,16 +23,22 @@
     margin: 0;
 }
 
+.hero_item-logo {
+  height: fit-content;
+  font-size: 5rem;
+  text-align: center;
+}
+
 .hero_item h2 {
     color: white;
-    font-size: 3rem;
+    font-size: 1.5rem;
     margin: 0;
+    text-align: center;
 }
 
 .hero_item p {
     color: white;
-    font-size: 1.5rem;
-    margin: 2vh 0;
+    margin: 4vh 2vh;
 }
 
 .hero_button-container {
@@ -51,6 +58,7 @@
     border-radius: 2rem;
     font-size: 1.1rem;
     padding: 2vh 4vh;
+    cursor: pointer;
 }
 
 #hero_sign-up-btn a {
@@ -60,14 +68,14 @@
 
 /* Hero Slider */
 .hero_slider {
-    width: 60%;
+    width: 65%;
     display: flex;
     flex-direction: column;
     font-size: 1.5rem;
     color: white;
-    margin: 5vh auto;
+    margin: 5vh 2vh;
     padding: 4vh;
-    border: 5px solid rgba(255, 255, 255, 0.588);
+    border: 2px solid rgba(255, 255, 255, 0.588);
     border-radius: 2rem;
     overflow: hidden;
   }
@@ -89,6 +97,11 @@
     width: 100%;
     margin: 3vh 0;
   }
+
+  .hero_slider-item h4 {
+    font-size: 2rem;
+    margin: 0;
+  }
   
   .hero_slider-item p span {
     font-size: 5rem;
@@ -105,13 +118,16 @@
     height: 100%;
   }
 
+  /* .swiper-slide {
+    overflow-y: scroll;
+  } */
+
   .swiper-wrapper {
     flex-wrap: wrap;
   }
 
   .swiper-pagination {
     display: block;
-    
   }
   
 
