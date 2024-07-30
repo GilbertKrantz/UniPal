@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './SignIn.css';
 
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import { Navigate, useNavigate } from 'react-router-dom';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 
 const SignIn = () => {
@@ -9,6 +10,8 @@ const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigateTo = useNavigate();
+    const isAuthenticated = useIsAuthenticated();
 
     const handleSignIn = async (e) => {
         e.preventDefault();
@@ -31,13 +34,13 @@ const SignIn = () => {
                     token: token,
                     type: 'Bearer',
                 }
-            }
-            )
-            window.location.href = '/chat';
+            });
+            navigateTo('/chat');
         }
     };
 
     return (
+        isAuthenticated ? <Navigate to="/chat"/>:
         <div className="signin">
             <div className="signin__header">
                 <h1 className="signin__header-title logo">UniPal</h1>

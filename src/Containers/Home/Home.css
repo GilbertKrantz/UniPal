@@ -61,6 +61,11 @@
     cursor: pointer;
 }
 
+#hero_sign-up-btn a {
+  text-decoration: none;
+  color: white;
+}
+
 /* Hero Slider */
 .hero_slider {
     width: 65%;
