@@ -1,0 +1,91 @@
+.register {
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100vh;
+    font-family: JetBrains Mono;
+}
+
+.register__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2vh;
+}
+
+.register__input-container {
+    width: 40vh;
+}
+
+.register__input-label {
+    margin-bottom: 1vh;
+}
+
+.register__input {
+    padding: 10px;
+    border: 2px solid #ffcc00;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    height: 6vh;
+}
+
+.register__input-gender {
+    display: none;
+}
+
+.register__gender-choice {
+    /* background-color: #ffcc00; */
+    border: 2px solid #ffcc00;
+    border-radius: 5px;
+}
+
+.register__gender-choice:hover {
+    background-color: #FDBE34;
+    transition: all 0.15s ease-in-out;
+}
+
+.register__gender-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 12vh;
+    height: 6vh;
+}
+
+.register__gender-choice .register__input-gender:checked + .register__gender-label {
+    background-color: #CA8B02;
+    transition: all 0.125s ease-in-out;
+}
+.register__gender-choice .register__input-gender:checked + .register__gender-label:hover {
+    background-color: #FDBE34;
+    transition: all 0.15s ease-in-out;
+}
+
+.register__input-gender-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.register__submit-button {
+    padding: 10px 20px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffcc00; /* button color */
+    color: black;
+    font-size: 1.5rem;
+    font-family: JetBrains Mono;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.register__submit-button:hover {
+    background-color: #FDBE34;
+    transition: all 0.15s ease-in-out;
+}

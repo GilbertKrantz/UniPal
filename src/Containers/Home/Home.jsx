@@ -15,6 +15,8 @@ import { IoIosChatboxes } from "react-icons/io";
 // Import NavBar
 import { NavBar } from "../../Components";
 
+// Import Link
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -37,7 +39,9 @@ const Home = () => {
           <div className="hero_button-container">
             <span>What are you waiting for?</span>
             <button id="hero_sign-up-btn" className="sign-in-btn">
-              Sign Up Now
+              <Link to="/register">
+                Sign Up Now
+              </Link>
             </button>
           </div>
         </div>
