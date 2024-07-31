@@ -6,16 +6,13 @@ import cors from 'cors';
 import multer from 'multer';
 import jwt from 'jsonwebtoken';
 import ELTextToSpeech from './API/ELTextToSpeech/ELTextToSpeech.js';
+import { readFileSync, writeFileSync } from 'fs';
+import { ExtractJwt } from 'passport-jwt';
 
 const SECRET_KEY = 'your_secret_key';
 
-// Hardcoded credentials
-const users = {
-  "felix.bungaran@binus.ac.id": {
-    "username": "Felix Bungaran",
-    "password": "password"
-  },
-};
+const dataPath = '../src/UserData/UserData.json';
+const users = JSON.parse(readFileSync(dataPath, 'utf8'));
 
 const app = express();
 const port = 3000;
@@ -30,6 +27,30 @@ const eltts = new ELTextToSpeech('Key/el-text-to-speech/el-text-to-speech.txt');
 // aiService.initialize('./Key/gemini/API_Key.txt');
 
 const upload = multer();
+
+const findUser = (email) => {
+  let low = 0;
+  let high = users.length - 1;
+  let mid;
+  let key;
+
+  while (high >= low) {
+    mid = low + Math.floor((high - low) / 2);
+    key = Object.keys(users[mid])[0];
+
+    if (key.localeCompare(email) == 0)
+        return mid;
+
+    if (key.localeCompare(email) > 0)
+        high = mid - 1;
+
+    else
+        low = mid + 1;
+  }
+
+  return null;
+
+}
 
 app.post('/api/chat', async (req, res) => {
   try {
@@ -124,7 +145,7 @@ app.post('/login', (req, res) => {
       return res.status(400).json({ message: "Missing email or password" });
   }
 
-  const user = users[email];
+  const user = users[findUser(email)][email];
   if (user) {
     if (user.password === password) {
       const token = jwt.sign({ username: user.username, email }, SECRET_KEY, { expiresIn: '1h' });
@@ -138,13 +159,51 @@ app.post('/login', (req, res) => {
   }
 });
 
+app.post('/register', (req, res) => {
+  try {
+    const { email, username, gender, password } = req.body;
+
+    console.log('Received register request:', email, username);
+
+    if (findUser(email) != null) {
+      console.log('Email already registered');
+      return res.status(401).json({ message: "Email already registered" });
+    }
+
+    const newUser = {
+      [email]: {
+        username: username,
+        gender: gender,
+        password: password,
+        profilePicture: 'default'
+      }
+    }
+
+    users.push(newUser);
+
+    writeFileSync(dataPath, JSON.stringify(users));
+    return res.status(200).json({ message: "Login successful" });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// ONLY USE WITH CAUTION SINCE THIS METHOD IS TO DELETE ALL USER DATA!
+app.post('/cleardata', (req, res) => {
+  writeFileSync(dataPath, JSON.stringify([]));
+  users.splice(0, users.length);
+  console.log('ALL DATA HAS BEEN DELETED');
+  return res.status(200).json({ message: "All data have been deleted!" });
+});
+
 app.post('/verify', (req, res) => {
   const token = req.headers['authorization'];
-
+  
   if (!token) {
-      return res.status(400).json({ message: "Token is required" });
+    return res.status(400).json({ message: "Token is required" });
   }
-
+  
   jwt.verify(token, SECRET_KEY, (err, decoded) => {
       if (err) {
           return res.status(401).json({ message: "Invalid token" });

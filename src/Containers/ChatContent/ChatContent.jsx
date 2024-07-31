@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaArrowRight, FaMicrophone } from "react-icons/fa";
+import { FaArrowRight, FaMicrophone, FaUser } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
 import qs from 'qs';
 import UniPal from '../../Assets/Logo/UniPal.png';
-import UserProfilePicture from '../../Assets/UserProfilePicture/Picture.png';
+import UserProfilePicture from '../../UserData/UserProfilePicture/eb.png';
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
@@ -29,6 +30,41 @@ const ChatContent = () => {
   useEffect(() => {
     endRef.current?.scrollIntoView({behavior: 'smooth'});
   }, [chats]);
+
+  const getProfilePicture = (sender) => {
+
+    if (sender != 'up') {
+      if (userProfile['profilePicture'] == 'default') {
+        return (
+          <p className="ChatContent__profile-image">
+            <FaUser />
+          </p>
+        );
+      }
+      
+      return (<img src={userProfile['profilePicture']} alt="" className="ChatContent__profile-image"/>);
+    }
+    
+    return (<img src={UniPal} alt="" className="ChatContent__profile-image"/>);
+  }
+
+  const getUserData = async () => {
+    const authHeader = useAuthHeader();
+    const header = {
+      'Content-Type': 'application/json',
+      'authorization': authHeader
+    }
+
+    console.log(authHeader);
+
+    const response = await fetch('http://localhost:3000/verify', {
+      method: 'POST',
+      headers: header,
+    });
+
+  }
+
+  // console.log(getUserData());
 
   const handleSubmit = async (e) => {
 
@@ -199,7 +235,7 @@ const ChatContent = () => {
           <div className={"ChatContent__message" + (chat.sender != 'up' ? ' own' : '')}>
             <div className="ChatContent__chat-profile">
               <div className="ChatContent__profile-picture">
-                <img src={chat.sender != 'up' ? userProfile['profilePicture']: UniPal} alt="" className="ChatContent__profile-image"/>
+                {getProfilePicture(chat.sender)}
               </div>
               <span className="ChatContent__name">{chat.sender != 'up' ? userProfile['name']: 'UniPal'}</span>
             </div>

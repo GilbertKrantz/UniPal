@@ -14,7 +14,7 @@ const App = () => {
       <Routes>
         <Route path="/" exact element={<Home />} />
         <Route path="/chat" element={
-          <RequireAuth fallbackPath='/login'>
+          <RequireAuth fallbackPath='/signin'>
             <ChatContent />
           </RequireAuth>
         } />
