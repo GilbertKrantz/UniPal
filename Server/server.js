@@ -29,12 +29,13 @@ const eltts = new ELTextToSpeech('Key/el-text-to-speech/el-text-to-speech.txt');
 const upload = multer();
 
 const findUser = (email) => {
+
   let low = 0;
   let high = users.length - 1;
   let mid;
   let key;
 
-  while (high >= low) {
+  while (low <= high) {
     mid = low + Math.floor((high - low) / 2);
     key = Object.keys(users[mid])[0];
 
@@ -48,7 +49,7 @@ const findUser = (email) => {
         low = mid + 1;
   }
 
-  return null;
+  return mid;
 
 }
 
@@ -146,6 +147,7 @@ app.post('/login', (req, res) => {
   }
 
   const user = users[findUser(email)][email];
+
   if (user) {
     if (user.password === password) {
       const token = jwt.sign({ username: user.username, email }, SECRET_KEY, { expiresIn: '1h' });
@@ -165,7 +167,9 @@ app.post('/register', (req, res) => {
 
     console.log('Received register request:', email, username);
 
-    if (findUser(email) != null) {
+    let userIdx = findUser(email);
+
+    if (users[userIdx] && Object.keys(users[userIdx])[0] == email) {
       console.log('Email already registered');
       return res.status(401).json({ message: "Email already registered" });
     }
@@ -179,7 +183,11 @@ app.post('/register', (req, res) => {
       }
     }
 
-    users.push(newUser);
+    while (users[userIdx] && Object.keys(users[userIdx])[0].localeCompare(email) < 0) {
+        userIdx++;
+    }
+
+    users.splice(userIdx, 0, newUser);
 
     writeFileSync(dataPath, JSON.stringify(users));
     return res.status(200).json({ message: "Login successful" });
