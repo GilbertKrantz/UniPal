@@ -18,8 +18,9 @@ const ChatContent = () => {
   const audioChunksRef = useRef([]);
   const audioElementRef = useRef(null);
   const [chats, setChats] = useState([]);
+  const [isGeneratingSpeech, setIsGeneratingSpeech] = useState(false);
 
-  const userMessage = qs.stringify({ message: message });
+  // const userMessage = qs.stringify({ message: message });
   const endRef = useRef(null);
 
   const authHeader = useAuthHeader();
@@ -89,27 +90,53 @@ const ChatContent = () => {
     addMessage('user', message);
     setMessage('');
 
-    const config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "http://127.0.0.1:8000/generate/",
-      timeout: 8000,
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      data: userMessage,
-    };
-    await axios(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data));
-      // setAPIResponse(response.data.generated_text);
-      if (response.data.generated_text) {
-        addMessage('up', response.data.generated_text);
-        getSpeech(response.data.generated_text);
+    // const config = {
+    //   method: "post",
+    //   maxBodyLength: Infinity,
+    //   // url: "http://127.0.0.1:8000/generate/",
+    //   url: "http://localhost:3000/api/chat",
+    //   timeout: 8000,
+    //   headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    //   data: userMessage,
+    // };
+
+    // await axios(config)
+    // .then((response) => {
+    //   console.log(JSON.stringify(response.data));
+    //   // setAPIResponse(response.data.generated_text);
+    //   if (response.data.generated_text) {
+    //     addMessage('up', response.data.generated_text);
+    //     getSpeech(response.data.generated_text);
+    //   }
+
+    // })
+    // .catch((error) => {
+    //   console.log(error);
+    // });
+
+    
+    try {
+      
+      const response = await fetch('http://localhost:3000/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message })
+      })
+
+      if (!response.ok) {
+        throw new Error('Can not generate message');
       }
 
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      const data = await response.json();
+
+      if (data.response) {
+        addMessage('up', data.response);
+        getSpeech(data.response);
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
 
   };
 
@@ -127,17 +154,18 @@ const ChatContent = () => {
 
   const getSpeech = async (text) => {
     try {
-
+      
       // GOOGLE TTS
-
+      
       // const response = await fetch('http://localhost:3000/api/generate', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ text: APIresponse }),
-      // });
-
-      // ELEVENLABS TTS
-
+        //   method: 'POST',
+        //   headers: { 'Content-Type': 'application/json' },
+        //   body: JSON.stringify({ text: APIresponse }),
+        // });
+        
+        // ELEVENLABS TTS
+      setIsGeneratingSpeech(true);
+        
       const response = await fetch('http://localhost:3000/api/elgenerate', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -152,12 +180,15 @@ const ChatContent = () => {
       const audioUrl = URL.createObjectURL(audioBlob);
       setAudioUrl(audioUrl);
 
+      setIsGeneratingSpeech(false);
+
     } catch (error) {
       console.error('Error:', error);
     }
   }
 
   const startSpeech = async () => {
+
     setIsTalking(true);
 
     // Automatically play the audio

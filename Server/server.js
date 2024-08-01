@@ -23,7 +23,7 @@ const ttsService = new TextToSpeechService('Key/text-to-speech/unipal-text-to-sp
 const stsService = new SpeechToTextService('Key/speech-to-text/unipal-speech-to-text-key.json');
 const eltts = new ELTextToSpeech('Key/el-text-to-speech/el-text-to-speech.txt');
 const aiService = new GenAIService();
-aiService.initialize('Key/gemini/API_Key.txt');
+await aiService.initialize('Key/gemini/API_Key.txt');
 
 const upload = multer();
 
@@ -61,10 +61,7 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).send('Message is required');
     }
 
-    // set message as string text
-    const text = message.message;
-
-    const response = await aiService.send(text);
+    const response = await aiService.send(message);
     console.log('Response:', response);
     res.send({ response });
   } catch (error) {

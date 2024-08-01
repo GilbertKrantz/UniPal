@@ -9,9 +9,9 @@ class GenAIService {
 
     async send(msg) {
         try {
-             const result = await this.chat.sendMessage({ msg });
-            const response = await result.response();
-            return response.text.trim();
+            const result = await this.chat.sendMessage(msg);
+            const response = result.response;
+            return response.text().trim();
         } catch (error) {
             console.error('Error sending message:', error);
             return 'Internal Server Error';
