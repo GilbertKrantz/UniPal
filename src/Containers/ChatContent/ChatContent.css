@@ -25,7 +25,9 @@
 
 .ChatContent__header-profile {
     width: 7vh;
+    max-height: 7vh;
     margin: 0 2vh 0 0;
+    overflow: hidden;
 }
 
 .ChatContent__chat--empty {
@@ -42,6 +44,10 @@
     text-align: left;
     width: 95%;
     height: 73vh;
+}
+
+.ChatContent__chat p {
+    font-size: 1.2rem;
 }
 
 .ChatContent__chat-item {
@@ -130,11 +136,37 @@
 
 .ChatContent__profile-picture {
     width: 4.5vh;
+    max-height: 4.5vh;
+    overflow: hidden;
+}
+
+.ChatContent__profile-image--default {
+    font-size: 4vh;
+    padding-top: 1.2vh;
+    color: white;
+    background-color: gray;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.ChatContent__header-profile--default {
+    font-size: 10vh;
+    color: white;
+    background-color: gray;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1.6vh;
+    overflow: hidden;
 }
 
 .ChatContent__profile-image {
+    border-radius: 100%;
     width: 100%;
-    border-radius: 50%;
 }
 
 .ChatContent__name {

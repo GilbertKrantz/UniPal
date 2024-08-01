@@ -7,7 +7,7 @@ import multer from 'multer';
 import jwt from 'jsonwebtoken';
 import ELTextToSpeech from './API/ELTextToSpeech/ELTextToSpeech.js';
 import { readFileSync, writeFileSync } from 'fs';
-import { ExtractJwt } from 'passport-jwt';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
 
 const SECRET_KEY = 'your_secret_key';
 
@@ -150,7 +150,7 @@ app.post('/login', (req, res) => {
 
   if (user) {
     if (user.password === password) {
-      const token = jwt.sign({ username: user.username, email }, SECRET_KEY, { expiresIn: '1h' });
+      const token = jwt.sign({ username: user.username, profilePicture: user.profilePicture, email }, SECRET_KEY, { expiresIn: '1h' });
       console.log('Login successful:', email);
       return res.status(200).json({ message: "Login successful", token }); 
     } else if (user.password !== password) {
@@ -161,7 +161,7 @@ app.post('/login', (req, res) => {
   }
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
   try {
     const { email, username, gender, password } = req.body;
 
@@ -190,14 +190,16 @@ app.post('/register', (req, res) => {
     users.splice(userIdx, 0, newUser);
 
     writeFileSync(dataPath, JSON.stringify(users));
-    return res.status(200).json({ message: "Login successful" });
+
+    return res.status(200).json({ message: "Register successful, automatically redirecting" });
+
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Internal Server Error');
   }
 });
 
-// ONLY USE WITH CAUTION SINCE THIS METHOD IS TO DELETE ALL USER DATA!
+// ONLY USE WITH CAUTION SINCE THIS METHOD IS USED TO DELETE ALL USER DATA!
 app.post('/cleardata', (req, res) => {
   writeFileSync(dataPath, JSON.stringify([]));
   users.splice(0, users.length);
@@ -206,7 +208,7 @@ app.post('/cleardata', (req, res) => {
 });
 
 app.post('/verify', (req, res) => {
-  const token = req.headers['authorization'];
+  const token = req.headers['authorization'].split(' ')[1]; // GET THE TOKEN
   
   if (!token) {
     return res.status(400).json({ message: "Token is required" });
@@ -216,7 +218,7 @@ app.post('/verify', (req, res) => {
       if (err) {
           return res.status(401).json({ message: "Invalid token" });
       }
-      return res.status(200).json({ message: "Token is valid", user: decoded.username, email: decoded.email });
+      return res.status(200).json({ message: "Token is valid", username: decoded.username, email: decoded.email, profilePicture: decoded.profilePicture });
   });
 });
 

@@ -22,23 +22,34 @@ const ChatContent = () => {
   const userMessage = qs.stringify({ message: message });
   const endRef = useRef(null);
 
-  const userProfile = {
-    name: 'ELVINA BEN',
-    profilePicture: UserProfilePicture
-  };
+  const authHeader = useAuthHeader();
+  const [userProfile, setUserProfile] = useState('');
 
   useEffect(() => {
     endRef.current?.scrollIntoView({behavior: 'smooth'});
   }, [chats]);
 
-  const getProfilePicture = (sender) => {
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const data = await getUserData();
+        setUserProfile(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const getProfilePicture = (sender, header = false) => {
 
     if (sender != 'up') {
       if (userProfile['profilePicture'] == 'default') {
         return (
-          <p className="ChatContent__profile-image">
+          <div className={header? "ChatContent__header-profile--default": "ChatContent__profile-image--default"}>
             <FaUser />
-          </p>
+          </div>
         );
       }
       
@@ -49,22 +60,23 @@ const ChatContent = () => {
   }
 
   const getUserData = async () => {
-    const authHeader = useAuthHeader();
     const header = {
       'Content-Type': 'application/json',
       'authorization': authHeader
     }
-
-    console.log(authHeader);
 
     const response = await fetch('http://localhost:3000/verify', {
       method: 'POST',
       headers: header,
     });
 
+    if (!response.ok) {
+      throw new Error('Cannot get user data');
+    } else {
+      const {message:_, ...data} = await response.json();
+      return data;
+    }
   }
-
-  // console.log(getUserData());
 
   const handleSubmit = async (e) => {
 
@@ -88,7 +100,7 @@ const ChatContent = () => {
     await axios(config)
     .then((response) => {
       console.log(JSON.stringify(response.data));
-      setAPIResponse(response.data.generated_text);
+      // setAPIResponse(response.data.generated_text);
       if (response.data.generated_text) {
         addMessage('up', response.data.generated_text);
         getSpeech(response.data.generated_text);
@@ -229,7 +241,7 @@ const ChatContent = () => {
   }
 
   const getMessage = () => {
-    return chats.length == 0 ? <p>Tanya Sekarang</p>: (
+    return chats.length == 0 ? <p className="">Tanya Sekarang</p>: (
       <div className="ChatContent__chat-item">
         {chats.map(chat => (
           <div className={"ChatContent__message" + (chat.sender != 'up' ? ' own' : '')}>
@@ -237,7 +249,7 @@ const ChatContent = () => {
               <div className="ChatContent__profile-picture">
                 {getProfilePicture(chat.sender)}
               </div>
-              <span className="ChatContent__name">{chat.sender != 'up' ? userProfile['name']: 'UniPal'}</span>
+              <span className="ChatContent__name">{chat.sender != 'up' ? userProfile['username']: 'UniPal'}</span>
             </div>
             <button className="ChatContent__message-content" onClick={chat.sender != 'up' ? null: handleGenerateSpeech}>{chat.msg}</button>
             {/* {chat.sender == 'up' && audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay onPlay={startSpeechHelper} onEnded={stopSpeech}/>} */}
@@ -255,8 +267,8 @@ const ChatContent = () => {
           <img src={UniPal} alt="" className="ChatContent__profile-image"/>
         </div>
         <h1 className="logo">UniPal</h1>
-        <div className="ChatContent__header-profile">
-          <img src={userProfile['profilePicture']} alt="" className="ChatContent__profile-image"/>
+        <div className={"ChatContent__header-profile"}>
+          {getProfilePicture('user', true)}
         </div>
       </div>
       <div className={"ChatContent__chat " + (chats.length == 0 ? "ChatContent__chat--empty" : "ChatContent__chat--filled")}>
