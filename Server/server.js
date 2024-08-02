@@ -6,16 +6,12 @@ import cors from 'cors';
 import multer from 'multer';
 import jwt from 'jsonwebtoken';
 import ELTextToSpeech from './API/ELTextToSpeech/ELTextToSpeech.js';
+import { readFileSync, writeFileSync } from 'fs';
 
 const SECRET_KEY = 'your_secret_key';
 
-// Hardcoded credentials
-const users = {
-  "felix.bungaran@binus.ac.id": {
-    "username": "Felix Bungaran",
-    "password": "password"
-  },
-};
+const dataPath = '../src/UserData/UserData.json';
+const users = JSON.parse(readFileSync(dataPath, 'utf8'));
 
 const app = express();
 const port = 3000;
@@ -26,10 +22,35 @@ app.use(cors());
 const ttsService = new TextToSpeechService('Key/text-to-speech/unipal-text-to-speech-key.json');
 const stsService = new SpeechToTextService('Key/speech-to-text/unipal-speech-to-text-key.json');
 const eltts = new ELTextToSpeech('Key/el-text-to-speech/el-text-to-speech.txt');
-// const aiService = new GenAIService();
-// aiService.initialize('./Key/gemini/API_Key.txt');
+const aiService = new GenAIService();
+await aiService.initialize('Key/gemini/API_Key.txt');
 
 const upload = multer();
+
+const findUser = (email) => {
+
+  let low = 0;
+  let high = users.length - 1;
+  let mid;
+  let key;
+
+  while (low <= high) {
+    mid = low + Math.floor((high - low) / 2);
+    key = Object.keys(users[mid])[0];
+
+    if (key.localeCompare(email) == 0)
+        return mid;
+
+    if (key.localeCompare(email) > 0)
+        high = mid - 1;
+
+    else
+        low = mid + 1;
+  }
+
+  return mid;
+
+}
 
 app.post('/api/chat', async (req, res) => {
   try {
@@ -40,10 +61,7 @@ app.post('/api/chat', async (req, res) => {
       return res.status(400).send('Message is required');
     }
 
-    // set message as string text
-    const text = message.message;
-
-    const response = await aiService.send(text);
+    const response = await aiService.send(message);
     console.log('Response:', response);
     res.send({ response });
   } catch (error) {
@@ -124,10 +142,11 @@ app.post('/login', (req, res) => {
       return res.status(400).json({ message: "Missing email or password" });
   }
 
-  const user = users[email];
+  const user = users[findUser(email)][email];
+
   if (user) {
     if (user.password === password) {
-      const token = jwt.sign({ username: user.username, email }, SECRET_KEY, { expiresIn: '1h' });
+      const token = jwt.sign({ username: user.username, profilePicture: user.profilePicture, email }, SECRET_KEY, { expiresIn: '1h' });
       console.log('Login successful:', email);
       return res.status(200).json({ message: "Login successful", token }); 
     } else if (user.password !== password) {
@@ -138,18 +157,64 @@ app.post('/login', (req, res) => {
   }
 });
 
-app.post('/verify', (req, res) => {
-  const token = req.headers['authorization'];
+app.post('/register', async (req, res) => {
+  try {
+    const { email, username, gender, password } = req.body;
 
-  if (!token) {
-      return res.status(400).json({ message: "Token is required" });
+    console.log('Received register request:', email, username);
+
+    let userIdx = findUser(email);
+
+    if (users[userIdx] && Object.keys(users[userIdx])[0] == email) {
+      console.log('Email already registered');
+      return res.status(401).json({ message: "Email already registered" });
+    }
+
+    const newUser = {
+      [email]: {
+        username: username,
+        gender: gender,
+        password: password,
+        profilePicture: 'default'
+      }
+    }
+
+    while (users[userIdx] && Object.keys(users[userIdx])[0].localeCompare(email) < 0) {
+        userIdx++;
+    }
+
+    users.splice(userIdx, 0, newUser);
+
+    writeFileSync(dataPath, JSON.stringify(users));
+
+    return res.status(200).json({ message: "Register successful, automatically redirecting" });
+
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).send('Internal Server Error');
   }
+});
 
+// ONLY USE WITH CAUTION SINCE THIS METHOD IS USED TO DELETE ALL USER DATA!
+app.post('/cleardata', (req, res) => {
+  writeFileSync(dataPath, JSON.stringify([]));
+  users.splice(0, users.length);
+  console.log('ALL DATA HAS BEEN DELETED');
+  return res.status(200).json({ message: "All data have been deleted!" });
+});
+
+app.post('/verify', (req, res) => {
+  const token = req.headers['authorization'].split(' ')[1]; // GET THE TOKEN
+  
+  if (!token) {
+    return res.status(400).json({ message: "Token is required" });
+  }
+  
   jwt.verify(token, SECRET_KEY, (err, decoded) => {
       if (err) {
           return res.status(401).json({ message: "Invalid token" });
       }
-      return res.status(200).json({ message: "Token is valid", user: decoded.username, email: decoded.email });
+      return res.status(200).json({ message: "Token is valid", username: decoded.username, email: decoded.email, profilePicture: decoded.profilePicture });
   });
 });
 

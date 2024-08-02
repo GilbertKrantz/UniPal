@@ -4,6 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+    gap: 10vh;
     height: 100vh;
     font-family: JetBrains Mono;
 }
@@ -11,6 +12,14 @@
 .register__form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2vh;
+    margin-bottom: 2.5vh;
+}
+
+.register__form-container {
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: 2vh;
@@ -88,4 +97,29 @@
 .register__submit-button:hover {
     background-color: #FDBE34;
     transition: all 0.15s ease-in-out;
+}
+
+.register__signin {
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.register__signin-link {
+    color: #ffcc00;
+    text-decoration: none;
+}
+
+.register__signin-link:hover {
+    text-decoration: underline;
+}
+
+.register__password-check {
+    font-family: Inter;
+    font-size: 1.1rem;
+    color: white;
+}
+
+.register__error {
+    font-size: 1.2rem;
+    color: red;
 }
