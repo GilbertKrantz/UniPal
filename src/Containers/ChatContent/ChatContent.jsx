@@ -240,7 +240,6 @@ const ChatContent = () => {
             const response = await axios.post('http://localhost:3000/api/transcribe', formData, {
               headers: { 'Content-Type': 'multipart/form-data' },
             });
-            setTranscription(response.data.transcription);
             setMessage(response.data.transcription);
           } catch (error) {
             console.error('Error transcribing speech:', error);
