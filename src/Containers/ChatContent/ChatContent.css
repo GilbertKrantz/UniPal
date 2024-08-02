@@ -158,6 +158,11 @@
     transition-timing-function: ease-in-out;
     transition-duration: 0.15s;
     text-align: left;
+    cursor: pointer;
+}
+
+.ChatContent__message-content:hover {
+    background-color: #3A3A3A;
 }
 
 .own {
