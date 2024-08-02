@@ -9,7 +9,7 @@ import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
-  // const [APIresponse, setAPIResponse] = useState("");
+  const [APIresponse, setAPIResponse] = useState("");
   const [audioUrl, setAudioUrl] = useState('');
   // const [transcription, setTranscription] = useState('');
   const [isRecording, setIsRecording] = useState(false);
