@@ -4,14 +4,11 @@ import "./ChatContent.css";
 import axios from 'axios';
 import qs from 'qs';
 import UniPal from '../../Assets/Logo/UniPal.png';
-import UserProfilePicture from '../../UserData/UserProfilePicture/eb.png';
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
-  const [APIresponse, setAPIResponse] = useState("");
   const [audioUrl, setAudioUrl] = useState('');
-  // const [transcription, setTranscription] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [isTalking, setIsTalking] = useState(false);
   const mediaRecorderRef = useRef(null);
@@ -20,7 +17,7 @@ const ChatContent = () => {
   const [chats, setChats] = useState([]);
   const [isGeneratingSpeech, setIsGeneratingSpeech] = useState(false);
 
-  // const userMessage = qs.stringify({ message: message });
+  const userMessage = qs.stringify({ message: message });
   const endRef = useRef(null);
 
   const authHeader = useAuthHeader();
@@ -154,17 +151,18 @@ const ChatContent = () => {
 
   const getSpeech = async (text) => {
     try {
+
+      setIsGeneratingSpeech(true);
       
       // GOOGLE TTS
       
       // const response = await fetch('http://localhost:3000/api/generate', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ text: APIresponse }),
-        // });
+      //     method: 'POST',
+      //     headers: { 'Content-Type': 'application/json' },
+      //     body: JSON.stringify({ text: text }),
+      //   });
         
         // ELEVENLABS TTS
-      setIsGeneratingSpeech(true);
         
       const response = await fetch('http://localhost:3000/api/elgenerate', {
         method: 'POST',
@@ -325,13 +323,6 @@ const ChatContent = () => {
               <FaMicrophone />
             </button>
           </div>
-          {/* TO CHECK TRANSCRIPTION OUTPUT */}
-          {/* {transcription && (
-            <div>
-              <h2>Transcription:</h2>
-              <p>{transcription}</p>
-            </div>
-          )} */}
         </form>
       </div>
     </div>
