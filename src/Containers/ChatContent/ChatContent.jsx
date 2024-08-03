@@ -16,6 +16,7 @@ const ChatContent = () => {
   const audioElementRef = useRef(null);
   const [chats, setChats] = useState([]);
   const [isGeneratingSpeech, setIsGeneratingSpeech] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   const userMessage = qs.stringify({ message: message });
   const endRef = useRef(null);
@@ -39,6 +40,20 @@ const ChatContent = () => {
 
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    const messageButton = document.getElementsByClassName('ChatContent__message-content')[chats.length - 1];
+
+    if (isTalking && isGeneratingSpeech) {
+      messageButton.style.backgroundColor = '#0B409C';
+    }
+
+    if (isTalking && !isGeneratingSpeech) {
+      startSpeechHelper();
+      startSpeech();
+    }
+
+  }, [isGeneratingSpeech, isTalking]);
 
   const getProfilePicture = (sender, header = false) => {
 
@@ -137,7 +152,7 @@ const ChatContent = () => {
 
   };
 
-  const handleGenerateSpeech = () => {
+  const handleGenerateSpeech = async () => {
     if (isTalking) {
       stopSpeech();
     } else {
@@ -190,10 +205,12 @@ const ChatContent = () => {
     setIsTalking(true);
 
     // Automatically play the audio
-    const audioElement = document.getElementById('audio-player');
-    audioElementRef.current = audioElement;
-    if (audioElement) {
-      audioElement.play();
+    if (!isGeneratingSpeech) {
+      const audioElement = document.getElementById('audio-player');
+      audioElementRef.current = audioElement;
+      if (audioElement) {
+        audioElement.play();
+      }
     }
   };
 
