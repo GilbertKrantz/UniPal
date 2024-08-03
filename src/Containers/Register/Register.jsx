@@ -4,6 +4,10 @@ import PasswordChecklist from "react-password-checklist";
 import { useNavigate } from "react-router-dom";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 
+// Firebase Auth SDK
+import {auth} from "../../Firebase"
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 const Register = () => {
 
     const [name, setName] = useState('');
@@ -16,49 +20,69 @@ const Register = () => {
     const navigateTo = useNavigate();
     const signIn = useSignIn();
 
-    const handleRegister = async (e) => {
-
+    const handleRegister = (e) => {
         e.preventDefault();
 
-        const response = await fetch('http://localhost:3000/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: email,
-                username: name,
-                gender: gender,
-                password: password,
-            })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            setError(data.message);
-            throw new Error('Failed to register');
-        }
-
-        const autoSignIn = await fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, password: password })
-        })
-        
-        if (!autoSignIn.ok) {
-            setError('Register successful, but can not sign in automatically. Please sign in manually.');
-        } else {
-            const data = await autoSignIn.json();
-            const token = data.token;
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            console.log(user);
             signIn({
                 auth: {
-                    token: token,
-                    type: 'Bearer'
+                    token: user.accessToken,
+                    type: 'Bearer',
                 }
-            })
+            });
             navigateTo('/chat');
-        }
-
+        })
+        .catch((error) => {
+            setError(error.message);
+        });
     }
+
+    // const handleRegister = async (e) => {
+
+    //     e.preventDefault();
+
+    //     const response = await fetch('http://localhost:3000/register', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({
+    //             email: email,
+    //             username: name,
+    //             gender: gender,
+    //             password: password,
+    //         })
+    //     });
+
+    //     const data = await response.json();
+
+    //     if (!response.ok) {
+    //         setError(data.message);
+    //         throw new Error('Failed to register');
+    //     }
+
+    //     const autoSignIn = await fetch('http://localhost:3000/login', {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ email: email, password: password })
+    //     })
+        
+    //     if (!autoSignIn.ok) {
+    //         setError('Register successful, but can not sign in automatically. Please sign in manually.');
+    //     } else {
+    //         const data = await autoSignIn.json();
+    //         const token = data.token;
+    //         signIn({
+    //             auth: {
+    //                 token: token,
+    //                 type: 'Bearer'
+    //             }
+    //         })
+    //         navigateTo('/chat');
+    //     }
+
+    // }
 
     const deleteAllData = async () => {
         await fetch('http://localhost:3000/cleardata', {
