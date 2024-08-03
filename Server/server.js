@@ -52,6 +52,7 @@ const findUser = (email) => {
 
 }
 
+// Generative AI
 app.post('/api/chat', async (req, res) => {
   try {
     const { message } = req.body;
@@ -71,7 +72,8 @@ app.post('/api/chat', async (req, res) => {
 
 });
 
-
+//  Text to Speech
+// Google Text to Speech
 app.post('/api/generate', async (req, res) => {
   try {
     console.log('Generating speech...');
@@ -94,6 +96,7 @@ app.post('/api/generate', async (req, res) => {
   }
 });
 
+// ElevenLabs Text to Speech
 app.post('/api/elgenerate', async (req, res) => {
   try {
     console.log('Generating ElevenLabs Speech...');
@@ -117,6 +120,7 @@ app.post('/api/elgenerate', async (req, res) => {
   }
 });
 
+// Speech to Text
 app.post('/api/transcribe', upload.single('audio'), async (req, res) => {
   try {
     if (!req.file) {
@@ -133,6 +137,9 @@ app.post('/api/transcribe', upload.single('audio'), async (req, res) => {
   }
 });
 
+// User Authentication
+
+// Login
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
@@ -157,6 +164,7 @@ app.post('/login', (req, res) => {
   }
 });
 
+// Register
 app.post('/register', async (req, res) => {
   try {
     const { email, username, gender, password } = req.body;

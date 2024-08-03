@@ -28,3 +28,6 @@ Server/Key/
 Server/Key/*
 Key/
 Key/*
+
+# Env
+.env
