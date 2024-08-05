@@ -6,7 +6,7 @@ import useSignIn from "react-auth-kit/hooks/useSignIn";
 
 // Firebase Auth SDK
 import {auth} from "../../Firebase"
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const Register = () => {
 
@@ -23,15 +23,21 @@ const Register = () => {
     const handleRegister = (e) => {
         e.preventDefault();
 
-        createUserWithEmailAndPassword(auth, email, password)
+        createUserWithEmailAndPassword(auth, email, password) // Create user with email and password
         .then((userCredential) => {
             const user = userCredential.user;
             console.log(user);
-            signIn({
+            updateProfile(user, { // Update user profile by adding name, optional: photoURL
+                displayName: name,
+            }).then( // After successful update, sign in the user
+                signIn({
                 auth: {
                     token: user.accessToken,
                     type: 'Bearer',
                 }
+            }))
+            .catch((error) => {
+                setError(error.message);
             });
             navigateTo('/chat');
         })

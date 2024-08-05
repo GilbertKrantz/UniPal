@@ -5,6 +5,8 @@ import axios from 'axios';
 import qs from 'qs';
 import UniPal from '../../Assets/Logo/UniPal.png';
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import { auth } from "../../Firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
@@ -32,7 +34,8 @@ const ChatContent = () => {
     const fetchUserData = async () => {
       try {
         const data = await getUserData();
-        setUserProfile(data);
+        // console.log(data);
+        // setUserProfile(data);
       } catch (error) {
         console.error(error);
       }
@@ -73,22 +76,31 @@ const ChatContent = () => {
   }
 
   const getUserData = async () => {
-    const header = {
-      'Content-Type': 'application/json',
-      'authorization': authHeader
-    }
+    // const header = {
+    //   'Content-Type': 'application/json',
+    //   'authorization': authHeader
+    // }
 
-    const response = await fetch('http://localhost:3000/verify', {
-      method: 'POST',
-      headers: header,
-    });
+    // const response = await fetch('http://localhost:3000/verify', {
+    //   method: 'POST',
+    //   headers: header,
+    // });
 
-    if (!response.ok) {
-      throw new Error('Cannot get user data');
-    } else {
-      const {message:_, ...data} = await response.json();
-      return data;
-    }
+    // if (!response.ok) {
+    //   throw new Error('Cannot get user data');
+    // } else {
+    //   const {message:_, ...data} = await response.json();
+    //   return data;
+    // }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userEmail = user.email;
+        const userName = user.displayName;
+        setUserProfile({username: userName, email: userEmail, profilePicture: 'default'});
+      }
+    })
+
   }
 
   const handleSubmit = async (e) => {
