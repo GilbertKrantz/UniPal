@@ -23,6 +23,16 @@ const Register = () => {
     const handleRegister = (e) => {
         e.preventDefault();
 
+        if (!gender) {
+            setError('Gender is not specified');
+            return;
+        }
+
+        if (password.length < 8 || !password.match(/\d+/g) || password.localeCompare(confirmPassword)) {
+            setError('Invalid password');
+            return;
+        }
+
         createUserWithEmailAndPassword(auth, email, password) // Create user with email and password
         .then((userCredential) => {
             const user = userCredential.user;
@@ -123,15 +133,15 @@ const Register = () => {
                         <label htmlFor="gender" className="register__input-label">Gender</label>
                         <div className="register__input-gender-container">
                             <div className="register__gender-choice">
-                                <input type="radio" id="male" name="gender" className="register__input-gender" value="Male" onChange={(e) => setGender(e.target.value)} required />
+                                <input type="radio" id="male" name="gender" className="register__input-gender" value="Male" onChange={(e) => setGender(e.target.value)}  />
                                 <label htmlFor="male" className="register__gender-label">Pria</label>
                             </div>
                             <div className="register__gender-choice">
-                                <input type="radio" id="female" name="gender" className="register__input-gender" value="Female" onChange={(e) => setGender(e.target.value)}required />
+                                <input type="radio" id="female" name="gender" className="register__input-gender" value="Female" onChange={(e) => setGender(e.target.value)} />
                                 <label htmlFor="female" className="register__gender-label">Wanita</label>
                             </div>
                             <div className="register__gender-choice">
-                                <input type="radio" id="others" name="gender" className="register__input-gender" value="Others" onChange={(e) => setGender(e.target.value)}required />
+                                <input type="radio" id="others" name="gender" className="register__input-gender" value="Others" onChange={(e) => setGender(e.target.value)} />
                                 <label htmlFor="others" className="register__gender-label">Lainnya</label>
                             </div>
                         </div>
@@ -184,7 +194,7 @@ const Register = () => {
                             }}
                             className="register__password-check"
                     />
-                    <button type={isValidPassword ? 'submit': ''} className="register__submit-button" disabled={isValidPassword ? false: true}>Daftar</button>
+                    <button type='submit' className="register__submit-button">Daftar</button>
                     {/* <button type='submit' className="register__submit-button" disabled={false}>Daftar</button> */}
                     <p className="signin__register">Sudah memiliki akun? <a href="/signin" className="signin__register-link">Masuk</a></p>
                 </form>
