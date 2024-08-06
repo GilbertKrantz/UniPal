@@ -3,6 +3,7 @@ import { FaArrowRight, FaMicrophone, FaUser } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
 import UniPal from '../../Assets/Logo/UniPal.png';
+import { CSSTransition } from "react-transition-group";
 
 // Firebase SDK
 import { auth, db } from "../../Firebase"
@@ -273,8 +274,10 @@ const ChatContent = () => {
 
   return (
     // When user's profile are shown, click on any part of ChatContent to disable show profile.
-    <div className="ChatContent" >
-      {showProfile && <UserSettings />}
+    <div className="ChatContent">
+      <CSSTransition in={showProfile} timeout={200} classNames={'UserSettings__transition'} unmountOnExit>
+        <UserSettings />
+      </CSSTransition>
       <div className="ChatContent__container" onClick={showProfile ? handleShowProfile: null}>
         <div className="ChatContent__header">
           <div className="ChatContent__header-logo">
