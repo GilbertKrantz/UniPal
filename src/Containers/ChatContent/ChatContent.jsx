@@ -8,6 +8,12 @@ import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import { auth } from "../../Firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
+// Firebase SDK
+import { auth, db } from "../../Firebase"
+// Firebase Firestore SDK
+import { getDoc, doc } from "firebase/firestore";
+import { user } from "elevenlabs/api";
+
 const ChatContent = () => {
   const [message, setMessage] = useState("");
   const [audioUrl, setAudioUrl] = useState('');
@@ -30,19 +36,21 @@ const ChatContent = () => {
     endRef.current?.scrollIntoView({behavior: 'smooth'});
   }, [chats]);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await getUserData();
-        // console.log(data);
-        // setUserProfile(data);
-      } catch (error) {
-        console.error(error);
+  const fetchUserData = async () => {
+    auth.onAuthStateChanged(async (user) => {
+      const userDoc = doc(db, 'users', user.uid);
+      const docSnap = await getDoc(userDoc);
+      if (docSnap.exists()) {
+        setUserProfile(docSnap.data());
+      } else {
+        console.log('No User!!!!');
       }
-    };
+    });
+  }
 
+  useEffect(() => {
     fetchUserData();
-  }, []);
+  })
 
   useEffect(() => {
     const messageButton = document.getElementsByClassName('ChatContent__message-content')[chats.length - 1];
@@ -73,34 +81,6 @@ const ChatContent = () => {
     }
     
     return (<img src={UniPal} alt="" className="ChatContent__profile-image"/>);
-  }
-
-  const getUserData = async () => {
-    // const header = {
-    //   'Content-Type': 'application/json',
-    //   'authorization': authHeader
-    // }
-
-    // const response = await fetch('http://localhost:3000/verify', {
-    //   method: 'POST',
-    //   headers: header,
-    // });
-
-    // if (!response.ok) {
-    //   throw new Error('Cannot get user data');
-    // } else {
-    //   const {message:_, ...data} = await response.json();
-    //   return data;
-    // }
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userEmail = user.email;
-        const userName = user.displayName;
-        setUserProfile({username: userName, email: userEmail, profilePicture: 'default'});
-      }
-    })
-
   }
 
   const handleSubmit = async (e) => {

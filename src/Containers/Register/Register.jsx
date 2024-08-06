@@ -4,9 +4,14 @@ import PasswordChecklist from "react-password-checklist";
 import { useNavigate } from "react-router-dom";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 
+// Firebase SDK
+import { auth, db } from "../../Firebase"
 // Firebase Auth SDK
-import {auth} from "../../Firebase"
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+// Firebase Database SDK
+import { setDoc, doc } from "firebase/firestore";
+
 
 const Register = () => {
 
@@ -20,40 +25,38 @@ const Register = () => {
     const navigateTo = useNavigate();
     const signIn = useSignIn();
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
 
-        if (!gender) {
-            setError('Gender is not specified');
-            return;
-        }
-
-        if (password.length < 8 || !password.match(/\d+/g) || password.localeCompare(confirmPassword)) {
-            setError('Invalid password');
-            return;
-        }
-
-        createUserWithEmailAndPassword(auth, email, password) // Create user with email and password
-        .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
-            updateProfile(user, { // Update user profile by adding name, optional: photoURL
-                displayName: name,
-            }).then( // After successful update, sign in the user
-                signIn({
-                auth: {
-                    token: user.accessToken,
-                    type: 'Bearer',
+        try {
+            await createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log(user);
+                    signIn({
+                        auth: {
+                            token: user.accessToken,
+                            type: 'Bearer',
+                        }
+                    });
+                })
+                .catch((error) => {
+                    setError(error.message);
+                });
+                
+                if (auth.currentUser) {
+                    const userDoc = doc(db, 'users', auth.currentUser.uid);
+                    await setDoc(userDoc, {
+                        username: name,
+                        gender: gender,
+                        email: auth.currentUser.email,
+                    });
+                    navigateTo('/chat');
                 }
-            }))
-            .catch((error) => {
-                setError(error.message);
-            });
-            navigateTo('/chat');
-        })
-        .catch((error) => {
+        } catch (error) {
             setError(error.message);
-        });
+        }
+        
     }
 
     // const handleRegister = async (e) => {
@@ -83,7 +86,7 @@ const Register = () => {
     //         headers: { 'Content-Type': 'application/json' },
     //         body: JSON.stringify({ email: email, password: password })
     //     })
-        
+
     //     if (!autoSignIn.ok) {
     //         setError('Register successful, but can not sign in automatically. Please sign in manually.');
     //     } else {
@@ -180,19 +183,19 @@ const Register = () => {
                         />
                     </div>
                     <PasswordChecklist
-                            rules={["minLength","number","match"]}
-                            minLength={8}
-                            value={password}
-                            valueAgain={confirmPassword}
-                            onChange={(isValid) => {setIsValidPassword(isValid)}}
-                            messages={{
-                                minLength: "Kata sandi lebih panjang dari 8 karakter.",
-                                // specialChar: "Kata sandi memiliki karakter khusus.",
-                                number: "Kata sandi terdiri dari angka.",
-                                // capital: "Kata sandi menggunakan huruf kapital.",
-                                match: "Kata sandi cocok.",
-                            }}
-                            className="register__password-check"
+                        rules={["minLength", "number", "match"]}
+                        minLength={8}
+                        value={password}
+                        valueAgain={confirmPassword}
+                        onChange={(isValid) => { setIsValidPassword(isValid) }}
+                        messages={{
+                            minLength: "Kata sandi lebih panjang dari 8 karakter.",
+                            // specialChar: "Kata sandi memiliki karakter khusus.",
+                            number: "Kata sandi terdiri dari angka.",
+                            // capital: "Kata sandi menggunakan huruf kapital.",
+                            match: "Kata sandi cocok.",
+                        }}
+                        className="register__password-check"
                     />
                     <button type='submit' className="register__submit-button">Daftar</button>
                     {/* <button type='submit' className="register__submit-button" disabled={false}>Daftar</button> */}
