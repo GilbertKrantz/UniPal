@@ -5,6 +5,8 @@ import axios from 'axios';
 import qs from 'qs';
 import UniPal from '../../Assets/Logo/UniPal.png';
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import { auth } from "../../Firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 // Firebase SDK
 import { auth, db } from "../../Firebase"
