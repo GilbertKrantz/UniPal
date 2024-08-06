@@ -1,0 +1,71 @@
+.UserSettings {
+    background-color: var(--color-bg);
+    width: 35vh;
+    height: 100vh;
+    color: var(--color-text);
+    position: absolute;
+    align-self: flex-end;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: -0.25vh 0 5vh black;
+}
+
+.UserSettings__profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2vh;
+    margin-top: 5vh;
+}
+
+.UserSettings__profile-picture {
+    width: 15vh;
+    height: 15vh;
+    overflow: hidden;
+}
+
+.UserSettings__profile-image--default {
+    font-size: 20vh;
+    padding-top: 2vh;
+    color: white;
+    background-color: gray;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.UserSettings__profile-image {
+    border-radius: 100%;
+    width: 100%;
+}
+
+.UserSettings__username {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.UserSettings__options {
+    margin-bottom: 5vh;
+}
+
+.UserSettings__signout-button {
+    border: none;
+    background-color: transparent;
+    font-family: Inter;
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1vh;
+    color: red;
+    font-weight: 600;
+    transition: 0.1s ease-in-out;
+}
+
+.UserSettings__signout-button:hover {
+    color: crimson;
+}
