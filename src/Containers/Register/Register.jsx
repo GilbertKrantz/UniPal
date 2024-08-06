@@ -12,6 +12,15 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 // Firebase Database SDK
 import { setDoc, doc } from "firebase/firestore";
 
+const validateName = (name) => {
+    // if name is empty, have a number, and have a special character, return false
+    if (name === "") {
+        return "No Name";
+    } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9]/g)) {
+        return "Invalid Name";
+    }
+    return true;
+}
 
 const Register = () => {
 
@@ -50,6 +59,7 @@ const Register = () => {
                         username: name,
                         gender: gender,
                         email: auth.currentUser.email,
+                        profilePicture: "default"
                     });
                     navigateTo('/chat');
                 }
@@ -57,57 +67,6 @@ const Register = () => {
             setError(error.message);
         }
         
-    }
-
-    // const handleRegister = async (e) => {
-
-    //     e.preventDefault();
-
-    //     const response = await fetch('http://localhost:3000/register', {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({
-    //             email: email,
-    //             username: name,
-    //             gender: gender,
-    //             password: password,
-    //         })
-    //     });
-
-    //     const data = await response.json();
-
-    //     if (!response.ok) {
-    //         setError(data.message);
-    //         throw new Error('Failed to register');
-    //     }
-
-    //     const autoSignIn = await fetch('http://localhost:3000/login', {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({ email: email, password: password })
-    //     })
-
-    //     if (!autoSignIn.ok) {
-    //         setError('Register successful, but can not sign in automatically. Please sign in manually.');
-    //     } else {
-    //         const data = await autoSignIn.json();
-    //         const token = data.token;
-    //         signIn({
-    //             auth: {
-    //                 token: token,
-    //                 type: 'Bearer'
-    //             }
-    //         })
-    //         navigateTo('/chat');
-    //     }
-
-    // }
-
-    const deleteAllData = async () => {
-        await fetch('http://localhost:3000/cleardata', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        })
     }
 
     return (
@@ -131,6 +90,9 @@ const Register = () => {
                             onChange={(e) => setName(e.target.value)}
                             required
                         />
+                        {/* Error if name isn't valid */}
+                       {validateName(name) !== true && <p className="register__error">{validateName(name)}</p>}
+
                     </div>
                     <div className="register__input-container">
                         <label htmlFor="gender" className="register__input-label">Gender</label>

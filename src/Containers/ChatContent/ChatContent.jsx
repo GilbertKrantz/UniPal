@@ -5,14 +5,11 @@ import axios from 'axios';
 import qs from 'qs';
 import UniPal from '../../Assets/Logo/UniPal.png';
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
-import { auth } from "../../Firebase";
-import { onAuthStateChanged } from "firebase/auth";
 
 // Firebase SDK
 import { auth, db } from "../../Firebase"
 // Firebase Firestore SDK
 import { getDoc, doc } from "firebase/firestore";
-import { user } from "elevenlabs/api";
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
@@ -24,12 +21,9 @@ const ChatContent = () => {
   const audioElementRef = useRef(null);
   const [chats, setChats] = useState([]);
   const [isGeneratingSpeech, setIsGeneratingSpeech] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
 
-  const userMessage = qs.stringify({ message: message });
   const endRef = useRef(null);
 
-  const authHeader = useAuthHeader();
   const [userProfile, setUserProfile] = useState('');
 
   useEffect(() => {
@@ -93,31 +87,6 @@ const ChatContent = () => {
     
     addMessage('user', message);
     setMessage('');
-
-    // const config = {
-    //   method: "post",
-    //   maxBodyLength: Infinity,
-    //   // url: "http://127.0.0.1:8000/generate/",
-    //   url: "http://localhost:3000/api/chat",
-    //   timeout: 8000,
-    //   headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    //   data: userMessage,
-    // };
-
-    // await axios(config)
-    // .then((response) => {
-    //   console.log(JSON.stringify(response.data));
-    //   // setAPIResponse(response.data.generated_text);
-    //   if (response.data.generated_text) {
-    //     addMessage('up', response.data.generated_text);
-    //     getSpeech(response.data.generated_text);
-    //   }
-
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // });
-
     
     try {
       
