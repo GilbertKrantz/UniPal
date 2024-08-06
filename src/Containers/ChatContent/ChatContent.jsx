@@ -2,9 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaArrowRight, FaMicrophone, FaUser } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
-import qs from 'qs';
 import UniPal from '../../Assets/Logo/UniPal.png';
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
 // Firebase SDK
 import { auth, db } from "../../Firebase"
