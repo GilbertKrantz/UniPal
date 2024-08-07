@@ -2,16 +2,21 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaArrowRight, FaMicrophone, FaUser } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
-import qs from 'qs';
 import UniPal from '../../Assets/Logo/UniPal.png';
-import UserProfilePicture from '../../UserData/UserProfilePicture/eb.png';
-import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import { CSSTransition } from "react-transition-group";
+
+// Firebase SDK
+import { auth, db, storage } from "../../Firebase"
+// Firebase Firestore SDK
+import { getDoc, doc } from "firebase/firestore";
+// Firebase Storage SDK
+import { ref, getDownloadURL } from "firebase/storage";
+
+import UserSettings from "../../Components/UserSettings/UserSettings";
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
-  // const [APIresponse, setAPIResponse] = useState("");
   const [audioUrl, setAudioUrl] = useState('');
-  // const [transcription, setTranscription] = useState('');
   const [isRecording, setIsRecording] = useState(false);
   const [isTalking, setIsTalking] = useState(false);
   const mediaRecorderRef = useRef(null);
@@ -19,29 +24,45 @@ const ChatContent = () => {
   const audioElementRef = useRef(null);
   const [chats, setChats] = useState([]);
   const [isGeneratingSpeech, setIsGeneratingSpeech] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
-  // const userMessage = qs.stringify({ message: message });
   const endRef = useRef(null);
 
-  const authHeader = useAuthHeader();
   const [userProfile, setUserProfile] = useState('');
 
   useEffect(() => {
     endRef.current?.scrollIntoView({behavior: 'smooth'});
   }, [chats]);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await getUserData();
-        setUserProfile(data);
-      } catch (error) {
-        console.error(error);
+  const fetchUserData = async () => {
+    auth.onAuthStateChanged(async (user) => {
+      const userDoc = doc(db, 'users', user.uid);
+      const docSnap = await getDoc(userDoc);
+      if (docSnap.exists()) {
+        setUserProfile(docSnap.data());
+      } else {
+        console.log('No User!!!!');
       }
-    };
+    });
+  }
 
+  useEffect(() => {
     fetchUserData();
-  }, []);
+  })
+
+  useEffect(() => {
+    const messageButton = document.getElementsByClassName('ChatContent__message-content')[chats.length - 1];
+
+    if (isTalking && isGeneratingSpeech) {
+      messageButton.style.backgroundColor = '#0B409C';
+    }
+
+    if (isTalking && !isGeneratingSpeech) {
+      startSpeechHelper();
+      startSpeech();
+    }
+
+  }, [isGeneratingSpeech, isTalking]);
 
   const getProfilePicture = (sender, header = false) => {
 
@@ -52,6 +73,13 @@ const ChatContent = () => {
             <FaUser />
           </div>
         );
+      } else {
+        // Get image from Firebase Storage
+        auth.onAuthStateChanged(async (user) => {
+          const storageRef = ref(storage, `profilePictures/${user.uid}`);
+          const url = await getDownloadURL(storageRef);
+          return (<img src={url} alt="" className="ChatContent__profile-image"/>);
+        });
       }
       
       return (<img src={userProfile['profilePicture']} alt="" className="ChatContent__profile-image"/>);
@@ -60,23 +88,8 @@ const ChatContent = () => {
     return (<img src={UniPal} alt="" className="ChatContent__profile-image"/>);
   }
 
-  const getUserData = async () => {
-    const header = {
-      'Content-Type': 'application/json',
-      'authorization': authHeader
-    }
-
-    const response = await fetch('http://localhost:3000/verify', {
-      method: 'POST',
-      headers: header,
-    });
-
-    if (!response.ok) {
-      throw new Error('Cannot get user data');
-    } else {
-      const {message:_, ...data} = await response.json();
-      return data;
-    }
+  const handleShowProfile = () => {
+    setShowProfile(!showProfile);
   }
 
   const handleSubmit = async (e) => {
@@ -89,31 +102,6 @@ const ChatContent = () => {
     
     addMessage('user', message);
     setMessage('');
-
-    // const config = {
-    //   method: "post",
-    //   maxBodyLength: Infinity,
-    //   // url: "http://127.0.0.1:8000/generate/",
-    //   url: "http://localhost:3000/api/chat",
-    //   timeout: 8000,
-    //   headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    //   data: userMessage,
-    // };
-
-    // await axios(config)
-    // .then((response) => {
-    //   console.log(JSON.stringify(response.data));
-    //   // setAPIResponse(response.data.generated_text);
-    //   if (response.data.generated_text) {
-    //     addMessage('up', response.data.generated_text);
-    //     getSpeech(response.data.generated_text);
-    //   }
-
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // });
-
     
     try {
       
@@ -140,7 +128,7 @@ const ChatContent = () => {
 
   };
 
-  const handleGenerateSpeech = () => {
+  const handleGenerateSpeech = async () => {
     if (isTalking) {
       stopSpeech();
     } else {
@@ -154,17 +142,18 @@ const ChatContent = () => {
 
   const getSpeech = async (text) => {
     try {
+
+      setIsGeneratingSpeech(true);
       
       // GOOGLE TTS
       
       // const response = await fetch('http://localhost:3000/api/generate', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ text: APIresponse }),
-        // });
+      //     method: 'POST',
+      //     headers: { 'Content-Type': 'application/json' },
+      //     body: JSON.stringify({ text: text }),
+      //   });
         
         // ELEVENLABS TTS
-      setIsGeneratingSpeech(true);
         
       const response = await fetch('http://localhost:3000/api/elgenerate', {
         method: 'POST',
@@ -192,10 +181,12 @@ const ChatContent = () => {
     setIsTalking(true);
 
     // Automatically play the audio
-    const audioElement = document.getElementById('audio-player');
-    audioElementRef.current = audioElement;
-    if (audioElement) {
-      audioElement.play();
+    if (!isGeneratingSpeech) {
+      const audioElement = document.getElementById('audio-player');
+      audioElementRef.current = audioElement;
+      if (audioElement) {
+        audioElement.play();
+      }
     }
   };
 
@@ -240,7 +231,6 @@ const ChatContent = () => {
             const response = await axios.post('http://localhost:3000/api/transcribe', formData, {
               headers: { 'Content-Type': 'multipart/form-data' },
             });
-            setTranscription(response.data.transcription);
             setMessage(response.data.transcription);
           } catch (error) {
             console.error('Error transcribing speech:', error);
@@ -292,48 +282,47 @@ const ChatContent = () => {
   }
 
   return (
+    // When user's profile are shown, click on any part of ChatContent to disable show profile.
     <div className="ChatContent">
-      <div className="ChatContent__header">
-        <div className="ChatContent__header-logo">
-          <img src={UniPal} alt="" className="ChatContent__profile-image"/>
-        </div>
-        <h1 className="logo">UniPal</h1>
-        <div className={"ChatContent__header-profile"}>
-          {getProfilePicture('user', true)}
-        </div>
-      </div>
-      <div className={"ChatContent__chat " + (chats.length == 0 ? "ChatContent__chat--empty" : "ChatContent__chat--filled")}>
-        {getMessage()}
-        {audioUrl && <audio id="audio-player" src={audioUrl} controls onPlay={startSpeechHelper} onEnded={stopSpeech}/>}
-      </div>
-      <div className="ChatContent__input">
-        <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">
-          <input
-            autoComplete="off"
-            className="ChatContent__input-bar"
-            name="message"
-            type="text"
-            placeholder="Ketik apa yang ingin kamu tanyakan..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-
-          <div className="ChatContent__chat-btn-container">
-            <button type="submit" className="ChatContent__input-btn">
-              <FaArrowRight />
-            </button>
-            <button type="button" onClick={handleRecording} className="ChatContent__record-btn">
-              <FaMicrophone />
-            </button>
+      <CSSTransition in={showProfile} timeout={200} classNames={'UserSettings__transition'} unmountOnExit>
+        <UserSettings />
+      </CSSTransition>
+      <div className="ChatContent__container" onClick={showProfile ? handleShowProfile: null}>
+        <div className="ChatContent__header">
+          <div className="ChatContent__header-logo">
+            <img src={UniPal} alt="" className="ChatContent__profile-image"/>
           </div>
-          {/* TO CHECK TRANSCRIPTION OUTPUT */}
-          {/* {transcription && (
-            <div>
-              <h2>Transcription:</h2>
-              <p>{transcription}</p>
+          <h1 className="logo">UniPal</h1>
+          <div className={"ChatContent__header-profile"} onClick={handleShowProfile}>
+            {getProfilePicture('user', true)}
+          </div>
+        </div>
+        <div className={"ChatContent__chat " + (chats.length == 0 ? "ChatContent__chat--empty" : "ChatContent__chat--filled")}>
+          {getMessage()}
+          {audioUrl && <audio id="audio-player" src={audioUrl} controls onPlay={startSpeechHelper} onEnded={stopSpeech}/>}
+        </div>
+        <div className="ChatContent__input">
+          <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">
+            <input
+              autoComplete="off"
+              className="ChatContent__input-bar"
+              name="message"
+              type="text"
+              placeholder="Ketik apa yang ingin kamu tanyakan..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+
+            <div className="ChatContent__chat-btn-container">
+              <button type="submit" className="ChatContent__input-btn">
+                <FaArrowRight />
+              </button>
+              <button type="button" onClick={handleRecording} className="ChatContent__record-btn">
+                <FaMicrophone />
+              </button>
             </div>
-          )} */}
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
