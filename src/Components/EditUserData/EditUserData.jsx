@@ -22,7 +22,6 @@ const EditUserData = ({ onBack }) => {
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        console.log('masuk');
 
         if (!file) {
             setFileName('Tidak ada file');
@@ -82,7 +81,7 @@ const EditUserData = ({ onBack }) => {
                     <form className={"EditUserData__form"}>
                         <div className={"EditUserData__input"}>
                             <label htmlFor="username" className={"EditUserData__input-label"}>Nama:</label>
-                            <input type="text" id="username" name="username" placeholder="Username" autoComplete='off'/>
+                            <input type="text" id="username" name="username" placeholder="Nama" autoComplete='off'/>
                         </div>
                         <div className={"EditUserData__input"}>
                             <label htmlFor="email" className={"EditUserData__input-label"}>Email:</label>
@@ -90,7 +89,7 @@ const EditUserData = ({ onBack }) => {
                         </div>
                         <div className={"EditUserData__input"}>
                             <label htmlFor="password" className={"EditUserData__input-label"}>Kata Sandi:</label>
-                            <input type="password" id="password" name="password" placeholder="Password" />
+                            <input type="password" id="password" name="password" placeholder="Kata Sandi" />
                         </div>
                         <div className={"EditUserData__input"}>
                             <label htmlFor="profilePicture" className={"EditUserData__input-label"}>Foto Profil:</label>
@@ -100,7 +99,7 @@ const EditUserData = ({ onBack }) => {
                                 <input type="file" id="profilePicture" name="profilePicture" ref={fileInputRef} onChange={handleFileChange}/>
                             </div>
                         </div>
-                        <button type="submit" className={"EditUserData__submit-button"}>Simpan Perubahan</button>
+                        <button type="submit" className={"EditUserData__submit-button"} onClick={handleSubmit}>Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
