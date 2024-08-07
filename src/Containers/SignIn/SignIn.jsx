@@ -23,7 +23,12 @@ const SignIn = () => {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            // console.log(user);
+            if (!user.emailVerified) {
+                setError('Email belum diverifikasi. Silahkan cek email Anda.');
+                // sign out the user
+                auth.signOut();
+                return;
+            }
             signIn({
                 auth: {
                     token: user.accessToken,
