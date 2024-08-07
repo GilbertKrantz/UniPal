@@ -10,7 +10,7 @@ import { auth, db } from "../../Firebase"
 // Firebase Firestore SDK
 import { getDoc, doc } from "firebase/firestore";
 
-import UserSettings from "../UserSettings/UserSettings";
+import UserProfile from "../UserProfile/UserProfile";
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
@@ -275,8 +275,8 @@ const ChatContent = () => {
   return (
     // When user's profile are shown, click on any part of ChatContent to disable show profile.
     <div className="ChatContent">
-      <CSSTransition in={showProfile} timeout={200} classNames={'UserSettings__transition'} unmountOnExit>
-        <UserSettings />
+      <CSSTransition in={showProfile} timeout={200} classNames={'UserProfile__transition'} unmountOnExit>
+        <UserProfile />
       </CSSTransition>
       <div className="ChatContent__container" onClick={showProfile ? handleShowProfile: null}>
         <div className="ChatContent__header">

@@ -1,12 +1,6 @@
 .ChatContent {
-    align-items: center;
-    justify-content: space-between;
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
-    user-select: none;
-    scroll-behavior: smooth;
     position: relative;
+    overflow: hidden;
 }
 
 .ChatContent__container {
@@ -39,6 +33,7 @@
     max-height: 7vh;
     margin: 0 2vh 0 0;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .ChatContent__chat--empty {
@@ -249,23 +244,23 @@
     background: transparent;
 }
 
-.UserSettings__transition-enter {
+.UserProfile__transition-enter {
     opacity: 0;
     transform: translateX(100%);
 }
 
-.UserSettings__transition-enter-active {
+.UserProfile__transition-enter-active {
     opacity: 1;
     transform: translateX(0);
     transition: transform 0.2s ease-in, opacity 0.2s ease-in;
 }
 
-.UserSettings__transition-exit {
+.UserProfile__transition-exit {
     opacity: 1;
     transform: translateX(0);
 }
 
-.UserSettings__transition-exit-active {
+.UserProfile__transition-exit-active {
     opacity: 0;
     transform: translateX(100%);
     transition: transform 0.2s ease-in, opacity 0.2s ease-in;
