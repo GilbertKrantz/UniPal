@@ -4,6 +4,28 @@ import PasswordChecklist from "react-password-checklist";
 import { useNavigate } from "react-router-dom";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 
+// Firebase SDK
+import { auth, db, storage } from "../../Firebase"
+// Firebase Auth SDK
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+// Firebase Database SDK
+import { setDoc, doc } from "firebase/firestore";
+
+// Firebase Storage SDK
+import { ref, uploadBytes } from "firebase/storage";
+
+const validateName = (name) => {
+    // if name is empty, have a number, and have a special character, return false
+    if (name === "") {
+        return "No Name";
+    } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9]/g)) {
+        return "Invalid Name";
+    }
+    return true;
+}
+
+
 const Register = () => {
 
     const [name, setName] = useState('');
@@ -17,54 +39,44 @@ const Register = () => {
     const signIn = useSignIn();
 
     const handleRegister = async (e) => {
-
         e.preventDefault();
 
-        const response = await fetch('http://localhost:3000/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: email,
-                username: name,
-                gender: gender,
-                password: password,
-            })
-        });
+        try {
+            await createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log(user);
+                    signIn({
+                        auth: {
+                            token: user.accessToken,
+                            type: 'Bearer',
+                        }
+                    });
+                })
+                .catch((error) => {
+                    setError(error.message);
+                });
+                
+                if (auth.currentUser) {
+                    const userDoc = doc(db, 'users', auth.currentUser.uid);
+                    await setDoc(userDoc, {
+                        username: name,
+                        gender: gender,
+                        email: auth.currentUser.email,
+                        profilePicture: "default"
+                    });
 
-        const data = await response.json();
+                    const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
+                    await uploadBytes(storageRef, new Blob()).then((snapshot) => {
+                        console.log('Uploaded a blob or file!');
+                    });
 
-        if (!response.ok) {
-            setError(data.message);
-            throw new Error('Failed to register');
-        }
-
-        const autoSignIn = await fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, password: password })
-        })
-        
-        if (!autoSignIn.ok) {
-            setError('Register successful, but can not sign in automatically. Please sign in manually.');
-        } else {
-            const data = await autoSignIn.json();
-            const token = data.token;
-            signIn({
-                auth: {
-                    token: token,
-                    type: 'Bearer'
+                    navigateTo('/chat');
                 }
-            })
-            navigateTo('/chat');
+        } catch (error) {
+            setError(error.message);
         }
-
-    }
-
-    const deleteAllData = async () => {
-        await fetch('http://localhost:3000/cleardata', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-        })
+        
     }
 
     return (
@@ -88,20 +100,23 @@ const Register = () => {
                             onChange={(e) => setName(e.target.value)}
                             required
                         />
+                        {/* Error if name isn't valid */}
+                       {validateName(name) !== true && <p className="register__error">{validateName(name)}</p>}
+
                     </div>
                     <div className="register__input-container">
                         <label htmlFor="gender" className="register__input-label">Gender</label>
                         <div className="register__input-gender-container">
                             <div className="register__gender-choice">
-                                <input type="radio" id="male" name="gender" className="register__input-gender" value="Male" onChange={(e) => setGender(e.target.value)} required />
+                                <input type="radio" id="male" name="gender" className="register__input-gender" value="Male" onChange={(e) => setGender(e.target.value)}  />
                                 <label htmlFor="male" className="register__gender-label">Pria</label>
                             </div>
                             <div className="register__gender-choice">
-                                <input type="radio" id="female" name="gender" className="register__input-gender" value="Female" onChange={(e) => setGender(e.target.value)}required />
+                                <input type="radio" id="female" name="gender" className="register__input-gender" value="Female" onChange={(e) => setGender(e.target.value)} />
                                 <label htmlFor="female" className="register__gender-label">Wanita</label>
                             </div>
                             <div className="register__gender-choice">
-                                <input type="radio" id="others" name="gender" className="register__input-gender" value="Others" onChange={(e) => setGender(e.target.value)}required />
+                                <input type="radio" id="others" name="gender" className="register__input-gender" value="Others" onChange={(e) => setGender(e.target.value)} />
                                 <label htmlFor="others" className="register__gender-label">Lainnya</label>
                             </div>
                         </div>
@@ -140,25 +155,25 @@ const Register = () => {
                         />
                     </div>
                     <PasswordChecklist
-                            rules={["minLength","number","match"]}
-                            minLength={8}
-                            value={password}
-                            valueAgain={confirmPassword}
-                            onChange={(isValid) => {setIsValidPassword(isValid)}}
-                            messages={{
-                                minLength: "Kata sandi lebih panjang dari 8 karakter.",
-                                // specialChar: "Kata sandi memiliki karakter khusus.",
-                                number: "Kata sandi terdiri dari angka.",
-                                // capital: "Kata sandi menggunakan huruf kapital.",
-                                match: "Kata sandi cocok.",
-                            }}
-                            className="register__password-check"
+                        rules={["minLength", "number", "match"]}
+                        minLength={8}
+                        value={password}
+                        valueAgain={confirmPassword}
+                        onChange={(isValid) => { setIsValidPassword(isValid) }}
+                        messages={{
+                            minLength: "Kata sandi lebih panjang dari 8 karakter.",
+                            // specialChar: "Kata sandi memiliki karakter khusus.",
+                            number: "Kata sandi terdiri dari angka.",
+                            // capital: "Kata sandi menggunakan huruf kapital.",
+                            match: "Kata sandi cocok.",
+                        }}
+                        className="register__password-check"
                     />
-                    <button type={isValidPassword ? 'submit': ''} className="register__submit-button" disabled={isValidPassword ? false: true}>Daftar</button>
+                    <button type='submit' className="register__submit-button">Daftar</button>
                     {/* <button type='submit' className="register__submit-button" disabled={false}>Daftar</button> */}
                     <p className="signin__register">Sudah memiliki akun? <a href="/signin" className="signin__register-link">Masuk</a></p>
                 </form>
-                <button className="register__submit-button"><span style={{color:"red"}} onClick={deleteAllData}>DELETE ALL</span></button>
+                {/* <button className="register__submit-button"><span style={{color:"red"}} onClick={deleteAllData}>DELETE ALL</span></button> */}
             </div>
         </div>
     );
