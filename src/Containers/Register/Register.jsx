@@ -5,12 +5,15 @@ import { useNavigate } from "react-router-dom";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 
 // Firebase SDK
-import { auth, db } from "../../Firebase"
+import { auth, db, storage } from "../../Firebase"
 // Firebase Auth SDK
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 // Firebase Database SDK
 import { setDoc, doc } from "firebase/firestore";
+
+// Firebase Storage SDK
+import { ref, uploadBytes } from "firebase/storage";
 
 const validateName = (name) => {
     // if name is empty, have a number, and have a special character, return false
@@ -21,6 +24,7 @@ const validateName = (name) => {
     }
     return true;
 }
+
 
 const Register = () => {
 
@@ -61,6 +65,12 @@ const Register = () => {
                         email: auth.currentUser.email,
                         profilePicture: "default"
                     });
+
+                    const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
+                    await uploadBytes(storageRef, new Blob()).then((snapshot) => {
+                        console.log('Uploaded a blob or file!');
+                    });
+
                     navigateTo('/chat');
                 }
         } catch (error) {

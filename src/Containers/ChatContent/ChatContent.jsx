@@ -6,11 +6,13 @@ import UniPal from '../../Assets/Logo/UniPal.png';
 import { CSSTransition } from "react-transition-group";
 
 // Firebase SDK
-import { auth, db } from "../../Firebase"
+import { auth, db, storage } from "../../Firebase"
 // Firebase Firestore SDK
 import { getDoc, doc } from "firebase/firestore";
+// Firebase Storage SDK
+import { ref, getDownloadURL } from "firebase/storage";
 
-import UserProfile from "../UserProfile/UserProfile";
+import UserSettings from "../../Components/UserSettings/UserSettings";
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
@@ -71,6 +73,13 @@ const ChatContent = () => {
             <FaUser />
           </div>
         );
+      } else {
+        // Get image from Firebase Storage
+        auth.onAuthStateChanged(async (user) => {
+          const storageRef = ref(storage, `profilePictures/${user.uid}`);
+          const url = await getDownloadURL(storageRef);
+          return (<img src={url} alt="" className="ChatContent__profile-image"/>);
+        });
       }
       
       return (<img src={userProfile['profilePicture']} alt="" className="ChatContent__profile-image"/>);
