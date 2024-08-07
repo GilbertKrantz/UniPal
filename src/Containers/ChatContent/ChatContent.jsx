@@ -3,11 +3,14 @@ import { FaArrowRight, FaMicrophone, FaUser } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
 import UniPal from '../../Assets/Logo/UniPal.png';
+import { CSSTransition } from "react-transition-group";
 
 // Firebase SDK
 import { auth, db } from "../../Firebase"
 // Firebase Firestore SDK
 import { getDoc, doc } from "firebase/firestore";
+
+import UserSettings from "../UserSettings/UserSettings";
 
 const ChatContent = () => {
   const [message, setMessage] = useState("");
@@ -19,6 +22,7 @@ const ChatContent = () => {
   const audioElementRef = useRef(null);
   const [chats, setChats] = useState([]);
   const [isGeneratingSpeech, setIsGeneratingSpeech] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
   const endRef = useRef(null);
 
@@ -73,6 +77,10 @@ const ChatContent = () => {
     }
     
     return (<img src={UniPal} alt="" className="ChatContent__profile-image"/>);
+  }
+
+  const handleShowProfile = () => {
+    setShowProfile(!showProfile);
   }
 
   const handleSubmit = async (e) => {
@@ -265,41 +273,47 @@ const ChatContent = () => {
   }
 
   return (
+    // When user's profile are shown, click on any part of ChatContent to disable show profile.
     <div className="ChatContent">
-      <div className="ChatContent__header">
-        <div className="ChatContent__header-logo">
-          <img src={UniPal} alt="" className="ChatContent__profile-image"/>
-        </div>
-        <h1 className="logo">UniPal</h1>
-        <div className={"ChatContent__header-profile"}>
-          {getProfilePicture('user', true)}
-        </div>
-      </div>
-      <div className={"ChatContent__chat " + (chats.length == 0 ? "ChatContent__chat--empty" : "ChatContent__chat--filled")}>
-        {getMessage()}
-        {audioUrl && <audio id="audio-player" src={audioUrl} controls onPlay={startSpeechHelper} onEnded={stopSpeech}/>}
-      </div>
-      <div className="ChatContent__input">
-        <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">
-          <input
-            autoComplete="off"
-            className="ChatContent__input-bar"
-            name="message"
-            type="text"
-            placeholder="Ketik apa yang ingin kamu tanyakan..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-
-          <div className="ChatContent__chat-btn-container">
-            <button type="submit" className="ChatContent__input-btn">
-              <FaArrowRight />
-            </button>
-            <button type="button" onClick={handleRecording} className="ChatContent__record-btn">
-              <FaMicrophone />
-            </button>
+      <CSSTransition in={showProfile} timeout={200} classNames={'UserSettings__transition'} unmountOnExit>
+        <UserSettings />
+      </CSSTransition>
+      <div className="ChatContent__container" onClick={showProfile ? handleShowProfile: null}>
+        <div className="ChatContent__header">
+          <div className="ChatContent__header-logo">
+            <img src={UniPal} alt="" className="ChatContent__profile-image"/>
           </div>
-        </form>
+          <h1 className="logo">UniPal</h1>
+          <div className={"ChatContent__header-profile"} onClick={handleShowProfile}>
+            {getProfilePicture('user', true)}
+          </div>
+        </div>
+        <div className={"ChatContent__chat " + (chats.length == 0 ? "ChatContent__chat--empty" : "ChatContent__chat--filled")}>
+          {getMessage()}
+          {audioUrl && <audio id="audio-player" src={audioUrl} controls onPlay={startSpeechHelper} onEnded={stopSpeech}/>}
+        </div>
+        <div className="ChatContent__input">
+          <form action="post" onSubmit={handleSubmit} className="ChatContent__input--form">
+            <input
+              autoComplete="off"
+              className="ChatContent__input-bar"
+              name="message"
+              type="text"
+              placeholder="Ketik apa yang ingin kamu tanyakan..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+
+            <div className="ChatContent__chat-btn-container">
+              <button type="submit" className="ChatContent__input-btn">
+                <FaArrowRight />
+              </button>
+              <button type="button" onClick={handleRecording} className="ChatContent__record-btn">
+                <FaMicrophone />
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
