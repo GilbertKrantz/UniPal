@@ -4,12 +4,9 @@ import './EditUserData.css'
 
 // Firebase SDK
 import { auth, db, storage } from "../../Firebase"
-// Firebase Firestore SDK
+// Firebase Firestore SwDK
 import { doc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
-const user = auth.currentUser;
-const storageRef = ref(storage, `profilePictures/${user.uid}`);
 
 const EditUserData = ({ onBack }) => {
     const handleSubmit = async (e) => {
@@ -20,6 +17,7 @@ const EditUserData = ({ onBack }) => {
         const profilePicture = e.target.profilePicture.files[0];
         
         auth.onAuthStateChanged(async (user) => {
+            // const user = auth.currentUser;
             const storageRef = ref(storage, `profilePictures/${user.uid}`);
             if (profilePicture) {
                 await uploadBytes(storageRef, profilePicture).then((snapshot) => {
@@ -54,7 +52,7 @@ const EditUserData = ({ onBack }) => {
                     <form className={"EditUserData__form"}>
                         <div className={"EditUserData__input"}>
                             <label htmlFor="username">Nama:</label>
-                            <input type="text" id="username" name="username" placeholder="Username" />
+                            <input type="text" id="username" name="username" placeholder="Username" autoComplete='off'/>
                         </div>
                         <div className={"EditUserData__input"}>
                             <label htmlFor="email">Email:</label>
@@ -66,9 +64,9 @@ const EditUserData = ({ onBack }) => {
                         </div>
                         <div className={"EditUserData__input"}>
                             <label htmlFor="profilePicture">Foto Profil:</label>
-                            <input type="file" id="profilePicture" name="profilePicture" />
+                            <input type="file" id="profilePicture" name="profilePicture" className={"EditUserData__input-file"}/>
                         </div>
-                        <button type="submit">Simpan Perubahan</button>
+                        <button type="submit" className={"EditUserData__submit-button"}>Simpan Perubahan</button>
                     </form>
                 </div>
             </div>

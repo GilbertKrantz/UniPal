@@ -23,34 +23,65 @@
     align-items: center;
     justify-content: center;
     gap: 3vh;
+    width: inherit;
 }
 
+.EditUserData__container--inner--header {
+    margin: 2vh 0;
+}
+
+.EditUserData__container--inner--content {
+    width: inherit;
+}
 .EditUserData__form {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 5vh;
+    width: inherit;
 }
 
 .EditUserData__form input {
     border: 2px solid #ffcc00;
-    border-radius: 2vh;
+    border-radius: 5px;
     font-family: Inter;
     height: 5vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30vh;
+    width: 40vh;
     background-color: transparent;
     padding: 1.5vh;
     color: var(--color-label);
+    font-size: 1rem;
 }
 
 .EditUserData__form label {
-    margin: 1vh 1.5vh;
+    margin: 1vh 0;
+    font-size: 1.2rem;
 }
 
 .EditUserData__form input:focus {
     outline: none;
+}
+
+.EditUserData__submit-button {
+    background-color: transparent;
+    color: black;
+    font-family: Inter;
+    border: 2px solid #ffcc00;
+    border-radius: 5px;
+    padding: 2vh;
+    font-size: 1.4rem;
+    font-weight: 600;
+    width: 40vh;
+    height: fit-content;
+    background-color: #ffcc00;
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.EditUserData__submit-button:hover {
+    background-color: #FDBE34;
 }
