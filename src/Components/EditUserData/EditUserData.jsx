@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaArrowLeft } from 'react-icons/fa';
 import './EditUserData.css'
 
 // Firebase SDK
@@ -10,7 +11,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 const user = auth.currentUser;
 const storageRef = ref(storage, `profilePictures/${user.uid}`);
 
-const EditUserData = () => {
+const EditUserData = ({ onBack }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const username = e.target.username.value;
@@ -23,6 +24,10 @@ const EditUserData = () => {
                 console.log('Uploaded a blob or file!');
             });
         }
+        
+        auth.onAuthStateChanged(async (user) => {
+            
+        });
 
         const userDoc = doc(db, 'users', user.uid);
         await setDoc(userDoc, {
@@ -40,21 +45,32 @@ const EditUserData = () => {
   return (
     <>
         <div className={"EditUserData__container"}>
+            <div className={"EditUserData__back-button"} onClick={onBack}>
+                <FaArrowLeft />
+            </div>
             <div className={"EditUserData__container--inner"}>
                 <div className={"EditUserData__container--inner--header"}>
-                    <h1>Edit User Data</h1>
+                    <h1>Sunting Data User</h1>
                 </div>
                 <div className={"EditUserData__container--inner--content"}>
-                    <form>
-                        <label htmlFor="username">Username:</label>
-                        <input type="text" id="username" name="username" placeholder="Username" />
-                        <label htmlFor="email">Email:</label>
-                        <input type="email" id="email" name="email" placeholder="Email" />
-                        <label htmlFor="password">Password:</label>
-                        <input type="password" id="password" name="password" placeholder="Password" />
-                        <label htmlFor="profilePicture">Profile Picture:</label>
-                        <input type="file" id="profilePicture" name="profilePicture" />
-                        <button type="submit">Submit</button>
+                    <form className={"EditUserData__form"}>
+                        <div className={"EditUserData__input"}>
+                            <label htmlFor="username">Nama:</label>
+                            <input type="text" id="username" name="username" placeholder="Username" />
+                        </div>
+                        <div className={"EditUserData__input"}>
+                            <label htmlFor="email">Email:</label>
+                            <input type="email" id="email" name="email" placeholder="Email" />
+                        </div>
+                        <div className={"EditUserData__input"}>
+                            <label htmlFor="password">Kata Sandi:</label>
+                            <input type="password" id="password" name="password" placeholder="Password" />
+                        </div>
+                        <div className={"EditUserData__input"}>
+                            <label htmlFor="profilePicture">Foto Profil:</label>
+                            <input type="file" id="profilePicture" name="profilePicture" />
+                        </div>
+                        <button type="submit">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
@@ -63,4 +79,4 @@ const EditUserData = () => {
   )
 }
 
-export default EditUserData
+export default EditUserData;

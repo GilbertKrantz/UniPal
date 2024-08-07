@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { CSSTransition } from "react-transition-group";
+import EditUserData from "../EditUserData/EditUserData";
 import "./UserSettings.css"
 
 import { useNavigate } from "react-router-dom";
@@ -19,6 +21,7 @@ const UserSettings = () => {
 
     const signUserOut = useSignOut();
     const navigateTo = useNavigate();
+    const [showEdit, setShowEdit] = useState(false);
 
     const signAllOut = () => {
         signOut(auth).then(() => {
@@ -61,8 +64,15 @@ const UserSettings = () => {
         return (<img src={userProfile['profilePicture']} alt="" className="UserSettings__profile-image"/>);
     }
 
+    const handleShowEdit = () => {
+        setShowEdit(!showEdit);
+    }
+
     return (
         <div className="UserSettings">
+            <CSSTransition in={showEdit} timeout={300} classNames={"EditUserData__transition"} unmountOnExit>
+                <EditUserData onBack={handleShowEdit}/>
+            </CSSTransition>
             <div className="UserSettings__profile">
                 <div className="UserSettings__profile-picture">
                     {getProfilePicture()}
@@ -73,11 +83,11 @@ const UserSettings = () => {
                 <div className="UserSettings__email">
                     {userProfile['email']}
                 </div>
+                <button className="UserSettings__edit-button" onClick={handleShowEdit}>
+                    Sunting Profil
+                </button>
             </div>
             <div className="UserSettings__options">
-                <button className="UserSettings__edit-button">
-                    Edit profile
-                </button>
                 <button className="UserSettings__signout-button" onClick={signAllOut}>
                     Sign out <FontAwesomeIcon icon={faArrowRightFromBracket} />
                 </button>

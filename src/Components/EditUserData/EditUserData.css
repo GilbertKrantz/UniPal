@@ -1,0 +1,56 @@
+.EditUserData__container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: var(--color-bg);
+}
+
+.EditUserData__back-button {
+    font-size: 1.5rem;
+    margin: 3vh;
+    width: fit-content;
+    cursor: pointer;
+    transition: 0.15s ease-in-out;
+}
+
+.EditUserData__back-button:hover {
+    color: gray;
+}
+
+.EditUserData__container--inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3vh;
+}
+
+.EditUserData__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5vh;
+}
+
+.EditUserData__form input {
+    border: 2px solid #ffcc00;
+    border-radius: 2vh;
+    font-family: Inter;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30vh;
+    background-color: transparent;
+    padding: 1.5vh;
+    color: var(--color-label);
+}
+
+.EditUserData__form label {
+    margin: 1vh 1.5vh;
+}
+
+.EditUserData__form input:focus {
+    outline: none;
+}

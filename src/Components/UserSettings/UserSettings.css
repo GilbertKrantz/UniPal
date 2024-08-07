@@ -86,3 +86,25 @@
 .UserSettings__signout-button:hover {
     color: crimson;
 }
+
+.EditUserData__transition-enter {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.EditUserData__transition-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: transform 0.2s ease-in, opacity 0.2s ease-in;
+}
+
+.EditUserData__transition-exit {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.EditUserData__transition-exit-active {
+    opacity: 0;
+    transform: translateX(100%);
+    transition: transform 0.2s ease-in, opacity 0.2s ease-in;
+}
