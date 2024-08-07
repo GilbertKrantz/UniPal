@@ -22,7 +22,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3vh;
+    gap: 2vh;
     width: inherit;
 }
 
@@ -32,6 +32,11 @@
 
 .EditUserData__container--inner--content {
     width: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2vh;
 }
 .EditUserData__form {
     display: flex;
@@ -57,13 +62,56 @@
     font-size: 1rem;
 }
 
-.EditUserData__form label {
+.EditUserData__form input:focus {
+    outline: none;
+}
+
+.EditUserData__form .EditUserData__input-label {
     margin: 1vh 0;
     font-size: 1.2rem;
 }
 
-.EditUserData__form input:focus {
-    outline: none;
+input[type='file'] {
+    display: none;
+}
+
+.EditUserData__input-file-container {
+    display: flex;
+    flex-direction: row;
+    gap: 2vh;
+    width: 40vh;
+    height: 5vh;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ffcc00;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.EditUserData__input-file {
+    font-size: 1rem;
+    max-width: 20vh;
+}
+
+.EditUserData__input-file-button {
+    background-color: #6297F4;
+    border: 2px solid #95B6EF;
+    border-radius: 20vh;
+    width: 10vh;
+    height: 3vh;
+    font-size: 0.8rem;
+    font-family: Inter;
+    transition: 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.EditUserData__input-file-button:hover {
+    background-color: #0B409C;
+}
+
+.EditUserData__error-message {
+    color: red;
+    font-size: 1.2rem;
 }
 
 .EditUserData__submit-button {
