@@ -1,6 +1,6 @@
 .UserSettings {
     background-color: var(--color-bg);
-    width: 35vh;
+    width: 50vh;
     height: 100vh;
     color: var(--color-text);
     position: absolute;
@@ -49,6 +49,22 @@
 
 .UserSettings__options {
     margin-bottom: 5vh;
+    gap: 2vh;
+}
+
+.UserSettings__edit-button {
+    border: none;
+    background-color: transparent;
+    font-family: Inter;
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1vh;
+    color: var(--color-text);
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .UserSettings__signout-button {
@@ -64,6 +80,7 @@
     color: red;
     font-weight: 600;
     transition: 0.1s ease-in-out;
+    cursor: pointer;
 }
 
 .UserSettings__signout-button:hover {

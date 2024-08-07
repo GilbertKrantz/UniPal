@@ -4,12 +4,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import "./UserSettings.css"
 
+import { useNavigate } from "react-router-dom";
+
+import useSignOut from 'react-auth-kit/hooks/useSignOut';
+
 // Firebase SDK
 import { auth, db } from "../../Firebase"
 // Firebase Firestore SDK
 import { getDoc, doc } from "firebase/firestore";
+// Firebase Auth SDK
+import { signOut } from "firebase/auth";
 
 const UserSettings = () => {
+
+    const signUserOut = useSignOut();
+    const navigateTo = useNavigate();
+
+    const signAllOut = () => {
+        signOut(auth).then(() => {
+            signUserOut();
+            navigateTo('/');
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 
     const [userProfile, setUserProfile] = useState('');
 
@@ -28,6 +46,7 @@ const UserSettings = () => {
       useEffect(() => {
         fetchUserData();
       })
+      
 
     const getProfilePicture = () => {
 
@@ -56,7 +75,10 @@ const UserSettings = () => {
                 </div>
             </div>
             <div className="UserSettings__options">
-                <button className="UserSettings__signout-button">
+                <button className="UserSettings__edit-button">
+                    Edit profile
+                </button>
+                <button className="UserSettings__signout-button" onClick={signAllOut}>
                     Sign out <FontAwesomeIcon icon={faArrowRightFromBracket} />
                 </button>
             </div>
