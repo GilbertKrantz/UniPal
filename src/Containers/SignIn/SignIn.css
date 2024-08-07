@@ -93,3 +93,14 @@
 .signin__register-link:hover {
     text-decoration: underline;
 }
+
+.signin__forget-password {
+    font-size: 1rem;
+    margin-top: 10px;
+    color: red;
+    cursor: pointer;
+}
+
+.signin__forget-password:hover {
+    text-decoration: underline;
+}
