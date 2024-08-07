@@ -99,7 +99,7 @@ const EditUserData = ({ onBack }) => {
                                 <input type="file" id="profilePicture" name="profilePicture" ref={fileInputRef} onChange={handleFileChange}/>
                             </div>
                         </div>
-                        <button type="submit" className={"EditUserData__submit-button"} onClick={handleSubmit}>Simpan Perubahan</button>
+                        <button type="submit" className={"EditUserData__submit-button"}>Simpan Perubahan</button>
                     </form>
                 </div>
             </div>

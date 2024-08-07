@@ -2,22 +2,33 @@
 .hero {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 88vh;
     width: 100%;
+    padding: 2vh 8vh;
+    user-select: none;
+    flex-wrap: wrap;
+    gap: 2vh;
 }
 
 .hero_content {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
     text-align: left;
-    width: 35%;
-    margin:  2vh 0;
-    padding: 0 7vh;
+    max-width: 80vh;
 }
 
 /* Hero Item */
+
+.hero_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1vh;
+}
 
 .hero_item h1 {
     margin: 0;
@@ -39,6 +50,7 @@
 .hero_item p {
     color: white;
     margin: 4vh 2vh;
+    width: 60%;
 }
 
 .hero_button-container {
@@ -56,30 +68,50 @@
 
 #hero_sign-up-btn {
     border-radius: 2rem;
-    font-size: 1.1rem;
+    font-size: 2vh;
     padding: 2vh 4vh;
     cursor: pointer;
+    color: black;
+}
+
+#hero_sign-up-btn:hover {
+  transition: 0.15s ease-in-out;
+  a {
+    color: white;
+  }
 }
 
 #hero_sign-up-btn a {
   text-decoration: none;
-  color: white;
+  color: black;
 }
 
 /* Hero Slider */
 .hero_slider {
-    width: 65%;
     display: flex;
     flex-direction: column;
     font-size: 1.5rem;
     color: white;
-    margin: 5vh 2vh;
     padding: 4vh;
     border: 2px solid rgba(255, 255, 255, 0.588);
     border-radius: 2rem;
     overflow: hidden;
+    height: 80vh;
+    width: 100vh;
   }
-  
+
+  .hero_slider-item h5 {
+    display: flex;
+    gap: 1vh;
+    align-items: center;
+  }
+
+  .hero_slider-item ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+  }
+
   .hero_slider-container h2 {
     font-family: 'JetBrains Mono', monospace;
     color: white;

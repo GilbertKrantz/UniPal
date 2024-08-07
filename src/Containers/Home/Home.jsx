@@ -32,10 +32,10 @@ const Home = () => {
             </p>
           </div>
           <div className="hero_button-container">
-            <h4>Apa yang kamu tunggur?</h4>
+            <h4>Apa yang kamu tunggu?</h4>
             <button id="hero_sign-up-btn" className="sign-in-btn">
               <Link to="/register">
-                Sign Up Now
+                Daftar Sekarang
               </Link>
             </button>
           </div>

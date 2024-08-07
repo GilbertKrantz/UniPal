@@ -11,7 +11,7 @@ header {
 header img {
     height: 9vh;
     width: auto;
-    margin: 2vh;
+    margin: 0 0 0 2vh;
 }
 
 nav {
@@ -52,6 +52,7 @@ nav a {
 .sign-in-btn:hover {
     color: white;
     a {
+        transition: 0.15s ease-in-out;
         color: white;
     }
 }

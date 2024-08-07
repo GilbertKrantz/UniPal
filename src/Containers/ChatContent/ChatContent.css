@@ -16,7 +16,7 @@
 .ChatContent__header {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin: 1vh;
     width: 100%;
