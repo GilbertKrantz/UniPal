@@ -78,7 +78,7 @@ const EditUserData = ({ onBack }) => {
                 </div>
                 <div className={"EditUserData__container--inner--content"}>
                     {error && <div className={"EditUserData__error-message"}>{error}</div>}
-                    <form className={"EditUserData__form"}>
+                    <form className={"EditUserData__form"} onSubmit={handleSubmit}>
                         <div className={"EditUserData__input"}>
                             <label htmlFor="username" className={"EditUserData__input-label"}>Nama:</label>
                             <input type="text" id="username" name="username" placeholder="Nama" autoComplete='off'/>
