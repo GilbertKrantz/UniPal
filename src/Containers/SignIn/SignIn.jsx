@@ -7,7 +7,7 @@ import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 
 // Use Firebase Auth SDK to sign in the user
 import {auth} from "../../Firebase"
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 const SignIn = () => {
     const signIn = useSignIn();
@@ -23,7 +23,12 @@ const SignIn = () => {
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            // console.log(user);
+            if (!user.emailVerified) {
+                setError('Email belum diverifikasi. Silahkan cek email Anda.');
+                // sign out the user
+                auth.signOut();
+                return;
+            }
             signIn({
                 auth: {
                     token: user.accessToken,
@@ -31,6 +36,16 @@ const SignIn = () => {
                 }
             });
             navigateTo('/chat');
+        })
+        .catch((error) => {
+            setError(error.message);
+        });
+    }
+
+    const handleForgetPassword = () => {
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+            alert('Email reset kata sandi telah dikirim');
         })
         .catch((error) => {
             setError(error.message);
@@ -98,6 +113,7 @@ const SignIn = () => {
                     <button type="submit" className="signin__submit-button">Lanjut</button>
                 </form>
                 <p className="signin__register">Tidak memiliki akun? <a href="/register" className="signin__register-link">Daftar</a></p>
+                <a className='signin__forget-password' onClick={handleForgetPassword}>Lupa Kata Sandi?</a>
             </div>
         </div>
     );

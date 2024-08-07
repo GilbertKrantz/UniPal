@@ -7,7 +7,7 @@ import useSignIn from "react-auth-kit/hooks/useSignIn";
 // Firebase SDK
 import { auth, db, storage } from "../../Firebase"
 // Firebase Auth SDK
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 // Firebase Database SDK
 import { setDoc, doc } from "firebase/firestore";
@@ -16,10 +16,10 @@ import { setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 
 const validateName = (name) => {
-    // if name is empty, have a number, and have a special character, return false
+    // if name is empty, have a number, and have a special character apart from space, return false
     if (name === "") {
         return "No Name";
-    } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9]/g)) {
+    } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9 ]/g)) {
         return "Invalid Name";
     }
     return true;
@@ -43,15 +43,9 @@ const Register = () => {
 
         try {
             await createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
+                .then( async (userCredential) => {
                     const user = userCredential.user;
-                    console.log(user);
-                    signIn({
-                        auth: {
-                            token: user.accessToken,
-                            type: 'Bearer',
-                        }
-                    });
+                    await sendEmailVerification(user)
                 })
                 .catch((error) => {
                     setError(error.message);
@@ -70,8 +64,23 @@ const Register = () => {
                     await uploadBytes(storageRef, new Blob()).then((snapshot) => {
                         console.log('Uploaded a blob or file!');
                     });
+                    // Check if email is verified
+                    if (auth.currentUser.emailVerified) {
+                        signIn(
+                            {
+                                auth: {
+                                    token: auth.currentUser.accessToken,
+                                    type: 'Bearer',
+                                }
+                            }
+                        );
+                    } else {
+                        // Sign out user if email is not verified
+                        auth.signOut();
+                        setError("Email belum diverifikasi. Silahkan cek email Anda.");
+                    }
 
-                    navigateTo('/chat');
+                    navigateTo('/signin');
                 }
         } catch (error) {
             setError(error.message);
