@@ -18,23 +18,21 @@ const EditUserData = ({ onBack }) => {
         const email = e.target.email.value;
         const password = e.target.password.value;
         const profilePicture = e.target.profilePicture.files[0];
-
-        if (profilePicture) {
-            await uploadBytes(storageRef, profilePicture).then((snapshot) => {
-                console.log('Uploaded a blob or file!');
-            });
-        }
         
         auth.onAuthStateChanged(async (user) => {
-            
-        });
-
-        const userDoc = doc(db, 'users', user.uid);
-        await setDoc(userDoc, {
-            username: username,
-            email: email,
-            profilePicture: profilePicture ? await getDownloadURL(storageRef) : 'default'
-        });
+            const storageRef = ref(storage, `profilePictures/${user.uid}`);
+            if (profilePicture) {
+                await uploadBytes(storageRef, profilePicture).then((snapshot) => {
+                    console.log('Uploaded a blob or file!');
+                });
+            }
+            const userDoc = doc(db, 'users', user.uid);
+            await setDoc(userDoc, {
+                username: username,
+                email: email,
+                profilePicture: profilePicture ? await getDownloadURL(storageRef) : 'default'
+            });
+        })
 
         e.target.username.value = '';
         e.target.email.value = '';

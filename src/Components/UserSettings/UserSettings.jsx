@@ -59,8 +59,14 @@ const UserSettings = () => {
                     <FaUser />
                 </div>
             );
-        }
-
+        } else {
+            // Get image from Firebase Storage
+            auth.onAuthStateChanged(async (user) => {
+              const storageRef = ref(storage, `profilePictures/${user.uid}`);
+              const url = await getDownloadURL(storageRef);
+              return (<img src={url} alt="" className="ChatContent__profile-image"/>);
+            });
+          }
         return (<img src={userProfile['profilePicture']} alt="" className="UserSettings__profile-image"/>);
     }
 
