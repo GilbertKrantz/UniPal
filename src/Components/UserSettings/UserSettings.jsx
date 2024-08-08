@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaArrowLeft } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { CSSTransition } from "react-transition-group";
@@ -17,7 +17,7 @@ import { getDoc, doc } from "firebase/firestore";
 // Firebase Auth SDK
 import { signOut } from "firebase/auth";
 
-const UserSettings = () => {
+const UserSettings = ( {onBack} ) => {
 
     const signUserOut = useSignOut();
     const navigateTo = useNavigate();
@@ -76,6 +76,9 @@ const UserSettings = () => {
 
     return (
         <div className="UserSettings">
+            <div className={"UserSettings__back-button"} onClick={onBack}>
+                <FaArrowLeft />
+            </div>
             <CSSTransition in={showEdit} timeout={300} classNames={"EditUserData__transition"} unmountOnExit>
                 <EditUserData onBack={handleShowEdit}/>
             </CSSTransition>

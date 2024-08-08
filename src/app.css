@@ -37,7 +37,6 @@ div {
     width: auto;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin: auto;
 }
 
 h1, h2, h3, h4, h5 {

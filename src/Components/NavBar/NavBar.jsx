@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const NavBar = () => {
   return (
     <>
-        <header>
+      <header>
         <div class="logo">
             <img src={UniPal} alt=""/>
         </div>

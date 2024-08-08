@@ -69,10 +69,11 @@
     font-family: JetBrains Mono;
     font-weight: 600;
     cursor: pointer;
+    transition: 0.15s ease-in-out;
 }
 
 .signin__submit-button:hover {
-    background-color: #ff9900;
+    background-color: #FDBE34;
 }
 
 .signin__error {

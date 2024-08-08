@@ -28,14 +28,14 @@ const Home = () => {
             <h1 className="hero_item-logo logo">UniPal</h1>
             <h2>Your Campus Assistant</h2>
             <p>
-            Apakah Anda ingin tahu lebih banyak tentang Binus University? UniPal hadir untuk memberikan jawaban cepat dan akurat hanya untuk Anda. Temukan informasi lengkap seperti program studi, kondisi kampus, gambaran umum perkuliahan, himpunan mahasiswa, unit kegiatan mahasiswa, dan syarat kelulusan dengan mudah.
+            Apakah Anda ingin tahu lebih banyak tentang BINUS University? UniPal hadir untuk memberikan jawaban cepat dan akurat hanya untuk Anda. Temukan informasi lengkap seperti program studi, kondisi kampus, gambaran umum perkuliahan, himpunan mahasiswa, unit kegiatan mahasiswa, dan syarat kelulusan dengan mudah.
             </p>
           </div>
           <div className="hero_button-container">
-            <h4>Apa yang kamu tunggur?</h4>
-            <button id="hero_sign-up-btn" className="sign-in-btn">
+            <h4>Apa yang kamu tunggu?</h4>
+            <button id="hero_sign-up-btn">
               <Link to="/register">
-                Sign Up Now
+                Daftar Sekarang
               </Link>
             </button>
           </div>
@@ -52,9 +52,7 @@ const Home = () => {
                 <h2>Tentang UniPal</h2>
                 <div className="hero_slider-item">
                   <h4>
-                    <span className="logo">UniPal</span> merupakan virtual assistant yang dikembangkan oleh mahasiswa dari program Data Science Binus University melalui program PKM-KC. 
-                    
-                    UniPal menyediakan informasi seputar Binus University. Anda dapat bertanya kepada UniPal menggunakan suara Anda dan UniPal akan memberikan respon kepada Anda dengan menggunakan suara pula, sehingga interaksi menjadi lebih mudah dan alami. 
+                    <span className="logo">UniPal</span> merupakan virtual assistant yang dikembangkan oleh mahasiswa dari program Data Science BINUS University melalui program PKM-KC. UniPal menyediakan informasi seputar BINUS University. Anda dapat bertanya kepada UniPal menggunakan suara Anda dan UniPal akan memberikan respon kepada Anda dengan menggunakan suara pula, sehingga interaksi menjadi lebih mudah dan alami. 
                   </h4>
                 </div>
               </div>
@@ -67,7 +65,7 @@ const Home = () => {
                     <li>
                       <h5><FaBookReader/> Pengetahuan Terkait Universitas</h5>
                       <p>
-                         UniPal memiliki berbagai informasi mengenai Binus University, termasuk program studi,  fasilitas, HMJ, UKM, syarat kelulusan, gambaran jadwal perkulian. Dapatkan semua yang Anda butuhkan untuk mengetahui lebih dalam tentang Binus University.
+                         UniPal memiliki berbagai informasi mengenai BINUS University, termasuk program studi,  fasilitas, HMJ, UKM, syarat kelulusan, gambaran jadwal perkulian. Dapatkan semua yang Anda butuhkan untuk mengetahui lebih dalam tentang BINUS University.
                       </p>
                     </li>
                     <li>
