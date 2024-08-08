@@ -40,6 +40,8 @@
     background-color: black;
     color: white;
     height: 6vh;
+    font-size: 1rem;
+    font-family: Inter;
 }
 
 .register__input-gender {

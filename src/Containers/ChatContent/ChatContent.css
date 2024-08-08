@@ -35,11 +35,6 @@
     overflow: hidden;
     cursor: pointer;
     border-radius: 100%;
-    transition: 0.15s ease-in-out;
-}
-
-.ChatContent__header-profile:hover {
-    opacity: 0.5;
 }
 
 .ChatContent__chat--empty {

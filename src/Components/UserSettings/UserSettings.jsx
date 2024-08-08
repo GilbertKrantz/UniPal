@@ -11,11 +11,12 @@ import { useNavigate } from "react-router-dom";
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 
 // Firebase SDK
-import { auth, db } from "../../Firebase"
+import { auth, db, storage } from "../../Firebase"
 // Firebase Firestore SDK
 import { getDoc, doc } from "firebase/firestore";
 // Firebase Auth SDK
 import { signOut } from "firebase/auth";
+import { ref, getDownloadURL } from "firebase/storage";
 
 const UserSettings = ( {onBack} ) => {
 

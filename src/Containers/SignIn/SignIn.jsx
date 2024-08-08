@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './SignIn.css';
 
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
@@ -45,10 +46,10 @@ const SignIn = () => {
     const handleForgetPassword = () => {
         sendPasswordResetEmail(auth, email)
         .then(() => {
-            alert('Email reset kata sandi telah dikirim');
+            alert('Email atur ulang kata sandi telah dikirim');
         })
         .catch((error) => {
-            setError("Failed to send reset password email");
+            setError("Gagal mengirim email atur ulang sandi");
         });
     }
 
@@ -113,7 +114,7 @@ const SignIn = () => {
                     <button type="submit" className="signin__submit-button">Lanjut</button>
                 </form>
                 <p className="signin__register">Tidak memiliki akun? <a href="/register" className="signin__register-link">Daftar</a></p>
-                <a className='signin__forget-password' onClick={handleForgetPassword}>Lupa Kata Sandi?</a>
+                <Link to={'/change-password'} className='signin__forget-password'>Lupa Kata Sandi?</Link>
             </div>
         </div>
     );
