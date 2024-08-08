@@ -38,7 +38,7 @@ const SignIn = () => {
             navigateTo('/chat');
         })
         .catch((error) => {
-            setError(error.message);
+            setError("Invalid email or password");
         });
     }
 
@@ -48,7 +48,7 @@ const SignIn = () => {
             alert('Email reset kata sandi telah dikirim');
         })
         .catch((error) => {
-            setError(error.message);
+            setError("Failed to send reset password email");
         });
     }
 
