@@ -142,7 +142,8 @@ input[type='file'] {
     cursor: pointer;
     text-decoration: none;
     background-color: transparent;
-    transition: 0.1s;
+    transition: 50ms;
+    border-bottom: 2px none;
 }
 
 .EditUserData__change-password:hover {

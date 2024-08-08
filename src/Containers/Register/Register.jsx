@@ -180,7 +180,7 @@ const Register = () => {
                     />
                     <button type='submit' className="register__submit-button">Daftar</button>
                     {/* <button type='submit' className="register__submit-button" disabled={false}>Daftar</button> */}
-                    <p className="signin__register">Sudah memiliki akun? <a href="/signin" className="signin__register-link">Masuk</a></p>
+                    <p className="register__signin">Sudah memiliki akun? <a href="/signin" className="register__signin-link">Masuk</a></p>
                 </form>
                 {/* <button className="register__submit-button"><span style={{color:"red"}} onClick={deleteAllData}>DELETE ALL</span></button> */}
             </div>

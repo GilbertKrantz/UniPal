@@ -109,10 +109,12 @@
 .register__signin-link {
     color: #ffcc00;
     text-decoration: none;
+    transition: 0.1s ease-in-out;
+    border-bottom: 2px solid transparent;
 }
 
 .register__signin-link:hover {
-    text-decoration: underline;
+    border-bottom: 2px solid #ffcc00;
 }
 
 .register__password-check {

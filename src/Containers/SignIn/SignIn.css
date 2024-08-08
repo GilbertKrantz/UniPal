@@ -92,10 +92,12 @@
 .signin__register-link {
     color: #ffcc00;
     text-decoration: none;
+    transition: 0.1s ease-in-out;
+    border-bottom: 2px solid transparent;
 }
 
 .signin__register-link:hover {
-    text-decoration: underline;
+    border-bottom: 2px solid #ffcc00;
 }
 
 .signin__forget-password {
@@ -105,7 +107,8 @@
     cursor: pointer;
     text-decoration: none;
     background-color: transparent;
-    transition: 0.1s;
+    transition: 0.1s ease-in-out;
+    border-bottom: 2px solid transparent;
 }
 
 .signin__forget-password:hover {
