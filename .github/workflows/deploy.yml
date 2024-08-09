@@ -49,9 +49,6 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-
-      - name: Echo current directory
-        run: echo "Current directory: $(pwd)"
       
       - name: Echo artifact name
         run: echo "Artifact name: production-files"
