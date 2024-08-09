@@ -9,7 +9,6 @@ import { auth, db, storage } from "../../Firebase"
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { sendPasswordResetEmail } from 'firebase/auth';
 
 const EditUserData = ({ onBack }) => {
 
@@ -18,6 +17,18 @@ const EditUserData = ({ onBack }) => {
     const [error, setError] = useState('');
     const fileInputRef = useRef(null);
     const [userProfile, setUserProfile] = useState('');
+
+    const validateName = (name) => {
+        // if name is empty, have a number, length of name is longer than 20 or have a special character apart from space, return false
+        if (name === "") {
+            setError("No Name");
+            return false
+        } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9 ]/g) || name.length > 20) {
+            setError("Invalid Name");
+            return false;
+        }
+        return true;
+    }
 
     const fetchUserData = async () => {
         auth.onAuthStateChanged(async (user) => {
@@ -59,9 +70,14 @@ const EditUserData = ({ onBack }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const username = e.target.username.value;
         const password = e.target.password.value;
         const profilePicture = e.target.profilePicture.files[0];
+
+        if (!validateName(username)) {
+            return;
+        }
 
         // Sign user in to check the user's password is correct or not
         signInWithEmailAndPassword(auth, auth.currentUser.email, password)
