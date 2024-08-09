@@ -29,6 +29,7 @@
     "firebase": "^10.12.5",
     "framer-motion": "^11.3.24",
     "fs": "^0.0.1-security",
+    "gh-pages": "^6.1.1",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "qs": "^6.12.3",

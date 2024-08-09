@@ -64,34 +64,29 @@ const EditUserData = ({ onBack }) => {
         const profilePicture = e.target.profilePicture.files[0];
 
         // Sign user in to check the user's password is correct or not
-        // signInWithEmailAndPassword(auth, auth.currentUser.email, password)
-        // .then(() => {
-                // if successful, profile change are permitted
-        // })
-
-        // .catch(() => {
-                // if not successful, setError that user entered wrong password
-        // })
-        
-        auth.onAuthStateChanged(async (user) => {
-            // const user = auth.currentUser;
-            const storageRef = ref(storage, `profilePictures/${user.uid}`);
-            if (profilePicture) {
-                await uploadBytes(storageRef, profilePicture).then((snapshot) => {
-                    console.log('Uploaded a blob or file!');
+        signInWithEmailAndPassword(auth, auth.currentUser.email, password)
+        .then(() => {
+            auth.onAuthStateChanged(async (user) => { //if successful, profile change are permitted
+                const storageRef = ref(storage, `profilePictures/${user.uid}`);
+                if (profilePicture) {
+                    await uploadBytes(storageRef, profilePicture).then((snapshot) => {
+                        console.log('Uploaded a blob or file!');
+                    });
+                }
+                const userDoc = doc(db, 'users', user.uid);
+                await setDoc(userDoc, {
+                    username: username,
+                    email: auth.currentUser.email,
+                    profilePicture: profilePicture ? await getDownloadURL(storageRef) : 'default'
                 });
-            }
-            const userDoc = doc(db, 'users', user.uid);
-            await setDoc(userDoc, {
-                username: username,
-                email: auth.currentUser.email,
-                profilePicture: profilePicture ? await getDownloadURL(storageRef) : 'default'
             });
         })
 
-        e.target.username.value = '';
-        e.target.password.value = '';
-        e.target.profilePicture.files = '';
+        .catch(() => {
+            setError('Kata sandi tidak sesuai'); //if not successful, setError that user entered wrong password
+        })
+
+        document.getElementsByClassName('EditUserData__form')[0].reset();
     }
 
   return (
@@ -112,16 +107,16 @@ const EditUserData = ({ onBack }) => {
                             <input type="text" id="username" name="username" placeholder="Nama" autoComplete='off' defaultValue={userProfile['username']}/>
                         </div>
                         <div className={"EditUserData__input"}>
-                            <label htmlFor="password" className={"EditUserData__input-label"}>Kata Sandi:</label>
-                            <input type="password" id="password" name="password" placeholder="Kata Sandi" />
-                        </div>
-                        <div className={"EditUserData__input"}>
                             <label htmlFor="profilePicture" className={"EditUserData__input-label"}>Foto Profil:</label>
                             <div className={"EditUserData__input-file-container"}>
                                 <button className={"EditUserData__input-file-button"} onClick={handleFileButtonClick}>Pilih file</button>
                                 <label htmlFor="profilePicture" className={"EditUserData__input-file"}>{fileName}</label>
                                 <input type="file" id="profilePicture" name="profilePicture" ref={fileInputRef} onChange={handleFileChange}/>
                             </div>
+                        </div>
+                        <div className={"EditUserData__input"}>
+                            <label htmlFor="password" className={"EditUserData__input-label"}>Kata Sandi:</label>
+                            <input type="password" id="password" name="password" placeholder="Kata Sandi" />
                         </div>
                         <button type="submit" className={"EditUserData__submit-button"}>Simpan Perubahan</button>
                         <Link to={'/change-password'} className='EditUserData__change-password'>Ganti kata sandi</Link>

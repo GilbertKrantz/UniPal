@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaArrowRight, FaMicrophone, FaUser } from "react-icons/fa";
+import { FaArrowRight, FaMicrophone, FaUser, FaVolumeUp } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
 import UniPal from '../../Assets/Logo/UniPal.png';
@@ -271,7 +271,9 @@ const ChatContent = () => {
               </div>
               <span className="ChatContent__name">{chat.sender != 'up' ? userProfile['username']: 'UniPal'}</span>
             </div>
-            <button className="ChatContent__message-content" onClick={chat.sender != 'up' ? null: handleGenerateSpeech}>{chat.msg}</button>
+            <div className="ChatContent__message-container">
+              <button className="ChatContent__message-content" onClick={chat.sender != 'up' ? null: handleGenerateSpeech}>{chat.msg}</button>
+            </div>
             {/* {chat.sender == 'up' && audioUrl && <audio id="audio-player" src={audioUrl} controls autoPlay onPlay={startSpeechHelper} onEnded={stopSpeech}/>} */}
           </div>
         ))}
