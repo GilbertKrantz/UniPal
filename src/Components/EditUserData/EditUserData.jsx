@@ -103,6 +103,7 @@ const EditUserData = ({ onBack }) => {
         })
 
         document.getElementsByClassName('EditUserData__form')[0].reset();
+        setError('');
     }
 
   return (
