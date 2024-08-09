@@ -26,8 +26,7 @@ jobs:
         run: echo "VITE_FIREBASE_API_KEY=${{ secrets.VITE_FIREBASE_API_KEY }}" >> $GITHUB_ENV
 
       - name: Create Firebase Config
-        run: |
-          echo "import.meta.env.VITE_FIREBASE_API_KEY=${{ secrets.VITE_FIREBASE_API_KEY }}" > .env
+        run: echo "import.meta.env.VITE_FIREBASE_API_KEY=${{ secrets.VITE_FIREBASE_API_KEY }}" > .env
 
       - name: Build project
         run: npm run build
