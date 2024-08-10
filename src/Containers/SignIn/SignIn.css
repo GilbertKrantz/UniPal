@@ -50,6 +50,7 @@
 }
 
 .signin__input {
+    width: 40vh;
     padding: 10px;
     border: 2px solid #ffcc00;
     border-radius: 5px;

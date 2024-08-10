@@ -34,7 +34,9 @@
 }
 
 .register__input {
-    padding: 10px;
+    align-self: flex-start;
+    width: 40vh;
+    padding: 10px 6vh 10px 2vh;
     border: 2px solid #ffcc00;
     border-radius: 5px;
     background-color: black;
@@ -63,7 +65,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 12vh;
+    width: 18vh;
     height: 6vh;
 }
 

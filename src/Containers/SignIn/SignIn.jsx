@@ -9,6 +9,8 @@ import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 // Use Firebase Auth SDK to sign in the user
 import {auth} from "../../Firebase"
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const SignIn = () => {
     const signIn = useSignIn();
@@ -43,41 +45,18 @@ const SignIn = () => {
         });
     }
 
-    const handleForgetPassword = () => {
-        sendPasswordResetEmail(auth, email)
-        .then(() => {
-            alert('Email atur ulang kata sandi telah dikirim');
-        })
-        .catch((error) => {
-            setError("Gagal mengirim email atur ulang sandi");
-        });
+    const [passwordType, setPasswordType] = useState('password');
+    const [passwordIcon, setPasswordIcon] = useState(faEyeSlash);
+
+    const handleShowPassword = () => {
+        if (passwordType === 'password') {
+            setPasswordIcon(faEye);
+            setPasswordType('text');
+        } else {
+            setPasswordIcon(faEyeSlash);
+            setPasswordType('password');
+        }
     }
-
-    // const handleSignIn = async (e) => {
-    //     e.preventDefault();
-    //     // Send a POST request to the server
-    //     const response = await fetch('http://localhost:3000/login', {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({ email: email, password: password }),
-    //     });
-
-    //     if (!response.ok) {
-    //         const data = await response.json();
-    //         setError(data.message);
-    //         return;
-    //     } else {
-    //         const data = await response.json();
-    //         const token = data.token;
-    //         signIn({
-    //             auth: {
-    //                 token: token,
-    //                 type: 'Bearer',
-    //             }
-    //         });
-    //         navigateTo('/chat');
-    //     }
-    // };
 
     return (
         isAuthenticated ? <Navigate to="/chat"/>:
@@ -101,14 +80,17 @@ const SignIn = () => {
                     </div>
                     <div className="signin__input-container">
                         <label htmlFor="password" className="signin__input-label">Kata Sandi</label>
-                        <input
-                            type="password"
-                            id="password"
-                            className="signin__input"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
+                        <div className='Showable-Password'>
+                            <input
+                                type={passwordType}
+                                id="password"
+                                className="signin__input"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <span className="Show-Password" onClick={handleShowPassword}><FontAwesomeIcon icon={passwordIcon}/></span>
+                        </div>
                     </div>
                     {error && <p className="signin__error">{error}</p>}
                     <button type="submit" className="signin__submit-button">Lanjut</button>

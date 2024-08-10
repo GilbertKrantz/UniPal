@@ -9,6 +9,8 @@ import { auth, db, storage } from "../../Firebase"
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const EditUserData = ({ onBack }) => {
 
@@ -67,6 +69,19 @@ const EditUserData = ({ onBack }) => {
         setFileName(file.name);
 
       };
+
+    const [passwordType, setPasswordType] = useState('password');
+    const [passwordIcon, setPasswordIcon] = useState(faEyeSlash);
+
+    const handleShowPassword = () => {
+        if (passwordType === 'password') {
+            setPasswordIcon(faEye);
+            setPasswordType('text');
+        } else {
+            setPasswordIcon(faEyeSlash);
+            setPasswordType('password');
+        }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -133,7 +148,10 @@ const EditUserData = ({ onBack }) => {
                         </div>
                         <div className={"EditUserData__input"}>
                             <label htmlFor="password" className={"EditUserData__input-label"}>Kata Sandi:</label>
-                            <input type="password" id="password" name="password" placeholder="Kata Sandi" />
+                            <div className='Showable-Password'>
+                                <input type={passwordType} id="password" name="password" placeholder="Kata Sandi" />
+                                <span className="Show-Password" onClick={handleShowPassword}><FontAwesomeIcon icon={passwordIcon}/></span>
+                            </div>
                         </div>
                         <button type="submit" className={"EditUserData__submit-button"}>Simpan Perubahan</button>
                         <Link to={'/change-password'} className='EditUserData__change-password'>Ganti kata sandi</Link>

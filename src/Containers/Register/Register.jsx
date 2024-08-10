@@ -4,6 +4,8 @@ import PasswordChecklist from "react-password-checklist";
 import { useNavigate } from "react-router-dom";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 
 // Firebase SDK
 import { auth, db, storage } from "../../Firebase"
@@ -38,6 +40,42 @@ const Register = () => {
     const [error, setError] = useState('');
     const navigateTo = useNavigate();
     const signIn = useSignIn();
+
+    const toggleCheck = (value) => {
+        if (gender === value) {
+            setGender(null);
+        } else {
+            setGender(value);
+        }
+    }
+
+    // Show password function
+    const [passwordType, setPasswordType] = useState('password');
+    const [passwordIcon, setPasswordIcon] = useState(faEyeSlash);
+
+    const handleShowPassword = () => {
+        if (passwordType === 'password') {
+            setPasswordIcon(faEye);
+            setPasswordType('text');
+        } else {
+            setPasswordIcon(faEyeSlash);
+            setPasswordType('password');
+        }
+    }
+
+    // Show confirm password function
+    const [confirmPasswordType, setConfirmPasswordType] = useState('password');
+    const [confirmPasswordIcon, setConfirmPasswordIcon] = useState(faEyeSlash);
+
+    const handleShowConfirmPassword = () => {
+        if (confirmPasswordType === 'password') {
+            setConfirmPasswordIcon(faEye);
+            setConfirmPasswordType('text');
+        } else {
+            setConfirmPasswordIcon(faEyeSlash);
+            setConfirmPasswordType('password');
+        }
+    }
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -118,16 +156,12 @@ const Register = () => {
                         <label htmlFor="gender" className="register__input-label">Gender</label>
                         <div className="register__input-gender-container">
                             <div className="register__gender-choice">
-                                <input type="radio" id="male" name="gender" className="register__input-gender" value="Male" onChange={(e) => setGender(e.target.value)}  />
+                                <input type="radio" id="male" name="gender" className="register__input-gender" value="Male" checked={gender === 'Male'} onClick={(e) => toggleCheck(e.target.value)} onChange={(e) => setGender(e.target.value)}  />
                                 <label htmlFor="male" className="register__gender-label">Pria</label>
                             </div>
                             <div className="register__gender-choice">
-                                <input type="radio" id="female" name="gender" className="register__input-gender" value="Female" onChange={(e) => setGender(e.target.value)} />
+                                <input type="radio" id="female" name="gender" className="register__input-gender" value="Female" checked={gender === 'Female'} onClick={(e) => toggleCheck(e.target.value)} onChange={(e) => setGender(e.target.value)} />
                                 <label htmlFor="female" className="register__gender-label">Wanita</label>
-                            </div>
-                            <div className="register__gender-choice">
-                                <input type="radio" id="others" name="gender" className="register__input-gender" value="Others" onChange={(e) => setGender(e.target.value)} />
-                                <label htmlFor="others" className="register__gender-label">Lainnya</label>
                             </div>
                         </div>
                     </div>
@@ -144,25 +178,31 @@ const Register = () => {
                     </div>
                     <div className="register__input-container">
                         <label htmlFor="password" className="register__input-label">Kata Sandi</label>
-                        <input
-                            type="password"
-                            id="password"
-                            className="register__input"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
+                        <div className="Showable-Password">
+                            <input
+                                type={passwordType}
+                                id="password"
+                                className="register__input"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                            <span className="Show-Password" onClick={handleShowPassword}><FontAwesomeIcon icon={passwordIcon}/></span>
+                        </div>
                     </div>
                     <div className="register__input-container">
                         <label htmlFor="confirmPassword" className="register__input-label">Konfirmasi Kata Sandi</label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            className="register__input"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            required
-                        />
+                        <div className="Showable-Password">
+                            <input
+                                type={confirmPasswordType}
+                                id="confirmPassword"
+                                className="register__input"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                required
+                            />
+                            <span className="Show-Password" onClick={handleShowConfirmPassword}><FontAwesomeIcon icon={confirmPasswordIcon}/></span>
+                        </div>
                     </div>
                     <PasswordChecklist
                         rules={["minLength", "number", "match"]}

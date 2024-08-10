@@ -48,3 +48,24 @@ p {
     font-size: 0.9rem;
     font-weight:normal;;
 }
+
+.Showable-Password {
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.Show-Password {
+    position: absolute;
+    color: var(--color-text);
+    margin: 2vh;
+    transition: 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.Show-Password:hover {
+    color: gray;
+}
