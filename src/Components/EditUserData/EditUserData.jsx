@@ -134,22 +134,22 @@ const EditUserData = ({ onBack }) => {
                 <div className={"EditUserData__container--inner--content"}>
                     {error && <div className={"EditUserData__error-message"}>{error}</div>}
                     <form className={"EditUserData__form"} onSubmit={handleSubmit}>
-                        <div className={"EditUserData__input"}>
+                        <div className={"EditUserData__input-container"}>
                             <label htmlFor="username" className={"EditUserData__input-label"}>Nama:</label>
-                            <input type="text" id="username" name="username" placeholder="Nama" autoComplete='off' defaultValue={userProfile['username']}/>
+                            <input type="text" id="username" name="username" placeholder="Nama" autoComplete='off' defaultValue={userProfile['username']}  className='EditUserData__input'/>
                         </div>
-                        <div className={"EditUserData__input"}>
+                        <div className={"EditUserData__input-container"}>
                             <label htmlFor="profilePicture" className={"EditUserData__input-label"}>Foto Profil:</label>
                             <div className={"EditUserData__input-file-container"}>
                                 <button className={"EditUserData__input-file-button"} onClick={handleFileButtonClick}>Pilih file</button>
                                 <label htmlFor="profilePicture" className={"EditUserData__input-file"}>{fileName}</label>
-                                <input type="file" id="profilePicture" name="profilePicture" ref={fileInputRef} onChange={handleFileChange}/>
+                                <input type="file" id="profilePicture" name="profilePicture" ref={fileInputRef} onChange={handleFileChange} className='EditUserData__input'/>
                             </div>
                         </div>
-                        <div className={"EditUserData__input"}>
-                            <label htmlFor="password" className={"EditUserData__input-label"}>Kata Sandi:</label>
+                        <div className={"EditUserData__input-password-container"}>
+                            <label htmlFor="password" className={"EditUserData__input-label"}>Masukkan kata sandi untuk menyimpan perubahan</label>
                             <div className='Showable-Password'>
-                                <input type={passwordType} id="password" name="password" placeholder="Kata Sandi" className='Password-Spacer'/>
+                                <input type={passwordType} id="password" name="password" placeholder="Kata Sandi" className='EditUserData__input-password Password-Spacer'/>
                                 <span className="Show-Password" onClick={handleShowPassword}><FontAwesomeIcon icon={passwordIcon}/></span>
                             </div>
                         </div>

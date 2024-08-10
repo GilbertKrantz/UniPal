@@ -48,8 +48,32 @@
     width: inherit;
 }
 
-.EditUserData__form input {
+.EditUserData__input-container {
+    width: 40vh;
+}
+
+.EditUserData__input {
     border: 2px solid #ffcc00;
+    border-radius: 5px;
+    font-family: Inter;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40vh;
+    background-color: transparent;
+    padding: 1.5vh;
+    color: var(--color-label);
+    font-size: 1rem;
+}
+
+.EditUserData__input-password-container {
+    margin: 2vh 0;
+    width: 40vh;
+}
+
+.EditUserData__input-password {
+    border: 2px solid #95B6EF;
     border-radius: 5px;
     font-family: Inter;
     height: 5vh;
