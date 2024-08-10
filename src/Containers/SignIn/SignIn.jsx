@@ -113,7 +113,7 @@ const SignIn = () => {
                     {error && <p className="signin__error">{error}</p>}
                     <button type="submit" className="signin__submit-button">Lanjut</button>
                 </form>
-                <p className="signin__register">Tidak memiliki akun? <a href="/register" className="signin__register-link">Daftar</a></p>
+                <p className="signin__register">Tidak memiliki akun? <Link to={'/register'} className="signin__register-link">Daftar</Link></p>
                 <Link to={'/change-password'} className='signin__forget-password'>Lupa Kata Sandi?</Link>
             </div>
         </div>

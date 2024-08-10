@@ -3,6 +3,7 @@ import './Register.css';
 import PasswordChecklist from "react-password-checklist";
 import { useNavigate } from "react-router-dom";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
+import { Link } from "react-router-dom";
 
 // Firebase SDK
 import { auth, db, storage } from "../../Firebase"
@@ -180,7 +181,7 @@ const Register = () => {
                     />
                     <button type='submit' className="register__submit-button">Daftar</button>
                     {/* <button type='submit' className="register__submit-button" disabled={false}>Daftar</button> */}
-                    <p className="register__signin">Sudah memiliki akun? <a href="/signin" className="register__signin-link">Masuk</a></p>
+                    <p className="register__signin">Sudah memiliki akun? <Link to={'/signin'} className="register__signin-link">Masuk</Link></p>
                 </form>
                 {/* <button className="register__submit-button"><span style={{color:"red"}} onClick={deleteAllData}>DELETE ALL</span></button> */}
             </div>
