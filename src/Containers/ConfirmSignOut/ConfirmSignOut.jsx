@@ -53,7 +53,7 @@ const ConfirmSignOut = ({ handleClose, confirm }) => {
                     </div>
                     <div className="ConfirmSignOut__confirmation-button-container">
                         <button className="ConfirmSignOut__confirmation-button" onClick={handleSignOut}>
-                            Iya
+                            Ya
                         </button>
                         <button className="ConfirmSignOut__confirmation-button" onClick={handleClose}>
                             Tidak

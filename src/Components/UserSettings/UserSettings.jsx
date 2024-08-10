@@ -105,7 +105,7 @@ const UserSettings = ( {onBack} ) => {
             </div>
             <div className="UserSettings__options">
                 <button className="UserSettings__signout-button" onClick={handleShowConfirmation}>
-                    Sign out <FontAwesomeIcon icon={faArrowRightFromBracket} />
+                    Keluar <FontAwesomeIcon icon={faArrowRightFromBracket} />
                 </button>
                 <AnimatePresence initial={false} mode="wait">
                     {showConfirmation && <ConfirmSignOut handleClose={handleShowConfirmation} confirm={signAllOut}/>}

@@ -173,9 +173,9 @@ const Register = () => {
                         messages={{
                             minLength: "Kata sandi lebih panjang dari 8 karakter.",
                             // specialChar: "Kata sandi memiliki karakter khusus.",
-                            number: "Kata sandi terdiri dari angka.",
+                            number: "Kata sandi mengandung angka.",
                             // capital: "Kata sandi menggunakan huruf kapital.",
-                            match: "Kata sandi cocok.",
+                            match: "Konfirmasi kata sandi cocok.",
                         }}
                         className="register__password-check"
                     />
