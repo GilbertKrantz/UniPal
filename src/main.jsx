@@ -15,7 +15,7 @@ const store = createStore({
     cookieSecure: false,
   });
 
-const root = createRoot(document.getElementById("root"));
+const root = createRoot(document.getElementById("main"));
 root.render(
     <React.StrictMode>
         <AuthProvider store={store}>
