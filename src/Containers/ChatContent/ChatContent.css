@@ -198,8 +198,6 @@
 }
 
 .ChatContent__message-content {
-    position: relative;
-    z-index: 2;
     font-family: Inter;
     background-color: #303030;
     padding: 1.5vh;
