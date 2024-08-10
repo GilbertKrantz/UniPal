@@ -58,6 +58,10 @@ p {
     align-items: flex-end;
 }
 
+.Password-Spacer {
+    padding: 10px 5vh 10px 2vh !important;
+}
+
 .Show-Password {
     position: absolute;
     color: var(--color-text);

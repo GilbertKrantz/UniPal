@@ -21,9 +21,11 @@ import { ref, uploadBytes } from "firebase/storage";
 const validateName = (name) => {
     // if name is empty, have a number, length of name is longer than 20 or have a special character apart from space, return false
     if (name === "") {
-        return "No Name";
-    } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9 ]/g) || name.length > 20) {
-        return "Invalid Name";
+        return "Tidak ada nama";
+    } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9 ]/g)) {
+        return "Nama tidak valid";
+    } else if (name.length > 20) {
+        return "Nama tidak boleh lebih dari 20 karakter"
     }
     return true;
 }
@@ -79,6 +81,10 @@ const Register = () => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+
+        if (password === '' || password.match(/\d+/g) || password.localeCompare(confirmPassword) || !isValidPassword) {
+            return;
+        }
 
         try {
             await createUserWithEmailAndPassword(auth, email, password)
@@ -182,7 +188,7 @@ const Register = () => {
                             <input
                                 type={passwordType}
                                 id="password"
-                                className="register__input"
+                                className="register__input Password-Spacer"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
@@ -196,7 +202,7 @@ const Register = () => {
                             <input
                                 type={confirmPasswordType}
                                 id="confirmPassword"
-                                className="register__input"
+                                className="register__input Password-Spacer"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 required

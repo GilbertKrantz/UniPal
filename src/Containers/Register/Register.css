@@ -36,7 +36,7 @@
 .register__input {
     align-self: flex-start;
     width: 40vh;
-    padding: 10px 6vh 10px 2vh;
+    padding: 10px 2vh;
     border: 2px solid #ffcc00;
     border-radius: 5px;
     background-color: black;
@@ -44,6 +44,10 @@
     height: 6vh;
     font-size: 1rem;
     font-family: Inter;
+}
+
+.register__input-password {
+    padding: 10px 6vh 10px 2vh;
 }
 
 .register__input-gender {

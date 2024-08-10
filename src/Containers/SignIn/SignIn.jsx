@@ -84,7 +84,7 @@ const SignIn = () => {
                             <input
                                 type={passwordType}
                                 id="password"
-                                className="signin__input"
+                                className="signin__input Password-Spacer"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required

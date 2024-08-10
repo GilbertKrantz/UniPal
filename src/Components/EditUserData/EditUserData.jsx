@@ -149,7 +149,7 @@ const EditUserData = ({ onBack }) => {
                         <div className={"EditUserData__input"}>
                             <label htmlFor="password" className={"EditUserData__input-label"}>Kata Sandi:</label>
                             <div className='Showable-Password'>
-                                <input type={passwordType} id="password" name="password" placeholder="Kata Sandi" />
+                                <input type={passwordType} id="password" name="password" placeholder="Kata Sandi" className='Password-Spacer'/>
                                 <span className="Show-Password" onClick={handleShowPassword}><FontAwesomeIcon icon={passwordIcon}/></span>
                             </div>
                         </div>
