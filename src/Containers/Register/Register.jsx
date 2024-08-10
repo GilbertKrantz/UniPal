@@ -211,7 +211,7 @@ const Register = () => {
                         valueAgain={confirmPassword}
                         onChange={(isValid) => { setIsValidPassword(isValid) }}
                         messages={{
-                            minLength: "Kata sandi lebih panjang dari 8 karakter.",
+                            minLength: "Kata sandi minimal 8 karakter.",
                             // specialChar: "Kata sandi memiliki karakter khusus.",
                             number: "Kata sandi mengandung angka.",
                             // capital: "Kata sandi menggunakan huruf kapital.",
