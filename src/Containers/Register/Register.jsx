@@ -16,10 +16,10 @@ import { setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 
 const validateName = (name) => {
-    // if name is empty, have a number, and have a special character apart from space, return false
+    // if name is empty, have a number, length of name is longer than 20 or have a special character apart from space, return false
     if (name === "") {
         return "No Name";
-    } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9 ]/g)) {
+    } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9 ]/g) || name.length > 20) {
         return "Invalid Name";
     }
     return true;
@@ -180,7 +180,7 @@ const Register = () => {
                     />
                     <button type='submit' className="register__submit-button">Daftar</button>
                     {/* <button type='submit' className="register__submit-button" disabled={false}>Daftar</button> */}
-                    <p className="signin__register">Sudah memiliki akun? <a href="/signin" className="signin__register-link">Masuk</a></p>
+                    <p className="register__signin">Sudah memiliki akun? <a href="/signin" className="register__signin-link">Masuk</a></p>
                 </form>
                 {/* <button className="register__submit-button"><span style={{color:"red"}} onClick={deleteAllData}>DELETE ALL</span></button> */}
             </div>

@@ -3,6 +3,7 @@
     height: 100%;
     position: absolute;
     background-color: var(--color-bg);
+    user-select: none;
 }
 
 .EditUserData__back-button {
@@ -132,4 +133,19 @@ input[type='file'] {
 
 .EditUserData__submit-button:hover {
     background-color: #FDBE34;
+}
+
+.EditUserData__change-password {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #ffcc00;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: transparent;
+    transition: 50ms;
+    border-bottom: 2px none;
+}
+
+.EditUserData__change-password:hover {
+    border-bottom: 2px solid #ffcc00;
 }

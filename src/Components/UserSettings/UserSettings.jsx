@@ -3,7 +3,9 @@ import { FaUser, FaArrowLeft } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { CSSTransition } from "react-transition-group";
+import { AnimatePresence } from "framer-motion";
 import EditUserData from "../EditUserData/EditUserData";
+import ConfirmSignOut from "../../Containers/ConfirmSignOut/ConfirmSignOut.jsx";
 import "./UserSettings.css"
 
 import { useNavigate } from "react-router-dom";
@@ -11,17 +13,19 @@ import { useNavigate } from "react-router-dom";
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 
 // Firebase SDK
-import { auth, db } from "../../Firebase"
+import { auth, db, storage } from "../../Firebase"
 // Firebase Firestore SDK
 import { getDoc, doc } from "firebase/firestore";
 // Firebase Auth SDK
 import { signOut } from "firebase/auth";
+import { ref, getDownloadURL } from "firebase/storage";
 
 const UserSettings = ( {onBack} ) => {
 
     const signUserOut = useSignOut();
     const navigateTo = useNavigate();
     const [showEdit, setShowEdit] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
 
     const signAllOut = () => {
         signOut(auth).then(() => {
@@ -49,7 +53,6 @@ const UserSettings = ( {onBack} ) => {
       useEffect(() => {
         fetchUserData();
       })
-      
 
     const getProfilePicture = () => {
 
@@ -72,6 +75,10 @@ const UserSettings = ( {onBack} ) => {
 
     const handleShowEdit = () => {
         setShowEdit(!showEdit);
+    }
+
+    const handleShowConfirmation = () => {
+        setShowConfirmation(!showConfirmation);
     }
 
     return (
@@ -97,9 +104,12 @@ const UserSettings = ( {onBack} ) => {
                 </button>
             </div>
             <div className="UserSettings__options">
-                <button className="UserSettings__signout-button" onClick={signAllOut}>
+                <button className="UserSettings__signout-button" onClick={handleShowConfirmation}>
                     Sign out <FontAwesomeIcon icon={faArrowRightFromBracket} />
                 </button>
+                <AnimatePresence initial={false} mode="wait">
+                    {showConfirmation && <ConfirmSignOut handleClose={handleShowConfirmation} confirm={signAllOut}/>}
+                </AnimatePresence>
             </div>
         </div>
     );

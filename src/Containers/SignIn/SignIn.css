@@ -56,6 +56,8 @@
     background-color: black;
     color: white;
     height: 6vh;
+    font-size: 1rem;
+    font-family: Inter;
 }
 
 .signin__submit-button {
@@ -79,6 +81,7 @@
 .signin__error {
     color: red;
     margin-bottom: 10px;
+    font-size: 1.1rem;
 }
 
 .signin__register {
@@ -89,19 +92,25 @@
 .signin__register-link {
     color: #ffcc00;
     text-decoration: none;
+    transition: 0.1s ease-in-out;
+    border-bottom: 2px solid transparent;
 }
 
 .signin__register-link:hover {
-    text-decoration: underline;
+    border-bottom: 2px solid #ffcc00;
 }
 
 .signin__forget-password {
     font-size: 1rem;
     margin-top: 10px;
-    color: red;
+    color: #ffcc00;
     cursor: pointer;
+    text-decoration: none;
+    background-color: transparent;
+    transition: 0.1s ease-in-out;
+    border-bottom: 2px solid transparent;
 }
 
 .signin__forget-password:hover {
-    text-decoration: underline;
+    border-bottom: 2px solid #ffcc00;
 }

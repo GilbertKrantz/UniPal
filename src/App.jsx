@@ -5,7 +5,7 @@ import RequireAuth from '@auth-kit/react-router/RequireAuth'
 
 import {  Routes, Route } from 'react-router-dom'
 
-import { ChatContent, Home, SignIn, Register } from './Containers'
+import { ChatContent, Home, SignIn, Register, ChangePassword } from './Containers'
 
 
 const App = () => {
@@ -20,6 +20,7 @@ const App = () => {
         } />
         <Route path="/signin" element={<SignIn />} />
         <Route path='/register' element={<Register />}/>
+        <Route path='/change-password' element={<ChangePassword />}/>
       </Routes>
     </>
   )
