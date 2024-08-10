@@ -82,7 +82,7 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        if (password === '' || password.match(/\d+/g) || password.localeCompare(confirmPassword) || !isValidPassword) {
+        if (!validateName(name) || password === '' || password.match(/\d+/g) || password.localeCompare(confirmPassword) || !isValidPassword) {
             return;
         }
 
