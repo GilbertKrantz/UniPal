@@ -73,3 +73,8 @@ p {
 .Show-Password:hover {
     color: gray;
 }
+
+.Required-Input {
+    color: red;
+    font-family: Inter;
+}

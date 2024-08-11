@@ -147,7 +147,7 @@ const Register = () => {
                 {error && <p className="register__error">{error}</p>}
                 <form onSubmit={handleRegister} className="register__form">
                     <div className="register__input-container">
-                        <label htmlFor="name" className="register__input-label">Nama</label>
+                        <label htmlFor="name" className="register__input-label">Nama<span className="Required-Input">*</span></label>
                         <input
                             autoComplete="off"
                             type="text"
@@ -173,7 +173,7 @@ const Register = () => {
                         </div>
                     </div>
                     <div className="register__input-container">
-                        <label htmlFor="email" className="register__input-label">Alamat Email</label>
+                        <label htmlFor="email" className="register__input-label">Alamat Email<span className="Required-Input">*</span></label>
                         <input
                             type="email"
                             id="email"
@@ -184,7 +184,7 @@ const Register = () => {
                         />
                     </div>
                     <div className="register__input-container">
-                        <label htmlFor="password" className="register__input-label">Kata Sandi</label>
+                        <label htmlFor="password" className="register__input-label">Kata Sandi<span className="Required-Input">*</span></label>
                         <div className="Showable-Password">
                             <input
                                 type={passwordType}
@@ -198,7 +198,7 @@ const Register = () => {
                         </div>
                     </div>
                     <div className="register__input-container">
-                        <label htmlFor="confirmPassword" className="register__input-label">Konfirmasi Kata Sandi</label>
+                        <label htmlFor="confirmPassword" className="register__input-label">Konfirmasi Kata Sandi<span className="Required-Input">*</span></label>
                         <div className="Showable-Password">
                             <input
                                 type={confirmPasswordType}
