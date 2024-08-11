@@ -18,21 +18,18 @@ import { setDoc, doc } from "firebase/firestore";
 // Firebase Storage SDK
 import { ref, uploadBytes } from "firebase/storage";
 
+
 const validateName = (name) => {
     // if name is empty, have a number, length of name is longer than 20 or have a special character apart from space, return false
     if (name === "") {
-        setError("Tidak ada nama");
-        return false;
+        return "Tidak ada nama";
     } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9 ]/g)) {
-        setError("Nama tidak valid");
-        return false;
+        return "Nama tidak valid";
     } else if (name.length > 20) {
-        setError("Nama tidak boleh lebih dari 20 karakter");
-        return false;
+        return "Nama tidak boleh lebih dari 20 karakter"
     }
     return true;
 }
-
 
 const Register = () => {
 
@@ -85,7 +82,7 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        if (!validateName(name) || password === '' || !password.match(/\d+/g) || password.localeCompare(confirmPassword) || !isValidPassword) {
+        if (validateName(name) !== true || password === '' || !password.match(/\d+/g) || password.localeCompare(confirmPassword) || !isValidPassword) {
             return;
         }
 
@@ -157,7 +154,7 @@ const Register = () => {
                             onChange={(e) => setName(e.target.value)}
                             required
                         />
-
+                        {validateName(name) !== true && <div className="register__error">{validateName(name)}</div>}
                     </div>
                     <div className="register__input-container">
                         <label htmlFor="gender" className="register__input-label">Gender</label>
