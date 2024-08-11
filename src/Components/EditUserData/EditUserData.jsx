@@ -23,11 +23,14 @@ const EditUserData = ({ onBack }) => {
     const validateName = (name) => {
         // if name is empty, have a number, length of name is longer than 20 or have a special character apart from space, return false
         if (name === "") {
-            return "Tidak ada nama";
+            setError("Tidak ada nama");
+            return false;
         } else if (name.match(/\d+/g) || name.match(/[^a-zA-Z0-9 ]/g)) {
-            return "Nama tidak valid";
+            setError("Nama tidak valid");
+            return false;
         } else if (name.length > 20) {
-            return "Nama tidak boleh lebih dari 20 karakter"
+            setError("Nama tidak boleh lebih dari 20 karakter");
+            return false;
         }
         return true;
     }
