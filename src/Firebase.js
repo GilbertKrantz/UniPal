@@ -12,7 +12,7 @@ import { getPerformance } from "firebase/performance";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBY8lozHZqvG69wY6MvO7WaJts28eLotE4",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "unipal-427212.firebaseapp.com",
   projectId: "unipal-427212",
   storageBucket: "unipal-427212.appspot.com",
