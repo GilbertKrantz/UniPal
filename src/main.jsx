@@ -19,7 +19,7 @@ const root = createRoot(document.getElementById("main"));
 root.render(
     <React.StrictMode>
         <AuthProvider store={store}>
-            <BrowserRouter basename="/UniPal/">
+            <BrowserRouter basename="/">
             {/* <HashRouter basename="/"> */}
                 <App />
             {/* </HashRouter> */}
