@@ -28,7 +28,9 @@ const ChangePassword = () => {
     
     useEffect(() => {
         fetchUserData();
-        setEmail(userProfile['email']);
+        if (userProfile) {
+            setEmail(userProfile['email']);
+        }
     })
 
     const handleSubmit = (e) => {
