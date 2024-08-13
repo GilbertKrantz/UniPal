@@ -19,11 +19,9 @@ const root = createRoot(document.getElementById("main"));
 root.render(
     <React.StrictMode>
         <AuthProvider store={store}>
-            <BrowserRouter basename="/">
-            {/* <HashRouter basename="/"> */}
+            <HashRouter>
                 <App />
-            {/* </HashRouter> */}
-            </BrowserRouter>
+            </HashRouter>
         </AuthProvider>
     </React.StrictMode>
 );
