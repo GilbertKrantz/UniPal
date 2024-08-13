@@ -28,6 +28,7 @@ const ChangePassword = () => {
     
     useEffect(() => {
         fetchUserData();
+        setEmail(userProfile['email']);
     })
 
     const handleSubmit = (e) => {
@@ -60,7 +61,7 @@ const ChangePassword = () => {
                             type="email"
                             id="email"
                             className="ChangePassword__input"
-                            defaultValue={auth.currentUser ? auth.currentUser.email : ''}
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
