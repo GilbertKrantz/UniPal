@@ -9,6 +9,43 @@
     font-family: JetBrains Mono;
 }
 
+.register__alert {
+    background-color: #ffcc00;
+    width: 30vh;
+    padding: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1vh;
+    border: 2px solid #CA8B02;
+    border-radius: 0.5vh;
+}
+
+.register__alert--header {
+    /* font-family: Inter; */
+    text-align: center;
+    color: #d90000;
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+
+.register__alert--line-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 20vh;
+    gap: 0.5vh;
+}
+
+.register__alert--line {
+    border-width: 0;
+    height: 0.3vh;
+    border-radius: 100vh;
+    background-color: red;
+    transition: width 0.1s linear;
+}
+
 .register__form {
     display: flex;
     flex-direction: column;
@@ -132,4 +169,23 @@
 .register__error {
     font-size: 1.2rem;
     color: red;
+}
+
+.register__alert--transition-enter {
+    opacity: 0;
+}
+
+.register__alert--transition-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.2s ease-in;
+}
+
+.register__alert--transition-exit {
+    opacity: 1;
+}
+
+.register__alert--transition-exit-active {
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
 }

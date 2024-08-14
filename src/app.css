@@ -30,10 +30,10 @@ div {
 
 .logo {
     font-family: JetBrains Mono;
-    font-size: 5.5vh;
+    font-size: 2rem;
     font-weight: 700;
     background: linear-gradient(#402DD8, #FFE867);
-    height: 8.2vh;
+    height: 5.5rem;
     width: auto;
     -webkit-text-fill-color: transparent;
     background-clip: text;

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import './Register.css';
 import PasswordChecklist from "react-password-checklist";
 import { useNavigate } from "react-router-dom";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import { CSSTransition } from "react-transition-group";
+import './Register.css';
 
 // Firebase SDK
 import { auth, db, storage } from "../../Firebase"
@@ -39,6 +40,8 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isValidPassword, setIsValidPassword] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+    const [width, setWidth] = useState('100%');
     const [error, setError] = useState('');
     const navigateTo = useNavigate();
     const signIn = useSignIn();
@@ -50,6 +53,22 @@ const Register = () => {
             setGender(value);
         }
     }
+
+    useEffect(() => {
+        if (showAlert) {
+            const interval = setInterval(() => {
+              setWidth(prevWidth => {
+                if (parseFloat(prevWidth) <= 0) {
+                    clearInterval(interval);
+                    setShowAlert(false);
+                    return '100%';
+                }
+                const newWidth = Math.max(0, parseFloat(prevWidth) - 1) + '%';
+                return newWidth;
+              });
+            }, 50);
+        }
+      }, [showAlert]);
 
     // Show password function
     const [passwordType, setPasswordType] = useState('password');
@@ -83,6 +102,7 @@ const Register = () => {
         e.preventDefault();
 
         if (validateName(name) !== true || password === '' || !password.match(/\d+/g) || password.localeCompare(confirmPassword) || !isValidPassword) {
+            setShowAlert(true);
             return;
         }
 
@@ -140,6 +160,20 @@ const Register = () => {
                 <h1 className="signin__header-title logo">UniPal</h1>
                 <p className="signin__header-subtitle">Your Campus Assistant</p>
             </div>
+
+            {/* Submit alert */}
+            <CSSTransition in={showAlert} timeout={200} classNames={"register__alert--transition"} unmountOnExit>
+                <div className="register__alert">
+                    <div className="register__alert--header">
+                        <span>Pendaftaran gagal</span>
+                    </div>
+                    <div className="register__alert--line-container">
+                        <hr className="register__alert--line" style={{width}}/>
+                        <hr className="register__alert--line" style={{width}}/>
+                    </div>
+                </div>
+            </CSSTransition>
+
             <div className="register__form-container">
                 {error && <p className="register__error">{error}</p>}
                 <form onSubmit={handleRegister} className="register__form">
