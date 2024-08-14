@@ -104,7 +104,7 @@ const ChatContent = () => {
     
     try {
       
-      const response = await fetch('https://unipal-be-api-production.up.railway.app/api/chat', {
+      const response = await fetch('https://unipal-be-api-production-8dd6.up.railway.app/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: message })
@@ -146,7 +146,7 @@ const ChatContent = () => {
       
       // GOOGLE TTS
       
-      // const response = await fetch('https://unipal-be-api-production.up.railway.app/api/generate', {
+      // const response = await fetch('https://unipal-be-api-production-8dd6.up.railway.app/api/generate', {
       //     method: 'POST',
       //     headers: { 'Content-Type': 'application/json' },
       //     body: JSON.stringify({ text: text }),
@@ -154,7 +154,7 @@ const ChatContent = () => {
         
         // ELEVENLABS TTS
         
-      const response = await fetch('https://unipal-be-api-production.up.railway.app/api/elgenerate', {
+      const response = await fetch('https://unipal-be-api-production-8dd6.up.railway.app/api/elgenerate', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ text: text })
@@ -227,7 +227,7 @@ const ChatContent = () => {
           formData.append('audio', audioBlob);
 
           try {
-            const response = await axios.post('https://unipal-be-api-production.up.railway.app/api/transcribe', formData, {
+            const response = await axios.post('https://unipal-be-api-production-8dd6.up.railway.app/api/transcribe', formData, {
               headers: { 'Content-Type': 'multipart/form-data' },
             });
             setMessage(response.data.transcription);
