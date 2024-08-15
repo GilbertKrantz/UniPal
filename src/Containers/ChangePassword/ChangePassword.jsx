@@ -2,11 +2,25 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './ChangePassword.css'
 
+// React Auth Kit
+import { useSignOut } from "react-auth-kit";
+
 // Firebase SDK
 import { auth, db } from "../../Firebase"
 // Firebase Firestore SwDK
 import { doc, getDoc } from "firebase/firestore";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { user } from "elevenlabs/api";
+
+const userSignOut = useSignOut();
+
+const handleSignOut = () => {
+    auth.signOut().then(() => {
+        console.log('Sign Out Success');
+    }).catch((error) => {
+        console.log('Sign Out Error');
+    });
+}
 
 const ChangePassword = () => {
     const [userProfile, setUserProfile] = useState('');
@@ -39,6 +53,10 @@ const ChangePassword = () => {
         sendPasswordResetEmail(auth, email)
         .then(() => {
             alert('Email atur ulang kata sandi telah dikirim');
+            if (auth.currentUser) {
+                handleSignOut();
+                userSignOut();
+            }
             navigateTo('/signin');
         })
         .catch((error) => {
