@@ -113,6 +113,7 @@ const EditUserData = ({ onBack }) => {
                     email: auth.currentUser.email,
                     profilePicture: profilePicture ? await getDownloadURL(storageRef) : 'default'
                 });
+                alert('Perubahan berhasil dilakukan!');
             });
         })
 
