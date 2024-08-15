@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import './ChangePassword.css'
 
 // React Auth Kit
-import { useSignOut } from "react-auth-kit";
+import useSignOut from 'react-auth-kit/hooks/useSignOut';
 
 // Firebase SDK
 import { auth, db } from "../../Firebase"
