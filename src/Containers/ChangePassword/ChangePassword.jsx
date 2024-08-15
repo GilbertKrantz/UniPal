@@ -12,9 +12,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { user } from "elevenlabs/api";
 
-const userSignOut = useSignOut();
-
 const handleSignOut = () => {
+
     auth.signOut().then(() => {
         console.log('Sign Out Success');
     }).catch((error) => {
@@ -23,6 +22,7 @@ const handleSignOut = () => {
 }
 
 const ChangePassword = () => {
+    const userSignOut = useSignOut();
     const [userProfile, setUserProfile] = useState('');
     const [error, setError] = useState('');
     const [email, setEmail] = useState('');
