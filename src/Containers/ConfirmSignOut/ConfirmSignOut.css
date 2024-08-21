@@ -1,63 +1,63 @@
 .ConfirmSignOut {
-    width: 60vw;
-    height: 60vh;
-    background-color: var(--color-bg);
-    border-radius: 2vh;
-    user-select: none;
+  width: 60vw;
+  height: 60vh;
+  background-color: var(--color-bg);
+  border-radius: 2vh;
+  user-select: none;
 }
 
 .ConfirmSignOut__exit-button {
-    position: fixed;
-    width: fit-content;
-    align-self: flex-end;
-    margin: 1.5vh 1.8vh;
-    background-color: transparent;
-    border: none;
-    font-size: 1.6rem;
-    color: var(--color-text);
-    transition: 0.15s ease-in-out;
+  position: fixed;
+  width: fit-content;
+  align-self: flex-end;
+  margin: 1.5vh 1.8vh;
+  background-color: transparent;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--color-text);
+  transition: 0.15s ease-in-out;
 }
 
 .ConfirmSignOut__exit-button:hover {
-    color: gray;
+  color: gray;
 }
 
 .ConfirmSignOut__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;    
-    width: inherit;
-    height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: inherit;
+  height: inherit;
 }
 
 .ConfirmSignOut__header {
-    font-size: 2rem;
-    max-width: 80%;
+  font-size: 2rem;
+  max-width: 80%;
 }
 
 .ConfirmSignOut__confirmation-button-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-    width: inherit;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: inherit;
 }
 
 .ConfirmSignOut__confirmation-button {
-    background-color: #6297F4;
-    border: 2px solid #10316B;
-    font-family: Inter;
-    font-size: 1.2rem;
-    width: 25vh;
-    height: 8vh;
-    margin: 0 2vh;
-    border-radius: 20vh;
-    transition: 0.15s ease-in-out;
+  background-color: #6297f4;
+  border: 2px solid #10316b;
+  font-family: Inter;
+  font-size: 1.2rem;
+  width: 25vh;
+  height: 8vh;
+  margin: 0 2vh;
+  border-radius: 20vh;
+  transition: 0.15s ease-in-out;
 }
 
 .ConfirmSignOut__confirmation-button:hover {
-    background-color: #10316B;
-    color: var(--color-text);
-    cursor: pointer;
+  background-color: #10316b;
+  color: var(--color-text);
+  cursor: pointer;
 }

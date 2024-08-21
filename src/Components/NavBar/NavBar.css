@@ -1,58 +1,57 @@
 header {
-    position: sticky;
-    height: 12vh;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  position: sticky;
+  height: 12vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header img {
-    height: 9vh;
-    width: auto;
-    margin: 0 0 0 2vh;
+  height: 9vh;
+  width: auto;
+  margin: 0 0 0 2vh;
 }
 
 nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin: 2vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2vh;
 }
 
 nav ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    list-style: none;
-
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
 }
 
 nav a {
-    color: black;
-    text-decoration: none;
-    font-size: 1.1rem;
-    margin: 2vh;
+  color: black;
+  text-decoration: none;
+  font-size: 1.1rem;
+  margin: 2vh;
 }
 
 .sign-in-btn {
-    background-color: #6297F4;
-    color: black;
-    font-weight: bold;
-    padding: 2vh;
-    border-radius: 1rem;
-    margin: 2vh;
-    border: none;
-    cursor: pointer;
+  background-color: #6297f4;
+  color: black;
+  font-weight: bold;
+  padding: 2vh;
+  border-radius: 1rem;
+  margin: 2vh;
+  border: none;
+  cursor: pointer;
 }
 
 .sign-in-btn:hover {
+  color: white;
+  a {
+    transition: 0.15s ease-in-out;
     color: white;
-    a {
-        transition: 0.15s ease-in-out;
-        color: white;
-    }
+  }
 }

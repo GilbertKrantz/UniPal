@@ -1,175 +1,175 @@
 .EditUserData__container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background-color: var(--color-bg);
-    user-select: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: var(--color-bg);
+  user-select: none;
 }
 
 .EditUserData__back-button {
-    font-size: 1.5rem;
-    margin: 3vh;
-    width: fit-content;
-    cursor: pointer;
-    transition: 0.15s ease-in-out;
+  font-size: 1.5rem;
+  margin: 3vh;
+  width: fit-content;
+  cursor: pointer;
+  transition: 0.15s ease-in-out;
 }
 
 .EditUserData__back-button:hover {
-    color: gray;
+  color: gray;
 }
 
 .EditUserData__container--inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2vh;
-    width: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2vh;
+  width: inherit;
 }
 
 .EditUserData__container--inner--header {
-    margin: 2vh 0;
+  margin: 2vh 0;
 }
 
 .EditUserData__container--inner--content {
-    width: inherit;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2vh;
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2vh;
 }
 .EditUserData__form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5vh;
-    width: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5vh;
+  width: inherit;
 }
 
 .EditUserData__input-container {
-    width: 40vh;
+  width: 40vh;
 }
 
 .EditUserData__input {
-    border: 2px solid #ffcc00;
-    border-radius: 5px;
-    font-family: Inter;
-    height: 5vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40vh;
-    background-color: transparent;
-    padding: 1.5vh;
-    color: var(--color-label);
-    font-size: 1rem;
+  border: 2px solid #ffcc00;
+  border-radius: 5px;
+  font-family: Inter;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40vh;
+  background-color: transparent;
+  padding: 1.5vh;
+  color: var(--color-label);
+  font-size: 1rem;
 }
 
 .EditUserData__input-password-container {
-    margin: 2vh 0;
-    width: 40vh;
+  margin: 2vh 0;
+  width: 40vh;
 }
 
 .EditUserData__input-password {
-    border: 2px solid #95B6EF;
-    border-radius: 5px;
-    font-family: Inter;
-    height: 5vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40vh;
-    background-color: transparent;
-    padding: 1.5vh;
-    color: var(--color-label);
-    font-size: 1rem;
+  border: 2px solid #95b6ef;
+  border-radius: 5px;
+  font-family: Inter;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40vh;
+  background-color: transparent;
+  padding: 1.5vh;
+  color: var(--color-label);
+  font-size: 1rem;
 }
 
 .EditUserData__form input:focus {
-    outline: none;
+  outline: none;
 }
 
 .EditUserData__form .EditUserData__input-label {
-    margin: 1vh 0;
-    font-size: 1.2rem;
+  margin: 1vh 0;
+  font-size: 1.2rem;
 }
 
-input[type='file'] {
-    display: none;
+input[type="file"] {
+  display: none;
 }
 
 .EditUserData__input-file-container {
-    display: flex;
-    flex-direction: row;
-    gap: 2vh;
-    width: 40vh;
-    height: 5vh;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid #ffcc00;
-    border-radius: 5px;
-    overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  gap: 2vh;
+  width: 40vh;
+  height: 5vh;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ffcc00;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
 .EditUserData__input-file {
-    font-size: 1rem;
-    max-width: 20vh;
+  font-size: 1rem;
+  max-width: 20vh;
 }
 
 .EditUserData__input-file-button {
-    background-color: #6297F4;
-    border: 2px solid #95B6EF;
-    border-radius: 20vh;
-    width: 10vh;
-    height: 3vh;
-    font-size: 0.8rem;
-    font-family: Inter;
-    transition: 0.15s ease-in-out;
-    cursor: pointer;
+  background-color: #6297f4;
+  border: 2px solid #95b6ef;
+  border-radius: 20vh;
+  width: 10vh;
+  height: 3vh;
+  font-size: 0.8rem;
+  font-family: Inter;
+  transition: 0.15s ease-in-out;
+  cursor: pointer;
 }
 
 .EditUserData__input-file-button:hover {
-    background-color: #0B409C;
+  background-color: #0b409c;
 }
 
 .EditUserData__error-message {
-    color: red;
-    font-size: 1.2rem;
+  color: red;
+  font-size: 1.2rem;
 }
 
 .EditUserData__submit-button {
-    background-color: transparent;
-    color: black;
-    font-family: Inter;
-    border: 2px solid #ffcc00;
-    border-radius: 5px;
-    padding: 2vh;
-    font-size: 1.4rem;
-    font-weight: 600;
-    width: 40vh;
-    height: fit-content;
-    background-color: #ffcc00;
-    transition: all 0.15s ease-in-out;
-    cursor: pointer;
+  background-color: transparent;
+  color: black;
+  font-family: Inter;
+  border: 2px solid #ffcc00;
+  border-radius: 5px;
+  padding: 2vh;
+  font-size: 1.4rem;
+  font-weight: 600;
+  width: 40vh;
+  height: fit-content;
+  background-color: #ffcc00;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
 }
 
 .EditUserData__submit-button:hover {
-    background-color: #FDBE34;
+  background-color: #fdbe34;
 }
 
 .EditUserData__change-password {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: #ffcc00;
-    cursor: pointer;
-    text-decoration: none;
-    background-color: transparent;
-    transition: 50ms;
-    border-bottom: 2px none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #ffcc00;
+  cursor: pointer;
+  text-decoration: none;
+  background-color: transparent;
+  transition: 50ms;
+  border-bottom: 2px none;
 }
 
 .EditUserData__change-password:hover {
-    border-bottom: 2px solid #ffcc00;
+  border-bottom: 2px solid #ffcc00;
 }

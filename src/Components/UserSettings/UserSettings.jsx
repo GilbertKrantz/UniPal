@@ -1,118 +1,133 @@
-import React, { useEffect, useState } from "react";
-import { FaUser, FaArrowLeft } from "react-icons/fa";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { CSSTransition } from "react-transition-group";
-import { AnimatePresence } from "framer-motion";
-import EditUserData from "../EditUserData/EditUserData";
-import ConfirmSignOut from "../../Containers/ConfirmSignOut/ConfirmSignOut.jsx";
-import "./UserSettings.css"
+import React, { useEffect, useState } from 'react'
+import { FaUser, FaArrowLeft } from 'react-icons/fa'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { CSSTransition } from 'react-transition-group'
+import { AnimatePresence } from 'framer-motion'
+import EditUserData from '../EditUserData/EditUserData'
+import ConfirmSignOut from '../../Containers/ConfirmSignOut/ConfirmSignOut.jsx'
+import './UserSettings.css'
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
-import useSignOut from 'react-auth-kit/hooks/useSignOut';
+import useSignOut from 'react-auth-kit/hooks/useSignOut'
 
 // Firebase SDK
-import { auth, db, storage } from "../../Firebase"
+import { auth, db, storage } from '../../Firebase'
 // Firebase Firestore SDK
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc } from 'firebase/firestore'
 // Firebase Auth SDK
-import { signOut } from "firebase/auth";
-import { ref, getDownloadURL } from "firebase/storage";
+import { signOut } from 'firebase/auth'
+import { ref, getDownloadURL } from 'firebase/storage'
 
-const UserSettings = ( {onBack} ) => {
+const UserSettings = ({ onBack }) => {
+  const signUserOut = useSignOut()
+  const navigateTo = useNavigate()
+  const [showEdit, setShowEdit] = useState(false)
+  const [showConfirmation, setShowConfirmation] = useState(false)
 
-    const signUserOut = useSignOut();
-    const navigateTo = useNavigate();
-    const [showEdit, setShowEdit] = useState(false);
-    const [showConfirmation, setShowConfirmation] = useState(false);
-
-    const signAllOut = () => {
-        signOut(auth).then(() => {
-            signUserOut();
-            navigateTo('/');
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
-    const [userProfile, setUserProfile] = useState('');
-
-    const fetchUserData = async () => {
-        auth.onAuthStateChanged(async (user) => {
-          const userDoc = doc(db, 'users', user.uid);
-          const docSnap = await getDoc(userDoc);
-          if (docSnap.exists()) {
-            setUserProfile(docSnap.data());
-          } else {
-            console.log('No User!!!!');
-          }
-        });
-      }
-    
-      useEffect(() => {
-        fetchUserData();
+  const signAllOut = () => {
+    signOut(auth)
+      .then(() => {
+        signUserOut()
+        navigateTo('/')
       })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
-    const getProfilePicture = () => {
+  const [userProfile, setUserProfile] = useState('')
 
-        if (userProfile['profilePicture'] == 'default') {
-            return (
-                <div className={"UserSettings__profile-image--default"}>
-                    <FaUser />
-                </div>
-            );
-        } else {
-            // Get image from Firebase Storage
-            auth.onAuthStateChanged(async (user) => {
-              const storageRef = ref(storage, `profilePictures/${user.uid}`);
-              const url = await getDownloadURL(storageRef);
-              return (<img src={url} alt="" className="ChatContent__profile-image"/>);
-            });
-          }
-        return (<img src={userProfile['profilePicture']} alt="" className="UserSettings__profile-image"/>);
-    }
+  const fetchUserData = async () => {
+    auth.onAuthStateChanged(async (user) => {
+      const userDoc = doc(db, 'users', user.uid)
+      const docSnap = await getDoc(userDoc)
+      if (docSnap.exists()) {
+        setUserProfile(docSnap.data())
+      } else {
+        console.log('No User!!!!')
+      }
+    })
+  }
 
-    const handleShowEdit = () => {
-        setShowEdit(!showEdit);
-    }
+  useEffect(() => {
+    fetchUserData()
+  })
 
-    const handleShowConfirmation = () => {
-        setShowConfirmation(!showConfirmation);
-    }
-
-    return (
-        <div className="UserSettings">
-            <div className={"UserSettings__back-button"} onClick={onBack}>
-                <FaArrowLeft />
-            </div>
-            <CSSTransition in={showEdit} timeout={300} classNames={"EditUserData__transition"} unmountOnExit>
-                <EditUserData onBack={handleShowEdit}/>
-            </CSSTransition>
-            <div className="UserSettings__profile">
-                <div className="UserSettings__profile-picture">
-                    {getProfilePicture()}
-                </div>
-                <div className="UserSettings__username">
-                    {userProfile['username']}
-                </div>
-                <div className="UserSettings__email">
-                    {userProfile['email']}
-                </div>
-                <button className="UserSettings__edit-button" onClick={handleShowEdit}>
-                    Sunting Profil
-                </button>
-            </div>
-            <div className="UserSettings__options">
-                <button className="UserSettings__signout-button" onClick={handleShowConfirmation}>
-                    Keluar <FontAwesomeIcon icon={faArrowRightFromBracket} />
-                </button>
-                <AnimatePresence initial={false} mode="wait">
-                    {showConfirmation && <ConfirmSignOut handleClose={handleShowConfirmation} confirm={signAllOut}/>}
-                </AnimatePresence>
-            </div>
+  const getProfilePicture = () => {
+    if (userProfile.profilePicture == 'default') {
+      return (
+        <div className='UserSettings__profile-image--default'>
+          <FaUser />
         </div>
-    );
+      )
+    } else {
+      // Get image from Firebase Storage
+      auth.onAuthStateChanged(async (user) => {
+        const storageRef = ref(storage, `profilePictures/${user.uid}`)
+        const url = await getDownloadURL(storageRef)
+        return <img src={url} alt='' className='ChatContent__profile-image' />
+      })
+    }
+    return (
+      <img
+        src={userProfile.profilePicture}
+        alt=''
+        className='UserSettings__profile-image'
+      />
+    )
+  }
+
+  const handleShowEdit = () => {
+    setShowEdit(!showEdit)
+  }
+
+  const handleShowConfirmation = () => {
+    setShowConfirmation(!showConfirmation)
+  }
+
+  return (
+    <div className='UserSettings'>
+      <div className='UserSettings__back-button' onClick={onBack}>
+        <FaArrowLeft />
+      </div>
+      <CSSTransition
+        in={showEdit}
+        timeout={300}
+        classNames='EditUserData__transition'
+        unmountOnExit
+      >
+        <EditUserData onBack={handleShowEdit} />
+      </CSSTransition>
+      <div className='UserSettings__profile'>
+        <div className='UserSettings__profile-picture'>
+          {getProfilePicture()}
+        </div>
+        <div className='UserSettings__username'>{userProfile.username}</div>
+        <div className='UserSettings__email'>{userProfile.email}</div>
+        <button className='UserSettings__edit-button' onClick={handleShowEdit}>
+          Sunting Profil
+        </button>
+      </div>
+      <div className='UserSettings__options'>
+        <button
+          className='UserSettings__signout-button'
+          onClick={handleShowConfirmation}
+        >
+          Keluar <FontAwesomeIcon icon={faArrowRightFromBracket} />
+        </button>
+        <AnimatePresence initial={false} mode='wait'>
+          {showConfirmation && (
+            <ConfirmSignOut
+              handleClose={handleShowConfirmation}
+              confirm={signAllOut}
+            />
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  )
 }
 
-export default UserSettings;
+export default UserSettings

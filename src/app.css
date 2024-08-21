@@ -1,7 +1,7 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html,
@@ -11,70 +11,74 @@ body {
 }
 
 body {
-    font-family: var(--font-family);
-    background-color: var(--color-bg);
+  font-family: var(--font-family);
+  background-color: var(--color-bg);
 }
 
 label {
-    color: var(--color-text);
+  color: var(--color-text);
 }
 
 div {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .display-none {
-    display: none;
+  display: none;
 }
 
 .logo {
-    font-family: JetBrains Mono;
-    font-size: 2rem;
-    font-weight: 700;
-    background: linear-gradient(#402DD8, #FFE867);
-    height: 5.5rem;
-    width: auto;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  font-family: JetBrains Mono;
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(#402dd8, #ffe867);
+  height: 5.5rem;
+  width: auto;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-h1, h2, h3, h4, h5 {
-    color: var(--color-text);
+h1,
+h2,
+h3,
+h4,
+h5 {
+  color: var(--color-text);
 }
 
 p {
-    color: var(--color-text);
-    font-size: 0.9rem;
-    font-weight:normal;;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: normal;
 }
 
 .Showable-Password {
-    height: fit-content;
-    width: fit-content;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
+  height: fit-content;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .Password-Spacer {
-    padding: 10px 5vh 10px 2vh !important;
+  padding: 10px 5vh 10px 2vh !important;
 }
 
 .Show-Password {
-    position: absolute;
-    color: var(--color-text);
-    margin: 2vh;
-    transition: 0.15s ease-in-out;
-    cursor: pointer;
+  position: absolute;
+  color: var(--color-text);
+  margin: 2vh;
+  transition: 0.15s ease-in-out;
+  cursor: pointer;
 }
 
 .Show-Password:hover {
-    color: gray;
+  color: gray;
 }
 
 .Required-Input {
-    color: red;
-    font-family: Inter;
+  color: red;
+  font-family: Inter;
 }
