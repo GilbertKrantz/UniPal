@@ -9,9 +9,3 @@ name = "javascript"
     "vitest",
     "nodejs"
   ]
-
-[[transformers]]
-name = "prettier"
-
-[[transformers]]
-name = "standardjs"
