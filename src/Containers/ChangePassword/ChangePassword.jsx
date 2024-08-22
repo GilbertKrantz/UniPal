@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './ChangePassword.css'
 
@@ -10,7 +10,6 @@ import { auth, db } from "../../Firebase"
 // Firebase Firestore SwDK
 import { doc, getDoc } from "firebase/firestore";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { user } from "elevenlabs/api";
 
 const handleSignOut = () => {
 

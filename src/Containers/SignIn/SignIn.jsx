@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./SignIn.css";
 
@@ -8,10 +8,7 @@ import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 
 // Use Firebase Auth SDK to sign in the user
 import { auth } from "../../Firebase";
-import {
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

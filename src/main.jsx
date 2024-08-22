@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./main.css";
 
-import { BrowserRouter, HashRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 
 import createStore from 'react-auth-kit/createStore';
 import AuthProvider from 'react-auth-kit';
