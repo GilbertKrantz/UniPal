@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { FaArrowRight, FaMicrophone, FaUser, FaVolumeUp } from "react-icons/fa";
+import { useState, useRef, useEffect } from "react";
+import { FaArrowRight, FaMicrophone, FaUser } from "react-icons/fa";
 import "./ChatContent.css";
 import axios from 'axios';
 import UniPal from '../../Assets/Logo/UniPal.png';
@@ -263,8 +263,8 @@ const ChatContent = () => {
   const getMessage = () => {
     return chats.length == 0 ? <p className="">Tanya Sekarang</p>: (
       <div className="ChatContent__chat-item">
-        {chats.map(chat => (
-          <div className={"ChatContent__message" + (chat.sender != 'up' ? ' own' : '')}>
+        {chats.map((chat, index) => (
+          <div className={"ChatContent__message" + (chat.sender != 'up' ? ' own' : '')} key={index}>
             <div className="ChatContent__chat-profile">
               <div className="ChatContent__profile-picture">
                 {getProfilePicture(chat.sender)}

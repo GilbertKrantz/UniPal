@@ -1,4 +1,3 @@
-import React from 'react'
 import './app.css'
 
 import RequireAuth from '@auth-kit/react-router/RequireAuth'
